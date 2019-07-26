@@ -12,23 +12,33 @@ const router = new VueRouter({
 			name: 'main',
 			component: resolve => require(['./pages/main/index'], resolve),
 			meta: {
-				requireAuth: false
+				requireAuth: true
 			}
 		},
 		{
 			path: '/',
 			name: 'login',
-			component: resolve => require(['./pages/login/index'], resolve)
+			component: resolve => require(['./pages/login/index'], resolve),
+      meta: {
+        requireAuth: false
+      }
 		}
 	]
 })
 router.beforeEach((to, from, next) => {
 	if (to.meta.requireAuth) {
 		if (window.localStorage.getItem('nice_user')) {
-			next()
+      // 已登录用户 转向主页
+      if (to.path === '/') {
+        next({
+          path: '/main'
+        })
+      } else {
+        next()
+      }
 		} else {
 			next({
-				path: '/login'
+				path: '/'
 			})
 		}
 	} else {

@@ -17,7 +17,6 @@ switch (xmlDoc.env) {
   case 'pro':
     _host = ''
 }
-console.log(xmlDoc.env)
 
 module.exports = {
   //  登录
@@ -27,5 +26,18 @@ module.exports = {
   //  获取菜单
   getMenus(params, callback) {
     proxy.call(this, 'post', _host + '/menus', params, callback)
+  },
+  // /*--------------------订单接口--------------------*/
+  // 获取客户交易订单
+  getOrderCustomer(params, callback) {
+    proxy.call(this, 'post', _host + '/orderCustomer/getOrderCustomer', params, callback)
+  },
+  // 获取社区订单
+  getOrderAlive(params, callback) {
+    proxy.call(this, 'post', _host + '/order/getMTAliveOrders', params, callback)
+  },
+  // 获取社区订单
+  getOrders(params, callback) {
+    proxy.call(this, 'post', _host + '/order/getOrders', params, callback)
   }
 }

@@ -23,7 +23,7 @@
 					adminName: '用户名'
 				},
 				roleList: '',
-				osName: '系统标题:帅',
+				osName: '系统标题:天下第一帅',
 				height: ''
 			}
 		},
@@ -54,7 +54,8 @@
 			},
 			// 退出
 			handleLogOut () {
-        this.$router.push({path: '/login'})
+        window.localStorage.removeItem('nice_user')
+        this.$router.push({path: '/'})
 			}
 		},
 		computed: {
