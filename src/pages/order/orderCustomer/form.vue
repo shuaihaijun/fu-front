@@ -1,5 +1,5 @@
 <template>
-  <div class="m2_1">
+  <div >
     <el-form :model="dataForm" class="dataForm dialogForm detailsForm" ref="ruleForm" :class="{'dataForm_view': formType == 'view'}" label-width="100px">
       <el-row :gutter="15">
         <el-col :span="6">

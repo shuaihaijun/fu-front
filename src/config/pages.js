@@ -9,7 +9,13 @@ const pages = {
   m3_1: r => require.ensure([], () => r(require('../pages/m3/m3_1/'))),
   orderAlive: r => require.ensure([], () => r(require('../pages/order/orderAlive/'))),
   orderInfo: r => require.ensure([], () => r(require('../pages/order/orderInfo/'))),
-  orderCustomer: r => require.ensure([], () => r(require('../pages/order/orderCustomer/')))
+  orderCustomer: r => require.ensure([], () => r(require('../pages/order/orderCustomer/'))),
+  signalApplyNew: r => require.ensure([], () => r(require('../pages/signal/applyNew/'))),
+  signalApplyCheck: r => require.ensure([], () => r(require('../pages/signal/applyCheck/'))),
+  signalList: r => require.ensure([], () => r(require('../pages/signal/signalList/'))),
+  serverList: r => require.ensure([], () => r(require('../pages/system/server/'))),
+  dictionaryList: r => require.ensure([], () => r(require('../pages/system/dictionary/')))
+
 }
 
 export default pages

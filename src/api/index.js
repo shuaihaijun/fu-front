@@ -39,5 +39,44 @@ module.exports = {
   // 获取社区订单
   getOrders(params, callback) {
     proxy.call(this, 'post', _host + '/order/getOrders', params, callback)
+  },
+  // /*---------------------信号源---------------------*/
+  // 保存信号源信息
+  saveSignalApply(params, callback) {
+    proxy.call(this, 'post', _host + '/signalApply/saveApply', params, callback)
+  },
+  // 提交申请
+  submitSignalApply(params, callback) {
+    proxy.call(this, 'post', _host + '/signalApply/submitApply', params, callback)
+  },
+  // 提交审核
+  reviewProductSignal(params, callback) {
+    proxy.call(this, 'post', _host + '/signalApply/reviewProductSignal', params, callback)
+  },
+  // 查询信号源信息
+  getSignalApply(params, callback) {
+    proxy.call(this, 'post', _host + '/signalApply/findApply', params, callback)
+  },
+  // 根据ID 查询信号源信息
+  getSignalApplyById(params, callback) {
+    proxy.call(this, 'post', _host + '/signalApply/findApplyById', params, callback)
+  },
+  // 根据ID 修改信号源信息
+  signalApplySaveOrUpdate(params, callback) {
+    proxy.call(this, 'post', _host + '/signalApply/saveOrUpdate', params, callback)
+  },
+  // /*---------------------数据字典---------------------*/
+  // 保存数据字典信息
+  saveDictionary(params, callback) {
+    proxy.call(this, 'post', _host + '/dictionary/saveDictionary', params, callback)
+  },
+  queryDictionary(params, callback) {
+    proxy.call(this, 'post', _host + '/dictionary/queryDictionary', params, callback)
+  },
+  getDictionaryById(params, callback) {
+    proxy.call(this, 'post', _host + '/dictionary/getDictionaryById', params, callback)
+  },
+  deleteDictionary(params, callback) {
+    proxy.call(this, 'post', _host + '/dictionary/deleteDictionary', params, callback)
   }
 }

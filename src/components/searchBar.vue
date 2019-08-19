@@ -29,7 +29,7 @@
             </el-date-picker>
           </template>
           <template v-else>
-            <el-input v-model="item.value" @change="changeItem" :placeholder="item.placeholder" :size="dataOption.size" :style="{ width: item.width + 'px'}"></el-input>
+            <el-input v-model="item.value" @change="changeItem" :placeholder="item.placeholder" :size="dataOption.size" :style="{ width: item.width + 'px'}" v-bind:readonly="item.readonly"></el-input>
           </template>
         </div>
       </el-form-item>

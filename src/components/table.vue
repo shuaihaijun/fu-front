@@ -32,7 +32,7 @@
           v-if="r.isBtn"
           :fixed="r.fixed ? r.fixed : operateFixed"
           align="center"
-          :label="r.label ? r.label : '仓库信息操作'"
+          :label="r.label ? r.label : '信息操作'"
           :width="r.width ? r.width : operateWidth">
           <template scope="scope">
             <span v-if="rc.isBtn" class="operate_btn_default" :class="{operate_btn: btnShow}" v-for="rc in r.children" @click="handleOperate(scope.row, index, rc.name)">

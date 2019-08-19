@@ -26,7 +26,7 @@
     </os-table>
     <os-pag :pageTotal="pageDataTotal" :pageSizes="[100, 200]"></os-pag>
 
-    <os-form :visible="visible" :dataSource="formData" :title="formTitle"></os-form>
+    <os-form :visible="visible" :dataSource="formData" :title="formTitle" v-on:handle-button="affirm"></os-form>
   </div>
 </template>
 <script>
@@ -205,6 +205,10 @@
       handleAdd() {
         this.visible = true
         this.formTitle = '增加区域'
+      },
+      affirm(v, obj) {
+        console.log(v)
+        console.log(obj)
       },
       // 导入
       importData() {},

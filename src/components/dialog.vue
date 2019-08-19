@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog :title="title" :width="width" :top="top" :visible="visible" @close="handleClose('close')" :close-on-click-modal="false">
+    <el-dialog class="el-dialog__body" :title="title" :width="width" :top="top" :visible="visible" @close="handleClose('close')" :close-on-click-modal="false">
       <div>
         <slot>默认内容</slot>
       </div>
@@ -54,10 +54,9 @@
   }
 </script>
 <style>
-  .el-dialog__body{
-    padding: 20px;
-  }
-  .el-dialog{
-    margin: 0 auto;
+  .el-dialog__body {
+    border-top: 1px solid #dcdfe6;
+    max-height:80% ;
+    overflow-y: auto;
   }
 </style>
