@@ -50,15 +50,16 @@
         formData: {
           formData: {},
           formItem: [{
-            key: 'id',
-            label: '申请ID',
-            value: '',
-            readonly: true
+              key: 'id',
+              label: '申请ID',
+              value: '',
+              readonly: true
             },
             {
-            key: 'userId',
-            label: '申请人ID',
-            value: ''
+              key: 'userId',
+              label: '申请人ID',
+              value: '',
+              readonly: true
             },
             {
               key: 'signalName',

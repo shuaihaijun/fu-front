@@ -17,30 +17,30 @@
                   </el-select>
                 </template>
                 <template v-else-if="item.type == 'time'">
-                  <el-time-picker is-range v-model="item.value ? item.value : dataSource.formData[item.key]" @change="handleChange(item.value)" :placeholder="item.placeholder" :style="{ width: item.width + 'px'}">
+                  <el-time-picker is-range v-model="item.value" @change="handleChange(item.value)" :placeholder="item.placeholder" :style="{ width: item.width + 'px'}">
                   </el-time-picker>
                 </template>
                 <template v-else-if="item.type == 'date'">
-                  <el-date-picker v-model="item.value ? item.value : dataSource.formData[item.key]" type="date" @change="handleChange(item.value)" :editable="false" :placeholder="item.placeholder"  :style="{ width: item.width + 'px'}" :picker-options="item.options">
+                  <el-date-picker v-model="item.value" type="date" @change="handleChange(item.value)" :editable="false" :placeholder="item.placeholder"  :style="{ width: item.width + 'px'}" :picker-options="item.options">
                   </el-date-picker>
                 </template>
                 <template v-else-if="item.type == 'month'">
-                  <el-date-picker v-model="item.value ? item.value : dataSource.formData[item.key]" type="month" @change="handleChange(item.value)" :editable="false" :placeholder="item.placeholder"  :style="{ width: item.width + 'px'}" :picker-options="item.options">
+                  <el-date-picker v-model="item.value" type="month" @change="handleChange(item.value)" :editable="false" :placeholder="item.placeholder"  :style="{ width: item.width + 'px'}" :picker-options="item.options">
                   </el-date-picker>
                 </template>
                 <template v-else-if="item.type == 'daterange'">
-                  <el-date-picker v-model="item.value ? item.value : dataSource.formData[item.key]" type="daterange" @change="handleChange(item.value)" :start-placeholder="item.placeholder" :end-placeholder="item.placeholder"  :style="{ width: item.width + 'px'}" :picker-options="item.options">
+                  <el-date-picker v-model="item.value" type="daterange" @change="handleChange(item.value)" :start-placeholder="item.placeholder" :end-placeholder="item.placeholder"  :style="{ width: item.width + 'px'}" :picker-options="item.options">
                   </el-date-picker>
                 </template>
                 <template v-else-if="item.type == 'datetimerange'">
-                  <el-date-picker v-model="item.value ? item.value : dataSource.formData[item.key]" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" @change="changeItem" :start-placeholder="item.placeholder" :end-placeholder="item.placeholder" :style="{ width: item.width + 'px'}" :picker-options="item.options">
+                  <el-date-picker v-model="item.value" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" @change="changeItem" :start-placeholder="item.placeholder" :end-placeholder="item.placeholder" :style="{ width: item.width + 'px'}" :picker-options="item.options">
                   </el-date-picker>
                 </template>
                 <template v-else-if="item.type == 'textarea'">
-                    <el-input v-model="item.value ? item.value : dataSource.formData[item.key]" @change="handleChange(item.value)" :placeholder="item.placeholder"  type="textarea" :style="{ width: item.width + 'px'}"></el-input>
+                    <el-input v-model="item.value" @change="handleChange(item.value)" :placeholder="item.placeholder"  type="textarea" :style="{ width: item.width + 'px'}"></el-input>
                 </template>
                 <template v-else>
-                  <el-input v-model=" dataSource.formData[item.key] ? dataSource.formData[item.key] : item.value" @change="handleChange(item.value)" :placeholder="item.placeholder"  :style="{ width: item.width + 'px'}" :readonly="item.readonly"></el-input>
+                  <el-input v-model="item.value" @change="handleChange(item.value)" :placeholder="item.placeholder"  :style="{ width: item.width + 'px'}" :readonly="item.readonly"></el-input>
                 </template>
               </el-form-item>
             </div>
@@ -100,8 +100,22 @@
         change: false
       }
     },
-    created() {
-      // console.log(this.dataSource.formItem)
+    watch: {
+      'dataSource.formData': {
+        handler(v1) {
+          // 初始化值 反显用
+          if (this.dataSource.formData !== undefined && this.dataSource.formData !== '') {
+            let arr = this.dataSource.formItem
+            arr.forEach((item, index) => {
+              if (item.value === null || item.value === undefined || item.value === '') {
+                item.value = this.dataSource.formData[item.key]
+              }
+            })
+          }
+        },
+        deep: true,
+        immediate: true
+      }
     },
     methods: {
       // 获取每项数据
@@ -118,10 +132,11 @@
             obj[item.key] = this.dataSource.formData[item.key]
           }
         })
+        this.dataSource.formDate = {}
         this.$emit('handle-button', v, obj)
       },
       handleClose() {
-        this.dataSource.formDate = ''
+        this.dataSource.formDate = {}
         this.$parent.visible = false
       },
       handleChange(v) {
@@ -130,13 +145,6 @@
       },
       setFormData() {
         console.log(this.dataSource.formData)
-        // 初始化值
-        if (this.dataSource.formData) {
-          let arr = this.dataSource.formItem
-          arr.forEach((item, index) => {
-              item.value ? item.value : this.dataSource.formData[item.key]
-            })
-        }
       }
     }
   }

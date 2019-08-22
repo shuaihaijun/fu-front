@@ -27,35 +27,25 @@
             label: 'ID',
             value: '',
             readonly: true
-          },
+            },
             {
-              key: 'sign',
-              label: '字典标识',
+              key: 'serverName',
+              label: '服务器名称',
               value: ''
             },
             {
-              key: 'name',
-              label: '名称',
+              key: 'brokerName',
+              label: '代理名称',
               value: ''
             },
             {
-              key: 'key',
-              label: '字典key',
+              key: 'serverIp',
+              label: '服务器IP',
               value: ''
             },
             {
-              key: 'value',
-              label: '字典值',
-              value: ''
-            },
-            {
-              key: 'createDate',
-              label: '创建时间',
-              value: ''
-            },
-            {
-              key: 'modifyDate',
-              label: '修改时间',
+              key: 'serverPort',
+              label: '服务器端口',
               value: ''
             }
           ]
@@ -65,13 +55,20 @@
     watch: {
       _visible: function(v1) {
         this.visible = v1
+        // 手动置空参数
+        if (this.pwid === '' || this.pwid.id === '') {
+          this.formData.formData = {}
+          for (let a = 0; a < this.formData.formItem.length; a++) {
+            this.formData.formItem[a].value = ''
+          }
+        }
       },
       visible(v) {
         this.$parent.formVisible = v
       },
       pwid: function (v2) {
         if (this.pwid === '' || this.pwid.id === '') {
-          this.formData.formData = ''
+          this.formData.formData = {}
         } else {
           // 校验数据
           let params = {
@@ -96,7 +93,7 @@
       affirm(v, obj) {
         console.log(obj)
         // 校验数据
-        api.saveDictionary(obj, (res) => {
+        api.saveServer(obj, (res) => {
           console.log(res)
           if (res.status === 0 && res.content.data !== '') {
             // 保存成功
@@ -110,14 +107,14 @@
     },
     created() {
       if (this.pwid === '' || this.pwid.id === '') {
-        this.formData.formData = ''
+        this.formData.formData = {}
       } else {
         // 校验数据
         let params = {
           id: this.pwid.id // 申请id
         }
         console.log(params)
-        api.getDictionaryById(params, (res) => {
+        api.findServerById(params, (res) => {
           console.log(res)
           if (res.status === 0 && res.content !== null) {
             this.formData.formData = res.content

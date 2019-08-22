@@ -5,11 +5,11 @@
       </os-search>
     </div>
 
-    <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
+    <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
       <div slot="r">
-        <el-button @click="dictionaryAdd()"><i class="el-icon-edit-outline"></i> 新增</el-button>
-        <el-button @click="dictionaryEdit()"><i class="el-icon"></i> 编辑</el-button>
-        <el-button @click="dictionaryDelete()"><i class="el-icon"></i> 删除</el-button>
+        <el-button @click="serverAdd()"><i class="el-icon-edit-outline"></i> 新增</el-button>
+        <el-button @click="serverEdit()"><i class="el-icon"></i> 编辑</el-button>
+        <el-button @click="serverDelete()"><i class="el-icon"></i> 删除</el-button>
       </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
@@ -20,6 +20,8 @@
 <script>
   import api from '../../../api/'
   import forms from './form'
+  import { MessageBox } from 'element-ui'
+
   export default {
     components: {
       'forms': forms
@@ -41,26 +43,26 @@
           formData: {},
           formItem: [
             {
-            key: 'sign',
+            key: 'serverName',
             label: '',
             value: null,
-            placeholder: '字典标识',
+            placeholder: '服务器名称',
             width: 180,
             type: ''
           },
           {
-            key: 'name',
+            key: 'brokerName',
             label: '',
             value: null,
-            placeholder: '名称',
+            placeholder: '代理名称',
             width: 200,
             type: ''
           },
           {
-            key: 'value',
+            key: 'serverIp',
             label: '',
             value: null,
-            placeholder: '字典值',
+            placeholder: '服务器地址',
             width: 200,
             type: ''
           }]
@@ -77,12 +79,6 @@
                 name: '详情',
                 show: 'IsBtn2',
                 isBtn: true
-              },
-              {
-                iconClass: 'el-icon-view',
-                name: '编辑',
-                show: 'IsBtn1',
-                isBtn: true
               }
             ]
           }
@@ -96,41 +92,33 @@
             align: 'center'
           },
           {
-            key: 'sign',
-            label: '字典标识',
+            prop: 'serverName',
+            label: '服务器名称',
             value: '',
             align: 'center'
           },
           {
-            key: 'name',
-            label: '名称',
+            prop: 'serverState',
+            label: '服务器状态',
             value: '',
             align: 'center'
           },
           {
-            key: 'key',
-            label: '字典key',
+            prop: 'brokerName',
+            label: '代理名称',
             value: '',
             align: 'center'
           },
           {
-            key: 'value',
-            label: '字典值',
+            prop: 'serverIp',
+            label: '服务器IP',
             value: '',
             align: 'center'
           },
           {
-            prop: 'createDate',
-            label: '创建时间',
-            width: '150',
-            format: 'yyyy-MM-dd HH:mm:ss',
-            align: 'center'
-          },
-          {
-            prop: 'modifyDate',
-            label: '修改时间',
-            width: '150',
-            format: 'yyyy-MM-dd HH:mm:ss',
+            prop: 'serverPort',
+            label: '服务器端口',
+            value: '',
             align: 'center'
           }
         ],
@@ -167,7 +155,7 @@
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }
-          api.queryDictionary(params, (res) => {
+          api.queryServer(params, (res) => {
             this.tableData = res.content.records
             this.pageDataTotal = res.content.total
           })
@@ -176,7 +164,7 @@
         }
       },
       // 修改数据
-      dictionaryEdit() {
+      serverEdit() {
         // 判断数据
         if (this.selectionRows === '' || this.selectionRows.length === 0) {
           window.alert('请选择需要操作的数据！')
@@ -186,25 +174,56 @@
           window.alert('只能选择一条数据操作！')
           return
         }
-      },
-      // 删除数据
-      dictionaryDelete() {
-        // 判断数据
-        if (this.selectionRows === '' || this.selectionRows.length === 0) {
-          window.alert('请选择需要操作的数据！')
-          return
-        }
-        if (this.selectionRows.length > 1) {
-          window.alert('只能选择一条数据操作！')
-          return
-        }
-      },
-      dictionaryAdd() {
-        this.LogWid = ''
+        this.LogWid = this.selectionRows[0]
         setTimeout(() => {
           this.formVisible = true
         }, 0)
         this.formTitle = '数据字典信息'
+        this.show = 'forms'
+        this.disabled = false
+      },
+      // 删除数据
+      serverDelete() {
+        // 判断数据
+        if (this.selectionRows === '' || this.selectionRows.length === 0) {
+          window.alert('请选择需要操作的数据！')
+          return
+        }
+        if (this.selectionRows.length > 1) {
+          window.alert('只能选择一条数据操作！')
+          return
+        }
+        MessageBox.confirm('确定删除吗？', '提示', {
+          cancelButtonText: '取消',
+          confirmButtonText: '确认',
+          type: 'warning'
+        }).then(() => {
+          let param = {
+            id: this.selectionRows[0].id
+          }
+          // 审核流程
+          api.deleteServer(param, (res) => {
+            if (res.status === 0 && res.content.data !== '') {
+              this.$options.methods.getQuery.bind(this)()
+              // 保存成功
+              window.alert('操作成功！')
+            } else {
+              window.alert('操作失败！')
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消操作'
+          })
+        })
+      },
+      serverAdd() {
+        this.LogWid = ''
+        setTimeout(() => {
+          this.formVisible = true
+        }, 0)
+        this.formTitle = '服务器信息'
         this.show = 'forms'
         this.disabled = false
       },

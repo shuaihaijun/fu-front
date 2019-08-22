@@ -78,5 +78,22 @@ module.exports = {
   },
   deleteDictionary(params, callback) {
     proxy.call(this, 'post', _host + '/dictionary/deleteDictionary', params, callback)
+  },
+  // /*---------------------服务器信息---------------------*/
+  // 保存数据字典信息
+  queryServer(params, callback) {
+    proxy.call(this, 'post', _host + '/comServer/queryComServer', params, callback)
+  },
+  saveServer(params, callback) {
+    proxy.call(this, 'post', _host + '/comServer/saveComServer', params, callback)
+  },
+  updateComServer(params, callback) {
+    proxy.call(this, 'post', _host + '/comServer/updateComServer', params, callback)
+  },
+  deleteServer(params, callback) {
+    proxy.call(this, 'post', _host + '/comServer/deleteServer', params, callback)
+  },
+  findServerById(params, callback) {
+    proxy.call(this, 'post', _host + '/comServer/findComServerById', params, callback)
   }
 }
