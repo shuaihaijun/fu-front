@@ -107,9 +107,7 @@
           if (this.dataSource.formData !== undefined && this.dataSource.formData !== '') {
             let arr = this.dataSource.formItem
             arr.forEach((item, index) => {
-              if (item.value === null || item.value === undefined || item.value === '') {
                 item.value = this.dataSource.formData[item.key]
-              }
             })
           }
         },

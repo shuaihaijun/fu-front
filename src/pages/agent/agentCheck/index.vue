@@ -8,15 +8,11 @@
 
     <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
       <div slot="r">
-        <el-button @click="applyNew()"><i class="el-icon-edit-outline"></i> 新增</el-button>
-        <!--<el-button @click="applyCheck(3)"><i class="el-icon"></i> 修改</el-button>-->
-        <el-button @click="applyCheck()"><i class="el-icon"></i> 提交</el-button>
+        <el-button @click="applyCheck(3)"><i class="el-icon-back"></i> 审核驳回</el-button>
+        <el-button @click="applyCheck(0)"><i class="el-icon-edit-outline"></i> 审核通过</el-button>
       </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
-
-<!--    <os-dialog  :title="dialogTitle" :visibleButton="false" :width="dialogWidth +'px'" :top="dialogTop">
-    </os-dialog>-->
 
     <forms :_visible="formVisible" v-if="show" :pwid="LogWid" :disabled="disabled" :title="formTitle"></forms>
   </div>
@@ -47,36 +43,36 @@
           formData: {},
           formItem: [
             {
-            key: 'applyId',
+            key: 'id',
             label: '',
             value: null,
-            placeholder: '申请ID',
+            placeholder: '代理ID',
             width: 180,
             type: ''
           },
           {
-            key: 'signalName',
+            key: 'agentName',
             label: '',
             value: null,
-            placeholder: '信号源名称',
+            placeholder: '代理名称',
             width: 200,
             type: ''
           },
           {
-            key: 'mtAccId',
+            key: 'applyType',
             label: '',
             value: null,
-            placeholder: 'MT账户ID',
+            placeholder: '代理类型',
             width: 200,
             type: ''
           },
           {
-            key: 'applyDate',
+            key: 'userId',
             label: '',
             value: null,
-            placeholder: '申请时间',
+            placeholder: '用户ID',
             width: 200,
-            type: 'datetimerange'
+            type: ''
           }]
         },
         // 表格操作按钮
@@ -91,12 +87,6 @@
                 name: '详情',
                 show: 'IsBtn2',
                 isBtn: true
-              },
-              {
-                iconClass: 'el-icon-view',
-                name: '编辑',
-                show: 'IsBtn1',
-                isBtn: true
               }
             ]
           }
@@ -105,62 +95,26 @@
         columnData: [
           {
             prop: 'id',
-            label: '申请ID',
+            label: '代理ID',
             width: '90',
             align: 'center'
           },
           {
-            prop: 'signalName',
-            label: '信号源名称',
-            width: '100',
+            prop: 'agentName',
+            label: '代理名称',
+            width: '150',
             align: 'center'
           },
           {
             prop: 'applyState',
-            label: '申请状态',
+            label: '代理状态',
             width: '80',
             align: 'center'
           },
           {
-            prop: 'monthlyAverageIncome',
-            label: '月均收益',
+            prop: 'agentType',
+            label: '代理类型',
             width: '80',
-            align: 'center'
-          },
-          {
-            prop: 'historyWithdraw',
-            label: '最大回撤',
-            width: '80',
-            align: 'center'
-          },
-          {
-            prop: 'signalTem',
-            label: '团队信息',
-            width: '',
-            align: 'center'
-          },
-          {
-            prop: 'signalDesc',
-            label: '信号源简介',
-            width: '',
-            align: 'center'
-          },
-          {
-            prop: 'email',
-            label: '电子邮件',
-            width: '100',
-            align: 'center'
-          },
-          {
-            prop: 'phone',
-            label: '手机号',
-            width: '100',
-            align: 'center'
-          },
-          {
-            prop: 'qqNumber',
-            label: 'QQ号码',
-            width: '100',
             align: 'center'
           },
           {
@@ -170,8 +124,20 @@
             align: 'center'
           },
           {
-            prop: 'applyDate',
-            label: '申请时间',
+            prop: 'applyReason',
+            label: '申请原由',
+            width: '',
+            align: 'center'
+          },
+          {
+            prop: 'applyDesc',
+            label: '代理描述',
+            width: '',
+            align: 'center'
+          },
+          {
+            prop: 'createDate',
+            label: '创建时间',
             width: '150',
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
@@ -205,16 +171,16 @@
         if (window.localStorage.getItem('nice_user')) {
           let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           let params = {
-            userId: userInfo.userId, // 用户id
-            applyId: this.queryData.formData.applyId, // 申请id
-            signalName: this.queryData.formData.signalName, // 信号源名称
-            mtAccId: this.queryData.formData.mtAccId, // MT账户
-            applyDate: this.queryData.formData.applyDate, // 申请时间
-            applyState: '0,3', // 申请状态（暂存,驳回）
+            operUserId: userInfo.userId, // 操作用户id
+            applyId: this.queryData.formData.id, // 申请id
+            agentName: this.queryData.formData.agentName, // 名称
+            applyType: this.queryData.formData.applyType, // 类型
+            userId: this.queryData.formData.userId, // 类型
+            applyState: 2, // 类型
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }
-          api.getSignalApply(params, (res) => {
+          api.queryAgentApply(params, (res) => {
             this.tableData = res.content.records
             this.pageDataTotal = res.content.total
           })
@@ -222,8 +188,8 @@
           this.$message('获取用户信息失败！')
         }
       },
-      // 审核结果
-      applyCheck() {
+      // 提交审核
+      applyCheck(state) {
         // 判断数据
         if (this.selectionRows === '' || this.selectionRows.length === 0) {
           window.alert('请选择需要操作的数据！')
@@ -233,18 +199,22 @@
           window.alert('只能选择一条数据操作！')
           return
         }
-        MessageBox.confirm('确定提交审核结果吗？', '审核提示', {
+        MessageBox.confirm('确定提交申请吗？', '操作提示', {
           cancelButtonText: '取消',
           confirmButtonText: '确认',
           type: 'warning'
         }).then(() => {
+          let resultMsg = '审核通过'
+          if (state > 0) {
+            resultMsg = '审核驳回'
+          }
           let param = {
             id: this.selectionRows[0].id,
-            state: '1',
-            message: '提交申请'
+            applyState: state,
+            message: resultMsg
           }
           // 审核流程
-          api.submitSignalApply(param, (res) => {
+          api.reviewAgentApply(param, (res) => {
             if (res.status === 0 && res.content.data !== '') {
               this.$options.methods.getQuery.bind(this)()
               // 保存成功
@@ -255,29 +225,9 @@
           })
         }).catch(() => {
           this.$message({
-          type: 'info',
-          message: '已取消审核'
+            type: 'info',
+            message: '已取消审核'
           })
-        })
-      },
-      applyNew() {
-        this.LogWid = ''
-        setTimeout(() => {
-          this.formVisible = true
-        }, 0)
-        this.formTitle = '信号源信息'
-        this.show = 'forms'
-        this.disabled = false
-      },
-      getWList3() {
-        let params = {
-          branchId: this.queryData.formData.wid
-        }
-        this.$api.xsrwd.getinsert(params, (res) => {
-          let _arr = {}
-          _arr.wT = res.result.list.map(item => { return { label: item.wnameTarget, value: item.widTarget } })
-          this.queryData.formItem[2].option = _arr.wT
-        //   console.log(res, 'getinsert')
         })
       },
       // 分页
@@ -297,16 +247,6 @@
           // this.show = 'forms'
           this.show = true
           this.disabled = true
-          this.dialogWidth = 1000
-          this.dialogTop = '10%'
-        }
-        if (name === '编辑') {
-          setTimeout(() => {
-            this.formVisible = true
-          }, 0)
-          this.dialogTitle = '信号源：' + row.signalName + ' 编辑 '
-          this.show = 'forms'
-          this.disabled = false
           this.dialogWidth = 1000
           this.dialogTop = '10%'
         }

@@ -10,9 +10,12 @@ const pages = {
   orderAlive: r => require.ensure([], () => r(require('../pages/order/orderAlive/'))),
   orderInfo: r => require.ensure([], () => r(require('../pages/order/orderInfo/'))),
   orderCustomer: r => require.ensure([], () => r(require('../pages/order/orderCustomer/'))),
-  signalApplyNew: r => require.ensure([], () => r(require('../pages/signal/applyNew/'))),
-  signalApplyCheck: r => require.ensure([], () => r(require('../pages/signal/applyCheck/'))),
+  signalApplyNew: r => require.ensure([], () => r(require('../pages/signal/signalApply/'))),
+  signalApplyCheck: r => require.ensure([], () => r(require('../pages/signal/signalCheck/'))),
   signalList: r => require.ensure([], () => r(require('../pages/signal/signalList/'))),
+  agentApply: r => require.ensure([], () => r(require('../pages/agent/agentApply/'))),
+  agentCheck: r => require.ensure([], () => r(require('../pages/agent/agentCheck/'))),
+  agentList: r => require.ensure([], () => r(require('../pages/agent/agentList/'))),
   serverList: r => require.ensure([], () => r(require('../pages/system/server/'))),
   dictionaryList: r => require.ensure([], () => r(require('../pages/system/dictionary/')))
 

@@ -95,5 +95,27 @@ module.exports = {
   },
   findServerById(params, callback) {
     proxy.call(this, 'post', _host + '/comServer/findComServerById', params, callback)
+  },
+  // /*---------------------代理信息---------------------*/
+  queryAgentApply(params, callback) {
+    proxy.call(this, 'post', _host + '/agent/queryAgentApply', params, callback)
+  },
+  saveAgentApply(params, callback) {
+    proxy.call(this, 'post', _host + '/agent/saveAgentApply', params, callback)
+  },
+  getAgentApplyById(params, callback) {
+    proxy.call(this, 'post', _host + '/agent/getAgentApplyById', params, callback)
+  },
+  deleteAgentApply(params, callback) {
+    proxy.call(this, 'post', _host + '/agent/deleteAgentApply', params, callback)
+  },
+  updateAgentApply(params, callback) {
+    proxy.call(this, 'post', _host + '/agent/updateAgentApply', params, callback)
+  },
+  submitAgentApply(params, callback) {
+    proxy.call(this, 'post', _host + '/agent/submitAgentApply', params, callback)
+  },
+  reviewAgentApply(params, callback) {
+    proxy.call(this, 'post', _host + '/agent/reviewAgentApply', params, callback)
   }
 }

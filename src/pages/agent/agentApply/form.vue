@@ -29,10 +29,10 @@
         } else {
           // 校验数据
           let params = {
-            applyId: this.pwid.id // 申请id
+            id: this.pwid.id // 申请id
           }
           console.log(params)
-          api.getSignalApplyById(params, (res) => {
+          api.getAgentApplyById(params, (res) => {
             console.log(res)
             if (res.status === 0 && res.content !== null) {
               this.formData.formData = res.content
@@ -62,69 +62,24 @@
               readonly: true
             },
             {
-              key: 'signalName',
-              label: '信号源名称',
+              key: 'agentName',
+              label: '代理名称',
               value: ''
             },
             {
-              key: 'serverName',
-              label: '服务器名称',
+              key: 'agentType',
+              label: '申请类型',
               value: ''
             },
             {
-              key: 'mtAccId',
-              label: 'MT平台账号',
-              value: ''
-            },
-            {
-              key: 'mtPasswordWatch',
-              label: '观摩密码',
-              value: ''
-            },
-            {
-              key: 'signalCurrency',
-              label: '主要交易币种',
-              value: ''
-            },
-            {
-              key: 'historyWithdraw',
-              label: '历史最大回撤',
-              value: ''
-            },
-            {
-              key: 'monthlyAverageIncome',
-              label: '月均收益',
-              value: ''
-            },
-            {
-              key: 'annualizedExpectedReturn',
-              label: '年化预期收益率',
-              value: ''
-            },
-            {
-              key: 'email',
-              label: '电子邮件',
-              value: ''
-            },
-            {
-              key: 'phone',
-              label: '电话号码',
-              value: ''
-            },
-            {
-              key: 'qqNumber',
-              label: 'qq号码',
-              value: ''
-            },
-            {
-              key: 'signalTem',
-              label: '团队描述',
+              key: 'applyDesc',
+              label: '代理描述',
               value: '',
               type: 'textarea'
             },
             {
-              key: 'signalDesc',
-              label: '信号源描述',
+              key: 'applyReason',
+              label: '申请原由',
               value: '',
               type: 'textarea'
             }
@@ -137,9 +92,14 @@
         console.log(this.dataForm)
       },
       affirm(v, obj) {
+        if (window.localStorage.getItem('nice_user')) {
+          // 添加默认用户
+          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          obj['userId'] = userInfo.userId
+        }
         console.log(obj)
         // 校验数据
-        api.signalApplySaveOrUpdate(obj, (res) => {
+        api.saveAgentApply(obj, (res) => {
           console.log(res)
           if (res.status === 0 && res.content.data !== '') {
             // 保存成功
@@ -157,10 +117,10 @@
       } else {
         // 校验数据
         let params = {
-          applyId: this.pwid.id // 申请id
+          id: this.pwid.id // 申请id
         }
         console.log(params)
-        api.getSignalApplyById(params, (res) => {
+        api.getAgentApplyById(params, (res) => {
           console.log(res)
           if (res.status === 0 && res.content !== null) {
             this.formData.formData = res.content
