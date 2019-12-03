@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<os-header osName="协和发展，齐手并进" :login="false"></os-header>
+		<os-header osName="全球第一帅 泰国旅行 谨慎行事！" :login="false"> </os-header>
+    <li class="login_zhuce"><a @click="userNew()">用户注册</a> &nbsp;&nbsp;&nbsp; <a onclick="alert('请联系管理员找回！')">密码找回</a></li>
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="erp_ruleForm">
 			<el-form-item label="用户名:" prop="userName">
 			  <el-input v-model.number="ruleForm.username" size="large"></el-input>
@@ -9,16 +10,24 @@
 			  <el-input type="password" v-model="ruleForm.password" auto-complete="off" size="large"></el-input>
 			</el-form-item>
 			<el-form-item class="erp_ruleForm_btn">
+
 			  <el-button @click="submitForm()" size="large">登  录</el-button>
 			</el-form-item>
 		</el-form>
 		<div class="erp_login_bottom">© Copyright © 2019</div>
-	</div>	
+
+    <forms :_visible="formVisible" v-if="show" :pwid="LogWid" :disabled="disabled" :title="formTitle"></forms>
+
+	</div>
 </template>
 <script>
   import api from '../../api/'
+  import forms from './form'
 
   export default {
+    components: {
+      'forms': forms
+    },
     name: 'os-right',
     data() {
       var checkUser = (rule, value, callback) => {
@@ -34,6 +43,11 @@
         callback()
      }
       return {
+        show: false,
+        LogWid: '',
+        formVisible: false,
+        formTitle: '',
+        disabled: true,
         ruleForm: {
           username: '',
           password: ''
@@ -67,6 +81,15 @@
           })
         }
       },
+      userNew() {
+        this.LogWid = ''
+        setTimeout(() => {
+          this.formVisible = true
+        }, 0)
+        this.formTitle = '用户注册'
+        this.show = 'forms'
+        this.disabled = false
+      },
       submitForm () {
         // /*用户名密码格式校验*/
        // /*调用后台接口*/
@@ -92,6 +115,11 @@
   }
 </script>
 <style>
+  .login_zhuce{
+    text-align: right;
+    padding:1% 2% 1% 1%;
+    font-size:16px;
+  }
 	.erp_ruleForm{
 		width: 420px;
 		margin: 0 auto;

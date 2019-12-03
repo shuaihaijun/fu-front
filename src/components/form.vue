@@ -10,7 +10,7 @@
           </el-col>-->
           <el-col v-for="(item) in dataSource.formItem" :span="12">
             <div @click="clickItem(item.key, item)">
-              <el-form-item :label="item.label+'：'">
+              <el-form-item :label="item.label+'：'" :required="item.required">
                 <template v-if="item.type == 'select'">
                   <el-select v-model="item.value" filterable clearable @change="handleChange(item.value)" :placeholder="item.placeholder"  :style="{ width: item.width + 'px'}">
                     <el-option v-for="r in item.option" :label="r.label" :value="r.value"></el-option>
@@ -40,7 +40,7 @@
                     <el-input v-model="item.value" @change="handleChange(item.value)" :placeholder="item.placeholder"  type="textarea" :style="{ width: item.width + 'px'}"></el-input>
                 </template>
                 <template v-else>
-                  <el-input v-model="item.value" @change="handleChange(item.value)" :placeholder="item.placeholder"  :style="{ width: item.width + 'px'}" :readonly="item.readonly"></el-input>
+                  <el-input v-model="item.value" @change="handleChange(item.value)" :placeholder="item.placeholder"  :style="{ width: item.width + 'px'}" :readonly="item.readonly" ></el-input>
                 </template>
               </el-form-item>
             </div>

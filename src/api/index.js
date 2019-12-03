@@ -19,13 +19,44 @@ switch (xmlDoc.env) {
 }
 
 module.exports = {
+  // /*---------------------公共接口---------------------*/
+  // 用户图片上传接口
+  getPictureUploadUrl: function () {
+    return _host + '/com/uploadPicture'
+  },
+  // /*---------------------用户信息---------------------*/
   //  登录
   getLogin(params, callback) {
     proxy.call(this, 'post', _host + '/admin/login', params, callback)
   },
-  //  获取菜单
-  getMenus(params, callback) {
-    proxy.call(this, 'post', _host + '/menus', params, callback)
+  // 注册
+  registered(params, callback) {
+    proxy.call(this, 'post', _host + '/admin/registered', params, callback)
+  },
+  // 修改
+  saveOrUpdateUser(params, callback) {
+    proxy.call(this, 'post', _host + '/admin/saveOrUpdateUser', params, callback)
+  },
+  // 用户列表
+  queryUserList(params, callback) {
+    proxy.call(this, 'post', _host + '/admin/queryUserList', params, callback)
+  },
+  // 用户详情
+  getUserByIdOrName(params, callback) {
+    proxy.call(this, 'post', _host + '/admin/getUserByIdOrName', params, callback)
+  },
+  // /*---------------------账户信息 MT账户---------------------*/
+  // 获取MT账户信息
+  getUserMtAccountByCondition(params, callback) {
+    proxy.call(this, 'post', _host + '/account/getUserMtAccountByCondition', params, callback)
+  },
+  // 获取MT账户信息
+  getUsersMtAccountByCondition(params, callback) {
+    proxy.call(this, 'post', _host + '/account/getUsersMtAccountByCondition', params, callback)
+  },
+  // 保存MT账户信息
+  saveUserMTAccount(params, callback) {
+    proxy.call(this, 'post', _host + '/account/saveUserMTAccount', params, callback)
   },
   // /*--------------------订单接口--------------------*/
   // 获取客户交易订单
@@ -117,5 +148,61 @@ module.exports = {
   },
   reviewAgentApply(params, callback) {
     proxy.call(this, 'post', _host + '/agent/reviewAgentApply', params, callback)
+  },
+  // /*---------------------权限信息----资源-----------------*/
+  //  获取菜单
+  getMenus(params, callback) {
+    proxy.call(this, 'post', _host + '/menus', params, callback)
+  },
+  savePermissionResource(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/resource/save', params, callback)
+  },
+  queryPermissionResource(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/resource/queryPage', params, callback)
+  },
+  getPermissionResource(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/resource/queryDetail', params, callback)
+  },
+  deletePermissionResource(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/resource/remove', params, callback)
+  },
+  modifyPermissionResource(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/resource/modify', params, callback)
+  },
+  // /*---------------------权限信息----角色-----------------*/
+  savePermissionRole(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/role/save', params, callback)
+  },
+  modifyPermissionRole(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/role/modify', params, callback)
+  },
+  removePermissionRole(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/role/remove', params, callback)
+  },
+  queryPagePermissionRole(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/role/queryPage', params, callback)
+  },
+  queryDetailPermissionRole(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/role/queryDetail', params, callback)
+  },
+  // /*---------------------权限信息----角色资源-----------------*/
+  savePermissionRoleResource(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/roleResource/save', params, callback)
+  },
+  removePermissionRoleResource(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/roleResource/remove', params, callback)
+  },
+  queryPagePermissionRoleResource(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/roleResource/queryPage', params, callback)
+  },
+  // /*---------------------权限信息----用户角色-----------------*/
+  queryPermissionUserRole(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/userRole/query', params, callback)
+  },
+  savePermissionUserRole(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/userRole/save', params, callback)
+  },
+  removePermissionUserRole(params, callback) {
+  proxy.call(this, 'post', _host + '/permission/userRole/remove', params, callback)
   }
 }

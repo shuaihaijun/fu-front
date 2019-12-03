@@ -1,0 +1,207 @@
+<template>
+  <div>
+    <div class="form_topBar" :style="{'width': topWidth}">
+      <div class="form_topBar_l">
+        <b>用户信息</b>
+      </div>
+      <div class="form_topBar_r" v-if="formType == 'edit'">
+        <el-button @click="handleSave('ruleForm')"><i class="el-icon-check"></i> 保 存</el-button>
+      </div>
+    </div>
+    <el-form :model="dataForm" class="dataForm" :rules="rules" ref="ruleForm" :class="{'dataForm_view': formType == 'view'}" label-width="100px">
+      <el-row :gutter="15">
+        <form-1 :dataForm="dataForm" :formType="formType"></form-1>
+        <div>
+          <h3>MT账户信息</h3>
+          <form-2 :dataForm="dataForm" :formType="formType" :tableData="tableData1"></form-2>
+        </div>
+        <div>
+          <h3>证件信息</h3>
+          <span><small class="title_s" v-if="formType=='edit'">注：上传单个文件不能大于2M，文件名称为：用户ID + 昵称</small></span>
+          <form-3 title="身份证正面" :images="images.idFront" :dataForm="dataForm" :showType="formType"></form-3>
+          <form-3 title="身份证反面" :images="images.idObverse" :dataForm="dataForm" :showType="formType"></form-3>
+        </div>
+      </el-row>
+    </el-form>
+  </div>
+</template>
+<script>
+  import form1 from './formUserInfo.vue'
+  import form2 from './formUserAcc.vue'
+  import form3 from './formUserImages.vue'
+  export default {
+    components: {
+      'form-1': form1,
+      'form-2': form2,
+      'form-3': form3
+    },
+    props: {
+    },
+    data() {
+      var validPhone = (rule, value, callback) => { // 手机号验证
+        if (!value) {
+          callback(new Error('请输入电话号码'))
+        } else {
+          var reg = /^1[3|4|5|7|6|8][0-9]\d{8}$/
+          var reg2 = /^((0\d{2,3})-)?(\d{7,8})(-(\d{3,}))?$/
+          if (reg2.test(value) || reg.test(value)) {
+            callback()
+          }
+          callback(new Error('请输入正确手机号码'))
+        }
+      }
+      var validEmail = (rule, value, callback) => {
+        if (!value) {
+          callback(new Error('请正确填写邮箱'))
+        } else {
+          if (value !== '') {
+            var reg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+            if (!reg.test(value)) {
+              callback(new Error('请输入有效的邮箱'))
+            }
+          }
+          callback()
+        }
+      }
+      var nonempty = (rule, value, callback) => { // 非空数字验证
+        if (!value) {
+          callback(new Error('必填项'))
+        } else {
+          var reg = /(^[1-9]\d*$)/
+          if (reg.test(value)) {
+            callback()
+          }
+          callback(new Error('请正确输入'))
+        }
+      }
+      return {
+        formType: 'edit',
+        activeName: '1',
+        dataForm: {
+          modifyPersonName: '',
+          wname: ''
+        },
+        tableData1: [{}],
+        tableData2: [{}],
+        disabled: false,
+        images: {
+          idFront: [
+          ],
+          idObverse: [
+          ]
+        },
+        ruleForm: {
+        },
+        rules: {
+          realName: [
+            { required: true, message: '必填项', trigger: 'blur' }
+          ],
+          sex: [
+            { required: true, validator: nonempty, trigger: 'blur' }
+          ],
+          province: [
+            { required: true, message: '必填项', trigger: 'blur' }
+          ],
+          address: [
+            { required: true, message: '必填项', trigger: 'blur' }
+          ],
+          city: [
+            { required: true, message: '必填项', trigger: 'blur' }
+          ],
+          mobile: [
+            { required: true, trigger: 'blur', validator: validPhone }
+          ],
+          email: [
+            { required: true, validator: validEmail, trigger: 'blur' }
+          ]
+        }
+      }
+    },
+    created() {
+      this.createdCom()
+    },
+    methods: {
+      createdCom() {
+        this.formType = this.$store.state.tab.uid.formType
+        this.dataForm.wid = this.$store.state.tab.uid.id
+        this.dataForm.wname = this.$store.state.tab.uid.wname
+        let params = {
+          id: this.dataForm.wid,
+          username: this.dataForm.wname
+        }
+        this.$api.getUserByIdOrName(params, (res) => {
+          let _dataForm = res.content
+          this.dataForm = _dataForm
+          // this.images.idFront = [{name: '123', url: 'D:\\test\\2019\\12\\f703738da97739120aeff204f5198618377ae28e.png'}]
+          // this.images.idObverse = [{name: '123', url: 'D:\\test\\2019\\12\\c8ea15ce36d3d539881d35e23787e950352ab0ea.png'}]
+          // this.images.idFront = _dataForm.idFront.split(',')
+          // this.images.idObverse = _dataForm.idObverse.split(',')
+          this.setFileNames(1, _dataForm.idFront)
+          this.setFileNames(2, _dataForm.idObverse)
+          console.log(this.images.idFront)
+        })
+        this.$api.getUsersMtAccountByCondition(params, (res) => {
+          if (res.content !== null) {
+            this.tableData1 = res.content.data
+          } else {
+            this.tableData1 = [{}]
+          }
+        })
+      },
+      setFileNames(idFlag, filePath) {
+        let fileArr = filePath.split(',')
+        let object = []
+        for (let index = 0; index < fileArr.length; index++) {
+          let fileName = fileArr[index].substring(fileArr[index].lastIndexOf('\\') + 1, fileArr[index].lastIndexOf('.'))
+          object[index] = {name: fileName, url: fileArr[index]}
+        }
+        if (idFlag === 1) {
+          this.images.idFront = object
+        }
+        if (idFlag === 2) {
+          this.images.idObverse = object
+        }
+      },
+      handleSave(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            let params = JSON.parse(JSON.stringify(this.dataForm))
+            params.userId = this.dataForm.id
+            this.tableData1[0].userId = this.dataForm.id
+            params.mtAccInfo = this.tableData1[0]
+            // params.idFront = this.images.IDCard1
+            // params.idObverse = this.images.IDCard2
+            // 保存
+            this.$api.saveOrUpdateUser(params, (res) => {
+              if (res.status !== 0) {
+                window.alert('操作失败！')
+                return
+              }
+              this.$message(res.msg)
+            })
+            this.$api.saveUserMTAccount(params, (res) => {
+              if (res.status !== 0) {
+                window.alert('操作失败！')
+                return
+              }
+              this.$message(res.msg)
+            })
+          } else {
+            this.$message('请书写完整')
+            return false
+          }
+        })
+      }
+    },
+    computed: {
+      form_state () {
+        return this.$store.state.m1.m1_form_state
+      }
+    },
+    watch: {
+      form_state (v) {
+        // this.createdCom()
+      }
+    }
+  }
+</script>

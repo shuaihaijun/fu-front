@@ -58,18 +58,18 @@
             label: '仓库信息操作',
             width: '110px',
             fixed: 'left',
-            isBtn: false,
+            isBtn: true,
             children: [{
                 iconClass: 'el-icon-view',
                 name: '查看',
                 show: 'IsBtn2',
-                isBtn: false
+                isBtn: true
               },
               {
                 iconClass: 'el-icon-edit-outline',
                 name: '编辑',
                 show: 'IsBtn1',
-                isBtn: false
+                isBtn: true
               }
             ]
           },
@@ -77,18 +77,18 @@
             label: '货区操作',
             width: '110px',
             fixed: 'left',
-            isBtn: false,
+            isBtn: true,
             children: [{
                 iconClass: 'el-icon-view',
                 name: '查看',
                 show: 'IsBtn4',
-                isBtn: false
+                isBtn: true
               },
               {
                 iconClass: 'el-icon-edit-outline',
                 name: '编辑',
                 show: 'IsBtn3',
-                isBtn: false
+                isBtn: true
               }
             ]
           }
@@ -146,6 +146,16 @@
       }
     },
     created() {
+      this.tableData = [{
+        branchName: '北京分公司',
+        wid: 'BJD01',
+        wname: '北京D01',
+        contactsName: '张XX',
+        contactsTelephone: '13202183832',
+        storeAddress: '北京市朝阳区东窑艺术区108号院',
+        modifyPersonName: '王先生',
+        modifyTimeStr: '2017-12-15 18:12:21'
+      }]
       this.getWList()
       this.getQuery()
       this.columnOperate.forEach((item, index) => {

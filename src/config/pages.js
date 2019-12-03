@@ -1,5 +1,8 @@
 const pages = {
   index: r => require.ensure([], () => r(require('../pages/index/'))),
+  userList: r => require.ensure([], () => r(require('../pages/user/userList/'))),
+  userInfo: r => require.ensure([], () => r(require('../pages/user/userInfo/'))),
+  userDetail: r => require.ensure([], () => r(require('../pages/user/userInfo/userDetail/'))),
   demo: r => require.ensure([], () => r(require('../pages/demo/m1/'))),
   m1_1: r => require.ensure([], () => r(require('../pages/m1/m1_1/'))),
   m1_1_form1: r => require.ensure([], () => r(require('../pages/m1/m1_1/form1'))),
@@ -17,8 +20,10 @@ const pages = {
   agentCheck: r => require.ensure([], () => r(require('../pages/agent/agentCheck/'))),
   agentList: r => require.ensure([], () => r(require('../pages/agent/agentList/'))),
   serverList: r => require.ensure([], () => r(require('../pages/system/server/'))),
-  dictionaryList: r => require.ensure([], () => r(require('../pages/system/dictionary/')))
-
+  dictionaryList: r => require.ensure([], () => r(require('../pages/system/dictionary/'))),
+  permissionResource: r => require.ensure([], () => r(require('../pages/system/permission/resource/'))),
+  permissionRole: r => require.ensure([], () => r(require('../pages/system/permission/role/'))),
+  permissionUserRole: r => require.ensure([], () => r(require('../pages/system/permission/userRole/')))
 }
 
 export default pages
