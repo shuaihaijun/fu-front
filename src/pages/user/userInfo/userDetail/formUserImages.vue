@@ -2,24 +2,6 @@
   <div class="upload_zl">
     <div class="upload_zl_title">{{title}}</div>
     <div class="upload_zl_list">
-      <!--<el-upload
-        ref="upload"
-        :action="uploadUrl"
-        name="picture"
-        list-type="picture-card"
-        :limit="1"
-        :file-list="images"
-        :on-exceed="onExceed"
-        :before-upload="beforeUpload"
-        :on-success="handleSuccess"
-        :on-remove="handleRemove">
-        <i class="el-icon-plus"></i>
-      </el-upload>
-      <el-dialog :visible.sync="dialogVisible">
-        <img width="100%" :src="dialogImageUrl" alt="">
-      </el-dialog>-->
-
-
       <el-upload
         :action="uploadUrl"
         name="picture"
@@ -67,7 +49,7 @@
         // 照片
         this.type = 0
         this.uploadUrl = this.$api.getPictureUploadUrl()
-        if (this.showType === 'edit') {
+        if (this.showType === 'view') {
           this.disabled = true
         }
     },

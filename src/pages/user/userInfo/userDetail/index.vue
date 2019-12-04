@@ -5,7 +5,10 @@
         <b>用户信息</b>
       </div>
       <div class="form_topBar_r" v-if="formType == 'edit'">
-        <el-button @click="handleSave('ruleForm')"><i class="el-icon-check"></i> 保 存</el-button>
+        <el-button @click="handleCheck('ruleForm')"><i class="el-icon-circle-check"></i>提交审核</el-button>
+      </div>
+      <div class="form_topBar_r" v-if="formType == 'edit'">
+        <el-button @click="handleSave('ruleForm')"><i class="el-icon-check"></i> 保&nbsp;&nbsp;存</el-button>&nbsp;&nbsp;&nbsp;
       </div>
     </div>
     <el-form :model="dataForm" class="dataForm" :rules="rules" ref="ruleForm" :class="{'dataForm_view': formType == 'view'}" label-width="100px">
@@ -113,6 +116,21 @@
           ],
           email: [
             { required: true, validator: validEmail, trigger: 'blur' }
+          ],
+          accountType: [
+            { required: true, message: '必填项', trigger: 'blur' }
+          ],
+          brokerId: [
+            { required: true, message: '必填项', trigger: 'blur' }
+          ],
+          serverId: [
+            { required: true, message: '必填项', trigger: 'blur' }
+          ],
+          mtAccId: [
+            { required: true, message: '必填项', trigger: 'blur' }
+          ],
+          mtPasswordWatch: [
+            { required: true, message: '必填项', trigger: 'blur' }
           ]
         }
       }
@@ -138,7 +156,6 @@
           // this.images.idObverse = _dataForm.idObverse.split(',')
           this.setFileNames(1, _dataForm.idFront)
           this.setFileNames(2, _dataForm.idObverse)
-          console.log(this.images.idFront)
         })
         this.$api.getUsersMtAccountByCondition(params, (res) => {
           if (res.content !== null) {
@@ -185,6 +202,45 @@
                 return
               }
               this.$message(res.msg)
+            })
+          } else {
+            this.$message('请书写完整')
+            return false
+          }
+        })
+      },
+      handleCheck(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            let params = JSON.parse(JSON.stringify(this.dataForm))
+            params.userId = this.dataForm.id
+            params.mtAccInfo = this.tableData1[0]
+            // 校验
+            if (params.userType < 4) {
+                if (params.mtAccInfo.mtPasswordTrade === undefined || params.mtAccInfo.mtPasswordTrade === null || params.mtAccInfo.mtPasswordTrade === '') {
+                  // 用户需要输入交易密码
+                  this.$message('请输入交易密码！')
+                  return
+                }
+                if (params.idObverse === undefined || params.idObverse === null || params.idObverse === '') {
+                  // 用户需要输入交易密码
+                  this.$message('请上传照片信息！')
+                  return
+                }
+                if (params.idFront === undefined || params.idFront === null || params.idFront === '') {
+                  // 用户需要输入交易密码
+                  this.$message('请上传照片信息！')
+                  return
+                }
+            }
+            // 提价申请
+            this.$api.submitUserBinding(params, (res) => {
+              if (res.status !== 0) {
+                window.alert('操作失败！')
+                return
+              }
+              this.$message(res.msg)
+              this.formType = 'view'
             })
           } else {
             this.$message('请书写完整')

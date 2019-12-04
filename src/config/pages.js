@@ -3,6 +3,7 @@ const pages = {
   userList: r => require.ensure([], () => r(require('../pages/user/userList/'))),
   userInfo: r => require.ensure([], () => r(require('../pages/user/userInfo/'))),
   userDetail: r => require.ensure([], () => r(require('../pages/user/userInfo/userDetail/'))),
+  userCheckl: r => require.ensure([], () => r(require('../pages/user/userCheck/'))),
   demo: r => require.ensure([], () => r(require('../pages/demo/m1/'))),
   m1_1: r => require.ensure([], () => r(require('../pages/m1/m1_1/'))),
   m1_1_form1: r => require.ensure([], () => r(require('../pages/m1/m1_1/form1'))),

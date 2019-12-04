@@ -31,9 +31,7 @@
           let params = {
             id: this.pwid.id // 申请id
           }
-          console.log(params)
-          api.getAgentApplyById(params, (res) => {
-            console.log(res)
+          api.getUserByIdOrName(params, (res) => {
             if (res.status === 0 && res.content !== null) {
               this.formData.formData = res.content
             } else {
@@ -51,37 +49,55 @@
           formData: {},
           formItem: [{
               key: 'id',
-              label: '申请ID',
+              label: '用户ID',
               value: '',
               readonly: true
             },
             {
-              key: 'userId',
-              label: '申请人ID',
+              key: 'username',
+              label: '用户账号',
               value: '',
               readonly: true
             },
             {
-              key: 'agentName',
-              label: '代理名称',
+              key: 'refName',
+              label: '用户昵称',
               value: ''
             },
             {
-              key: 'agentType',
-              label: '申请类型',
+              key: 'userType',
+              label: '用户类型',
               value: ''
             },
             {
-              key: 'applyDesc',
-              label: '代理描述',
-              value: '',
-              type: 'textarea'
+              key: 'email',
+              label: '用户邮件',
+              value: ''
             },
             {
-              key: 'applyReason',
-              label: '申请原由',
-              value: '',
-              type: 'textarea'
+              key: 'mobile',
+              label: '手机号',
+              value: ''
+            },
+            {
+              key: 'isVerified',
+              label: '是否已验证身份',
+              value: ''
+            },
+            {
+              key: 'isAccount',
+              label: '是否已绑定MT账号',
+              value: ''
+            },
+            {
+              key: 'introducer',
+              label: '介绍人',
+              value: ''
+            },
+            {
+              key: 'recommend',
+              label: '推荐人数',
+              value: ''
             }
           ]
         }
@@ -99,7 +115,7 @@
         }
         console.log(obj)
         // 校验数据
-        api.saveAgentApply(obj, (res) => {
+        api.getUserByIdOrName(obj, (res) => {
           console.log(res)
           if (res.status === 0 && res.content.data !== '') {
             // 保存成功
@@ -120,7 +136,7 @@
           id: this.pwid.id // 申请id
         }
         console.log(params)
-        api.getAgentApplyById(params, (res) => {
+        api.getUserByIdOrName(params, (res) => {
           console.log(res)
           if (res.status === 0 && res.content !== null) {
             this.formData.formData = res.content

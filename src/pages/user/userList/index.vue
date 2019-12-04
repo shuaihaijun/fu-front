@@ -6,7 +6,7 @@
       </os-search>
     </div>
 
-    <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
+    <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="viewAddTabUser">
       <div slot="r">
       </div>
     </os-table>
@@ -125,6 +125,12 @@
             align: 'center'
           },
           {
+            prop: 'userState',
+            label: '用户状态',
+            width: '80',
+            align: 'center'
+          },
+          {
             prop: 'refName',
             label: '用户昵称',
             width: '100',
@@ -234,6 +240,24 @@
           this.dialogWidth = 1000
           this.dialogTop = '10%'
         }
+      },
+      // 查看
+      viewAddTabUser(row, index, name) {
+        this.$store.dispatch('delTab', {id: 'm1_view'})
+        let _data = {
+          id: 'm1_view',
+          name: '查看基础信息',
+          url: 'userDetail',
+          uid: {
+            formType: 'view',
+            id: row.id,
+            wname: row.username
+          }
+        }
+        setTimeout(() => {
+          this.$store.dispatch('addTab', _data)
+          this.$store.dispatch('m1_form_state', this.$store.state.m1.m1_form_state + 1)
+        }, 10)
       },
       selectionChange(rows) {
         this.selectionRows = rows

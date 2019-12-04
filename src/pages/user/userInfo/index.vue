@@ -53,6 +53,12 @@
             align: 'center'
           },
           {
+            prop: 'userState',
+            label: '用户状态',
+            width: '80',
+            align: 'center'
+          },
+          {
             prop: 'refName',
             label: '用户昵称',
             width: '100',
@@ -139,15 +145,23 @@
       // 查看or编辑
       handleOperate(row, index, name) {
         if (index === 0 && name === '编辑') {
-          this.editAddTabUser(row.id, row.username)
+          this.editAddTabUser(row.id, row.username, row)
         }
         if (index === 0 && name === '查看') {
-          this.viewAddTabUser(row.id, row.username)
+          this.viewAddTabUser(row.id, row.username, row)
         }
       },
       // 新建编辑
-      editAddTabUser(v, n) {
-        this.$store.dispatch('delTab', {id: 'm1_view'})
+      editAddTabUser(v, n, row) {
+        if (row.isAccount > 0) {
+          this.$message.warning('账户已绑定，不允许编辑！')
+          return
+        }
+        if (row.userState > 0) {
+          this.$message.warning('该用户状态，不允许编辑！')
+          return
+        }
+        this.$store.dispatch('delTab', {id: 'm1_edit'})
         let _data = {
           id: 'm1_edit',
           name: '编辑基础信息',
@@ -164,9 +178,8 @@
         }, 10)
       },
       // 查看
-      viewAddTabUser(v, n) {
-        console.log('viewAddTabUser')
-        this.$store.dispatch('delTab', {id: 'm1_edit'})
+      viewAddTabUser(v, n, row) {
+        this.$store.dispatch('delTab', {id: 'm1_view'})
         let _data = {
           id: 'm1_view',
           name: '查看基础信息',

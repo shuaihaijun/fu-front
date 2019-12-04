@@ -37,6 +37,14 @@ module.exports = {
   saveOrUpdateUser(params, callback) {
     proxy.call(this, 'post', _host + '/admin/saveOrUpdateUser', params, callback)
   },
+  // 提交审核申请
+  submitUserBinding(params, callback) {
+    proxy.call(this, 'post', _host + '/admin/submitUserBinding', params, callback)
+  },
+  // 审核用户信息
+  checkUserBinding(params, callback) {
+    proxy.call(this, 'post', _host + '/admin/checkUserBinding', params, callback)
+  },
   // 用户列表
   queryUserList(params, callback) {
     proxy.call(this, 'post', _host + '/admin/queryUserList', params, callback)

@@ -6,10 +6,10 @@
       </os-search>
     </div>
 
-    <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
+    <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="viewAddTabUser">
       <div slot="r">
-        <el-button @click="applyCheck(3)"><i class="el-icon-back"></i> 审核驳回</el-button>
-        <el-button @click="applyCheck(0)"><i class="el-icon-edit-outline"></i> 审核通过</el-button>
+        <el-button @click="checkBinding(1)"><i class="el-icon-edit-outline"></i>审核通过</el-button>
+        <el-button @click="checkBinding(0)"><i class="el-icon"></i>审核驳回</el-button>
       </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
@@ -43,35 +43,35 @@
           formData: {},
           formItem: [
             {
-            key: 'id',
-            label: '',
-            value: null,
-            placeholder: '代理ID',
-            width: 180,
-            type: ''
-          },
-          {
-            key: 'agentName',
-            label: '',
-            value: null,
-            placeholder: '代理名称',
-            width: 200,
-            type: ''
-          },
-          {
-            key: 'applyType',
-            label: '',
-            value: null,
-            placeholder: '代理类型',
-            width: 200,
-            type: ''
-          },
-          {
             key: 'userId',
             label: '',
             value: null,
             placeholder: '用户ID',
+            width: 180,
+            type: ''
+          },
+          {
+            key: 'username',
+            label: '',
+            value: null,
+            placeholder: '用户账号',
             width: 200,
+            type: ''
+          },
+          {
+            key: 'userType',
+            label: '',
+            value: null,
+            placeholder: '用户类型',
+            width: 100,
+            type: ''
+          },
+          {
+            key: 'introducer',
+            label: '',
+            value: null,
+            placeholder: '介绍人',
+            width: 100,
             type: ''
           }]
         },
@@ -79,7 +79,7 @@
         columnOperate: [
           {
             label: '操作',
-            width: '110px',
+            width: '80px',
             fixed: 'left',
             isBtn: true,
             children: [{
@@ -95,50 +95,68 @@
         columnData: [
           {
             prop: 'id',
-            label: '代理ID',
+            label: '用户ID',
             width: '90',
             align: 'center'
           },
           {
-            prop: 'agentName',
-            label: '代理名称',
+            prop: 'username',
+            label: '用户账号',
             width: '150',
             align: 'center'
           },
           {
-            prop: 'applyState',
-            label: '代理状态',
+            prop: 'userType',
+            label: '用户类型',
             width: '80',
             align: 'center'
           },
           {
-            prop: 'agentType',
-            label: '代理类型',
+            prop: 'userState',
+            label: '用户状态',
             width: '80',
             align: 'center'
           },
           {
-            prop: 'userId',
-            label: '申请人',
+            prop: 'refName',
+            label: '用户昵称',
+            width: '100',
+            align: 'center'
+          },
+          {
+            prop: 'mobile',
+            label: '手机号',
+            width: '100',
+            align: 'center'
+          },
+          {
+            prop: 'isVerified',
+            label: '是否已验证身份',
+            width: '100',
+            align: 'center'
+          },
+          {
+            prop: 'isAccount',
+            label: '是否已绑定MT',
+            width: '100',
+            align: 'center'
+          },
+          {
+            prop: 'introducer',
+            label: '介绍人',
             width: '80',
             align: 'center'
           },
           {
-            prop: 'applyReason',
-            label: '申请原由',
-            width: '',
-            align: 'center'
-          },
-          {
-            prop: 'applyDesc',
-            label: '代理描述',
-            width: '',
+            prop: 'recommend',
+            label: '推荐人数',
+            width: '80',
             align: 'center'
           },
           {
             prop: 'createDate',
             label: '创建时间',
-            width: '150',
+            width: '',
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           }
@@ -170,17 +188,18 @@
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
           let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          // 判断用户权限
           let params = {
             operUserId: userInfo.userId, // 操作用户id
-            applyId: this.queryData.formData.id, // 申请id
-            agentName: this.queryData.formData.agentName, // 名称
-            applyType: this.queryData.formData.applyType, // 类型
-            userId: this.queryData.formData.userId, // 类型
-            applyState: 2, // 类型
+            userId: this.queryData.formData.userId, // 用户ID
+            username: this.queryData.formData.username, // 名称
+            userType: this.queryData.formData.userType, // 类型
+            userState: 2, // 用户类型 ，2：待审核
+            introducer: this.queryData.formData.introducer, // 介绍人
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }
-          api.queryAgentApply(params, (res) => {
+          api.queryUserList(params, (res) => {
             this.tableData = res.content.records
             this.pageDataTotal = res.content.total
           })
@@ -188,8 +207,48 @@
           this.$message('获取用户信息失败！')
         }
       },
-      // 提交审核
-      applyCheck(state) {
+      // 分页
+      handlePage() {
+        this.tableData = []
+        this.getQuery()
+      },
+      // 查看or编辑
+      handleOperate(row, index, name) {
+        this.LogWid = row
+        if (name === '详情') {
+          setTimeout(() => {
+            this.formVisible = true
+          }, 0)
+          this.dialogTitle = '信号源：' + row.signalName + ' 详情 '
+          // this.show = 'forms'
+          this.show = true
+          this.disabled = true
+          this.dialogWidth = 1000
+          this.dialogTop = '10%'
+        }
+      },
+      // 查看
+      viewAddTabUser(row, index, name) {
+        this.$store.dispatch('delTab', {id: 'm1_view'})
+        let _data = {
+          id: 'm1_view',
+          name: '查看基础信息',
+          url: 'userDetail',
+          uid: {
+            formType: 'view',
+            id: row.id,
+            wname: row.username
+          }
+        }
+        setTimeout(() => {
+          this.$store.dispatch('addTab', _data)
+          this.$store.dispatch('m1_form_state', this.$store.state.m1.m1_form_state + 1)
+        }, 10)
+      },
+      selectionChange(rows) {
+        this.selectionRows = rows
+      },
+      checkBinding(oper) {
         // 判断数据
         if (this.selectionRows === '' || this.selectionRows.length === 0) {
           window.alert('请选择需要操作的数据！')
@@ -199,22 +258,19 @@
           window.alert('只能选择一条数据操作！')
           return
         }
-        MessageBox.confirm('确定提交申请吗？', '操作提示', {
+        MessageBox.confirm('确定提交审核结果吗？', '审核提示', {
           cancelButtonText: '取消',
           confirmButtonText: '确认',
           type: 'warning'
         }).then(() => {
-          let resultMsg = '审核通过'
-          if (state > 0) {
-            resultMsg = '审核驳回'
-          }
           let param = {
-            id: this.selectionRows[0].id,
-            applyState: state,
-            message: resultMsg
+            userId: this.selectionRows[0].id,
+            username: this.selectionRows[0].username,
+            oper: oper,
+            message: '审核！'
           }
           // 审核流程
-          api.reviewAgentApply(param, (res) => {
+          api.checkUserBinding(param, (res) => {
             if (res.status === 0 && res.content.data !== '') {
               this.$options.methods.getQuery.bind(this)()
               // 保存成功
@@ -229,30 +285,6 @@
             message: '已取消审核'
           })
         })
-      },
-      // 分页
-      handlePage() {
-        this.tableData = []
-        this.getQuery()
-      },
-      // 查看or编辑
-      handleOperate(row, index, name) {
-        console.log(row)
-        this.LogWid = row
-        if (name === '详情') {
-          setTimeout(() => {
-            this.formVisible = true
-          }, 0)
-          this.dialogTitle = '信号源：' + row.signalName + ' 详情 '
-          // this.show = 'forms'
-          this.show = true
-          this.disabled = true
-          this.dialogWidth = 1000
-          this.dialogTop = '10%'
-        }
-      },
-      selectionChange(rows) {
-        this.selectionRows = rows
       }
     },
     mounted() {

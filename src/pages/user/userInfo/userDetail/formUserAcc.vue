@@ -34,13 +34,13 @@
           <el-table-column prop="mtPasswordWatch" label="MT账户观摩密码" width="150" align="center">
             <template slot-scope="scope">
               <el-input v-model="scope.row.mtPasswordWatch" :min="0" :controls="false" v-if="formType == 'edit'" show-password ></el-input>
-              <span v-if="formType == 'view'">{{ scope.row.mtPasswordWatch }}</span>
+              <span v-if="formType == 'view'">*****</span>
             </template>
           </el-table-column>
           <el-table-column prop="mtPasswordTrade" label="MT账户交易密码" width="150" align="center">
             <template slot-scope="scope">
               <el-input v-model="scope.row.mtPasswordTrade" :min="0" :controls="false" v-if="formType == 'edit'" show-password ></el-input>
-              <span v-if="formType == 'view'">{{ scope.row.mtPasswordTrade }}</span>
+              <span v-if="formType == 'view'">*****</span>
             </template>
           </el-table-column>
          <!-- <el-table-column prop="height" label="MT账户交易密码" width="150" align="center">
