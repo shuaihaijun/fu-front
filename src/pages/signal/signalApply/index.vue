@@ -8,11 +8,11 @@
 
     <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
       <div slot="r">
-        <el-button @click="applyNew()"><i class="el-icon-edit-outline"></i> 新增</el-button>
+        <el-button @click="applyNew()"><i class="el-icon-circle-plus-outline"></i> 新增</el-button>
         <el-button @click="applyEdit()"><i class="el-icon-edit-outline"></i> 编辑</el-button>
-        <el-button @click="applywithdraw()"><i class="el-icon-back"></i> 撤回</el-button>
         <el-button @click="applyDelete()"><i class="el-icon-delete-solid"></i> 删除</el-button>
-        <el-button @click="applyCheck()"><i class="el-icon"></i> 提交</el-button>
+        <el-button @click="applywithdraw()"><i class="el-icon-back"></i> 撤回</el-button>
+        <el-button @click="applyCheck()"><i class="el-icon-circle-check"></i> 提交</el-button>
       </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>

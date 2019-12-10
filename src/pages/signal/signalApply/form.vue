@@ -51,12 +51,14 @@
               key: 'id',
               label: '申请ID',
               value: '',
+              placeholder: '自动获取',
               readonly: true
             },
             {
               key: 'userId',
               label: '申请人ID',
               value: '',
+              placeholder: '自动获取',
               readonly: true
             },
             {
@@ -135,18 +137,25 @@
         console.log(this.dataForm)
       },
       affirm(v, obj) {
-        console.log(obj)
-        // 校验数据
-        api.signalApplySaveOrUpdate(obj, (res) => {
-          console.log(res)
-          if (res.status === 0 && res.content.data !== '') {
-            // 保存成功
-            window.alert('保存成功！')
-            this.visible = false
-          } else {
-            window.alert('保存失败！请检查数据')
-          }
-        })
+        if (window.localStorage.getItem('nice_user')) {
+          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+
+          obj.userId = userInfo.userId // 用户id
+          console.log(obj)
+          // 校验数据
+          api.signalApplySaveOrUpdate(obj, (res) => {
+            console.log(res)
+            if (res.status === 0 && res.content !== null && res.content.data !== '') {
+              // 保存成功
+              window.alert('保存成功！')
+              this.visible = false
+            } else {
+              window.alert('保存失败！请检查数据')
+            }
+          })
+        } else {
+          this.$message('获取用户信息失败！')
+        }
       }
     },
     created() {

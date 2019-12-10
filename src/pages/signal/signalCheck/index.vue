@@ -8,7 +8,7 @@
 
     <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
       <div slot="r">
-        <el-button @click="applyCheck(2)"><i class="el-icon-edit-outline"></i> 审核通过</el-button>
+        <el-button @click="applyCheck(0)"><i class="el-icon-edit-outline"></i> 审核通过</el-button>
         <el-button @click="applyCheck(3)"><i class="el-icon"></i> 审核驳回</el-button>
       </div>
     </os-table>
@@ -191,7 +191,7 @@
             signalName: this.queryData.formData.signalName, // 信号源名称
             mtAccId: this.queryData.formData.mtAccId, // MT账户
             applyDate: this.queryData.formData.applyDate, // 申请时间
-            applyState: 1, // 申请状态（待审）
+            applyState: 2, // 申请状态（待审）
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }
@@ -226,7 +226,7 @@
           }
           // 审核流程
           api.reviewProductSignal(param, (res) => {
-            if (res.status === 0 && res.content.data !== '') {
+            if (res.status === 0 && res.content !== null && res.content.data !== '') {
               this.$options.methods.getQuery.bind(this)()
               // 保存成功
               window.alert('操作成功！')

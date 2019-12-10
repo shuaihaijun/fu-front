@@ -126,23 +126,12 @@ const menuData = [{
       'children': [],
       'buttons': null
      },
-      {
-      'id': '03-4',
-      'pid': '04',
-      'name': '信号源收藏',
-      'ico': '',
-      'url': 'm3_1',
-      'control': '',
-      'remark': '',
-      'children': [],
-      'buttons': null
-    },
     {
       'id': '03-5',
       'pid': '05',
       'name': '信号源跟随',
       'ico': '',
-      'url': 'm3_1',
+      'url': 'signalFollow',
       'control': '',
       'remark': '',
       'children': [],
@@ -215,14 +204,26 @@ const menuData = [{
     'children': [{
       'id': '08-1',
       'pid': '01',
-      'name': '账户管理',
+      'name': 'MT账户管理',
       'ico': '',
-      'url': 'm3_1',
+      'url': 'accountMTList',
       'control': '',
       'remark': '',
       'children': [],
       'buttons': null
-    }],
+      },
+      {
+        'id': '08-2',
+        'pid': '01',
+        'name': '社区账户管理',
+        'ico': '',
+        'url': 'accountInfoList',
+        'control': '',
+        'remark': '',
+        'children': [],
+        'buttons': null
+      }
+    ],
     'buttons': null
   },
   {

@@ -6,52 +6,70 @@
       </os-search>
     </div>
 
-    <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
+    <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="viewAddTabUser">
       <div slot="r">
         <el-button @click="accConnectStart()"><i class="el-icon-check"></i> 启动监听</el-button>
         <el-button @click="accConnectClose()"><i class="el-icon-close"></i> 关闭监听</el-button>
       </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
-
-    <forms :_visible="formVisible" v-if="show" :pwid="LogWid" :disabled="disabled"></forms>
+    <forms :_visible="formVisible" v-if="show" :pwid="LogWid" :disabled="disabled" :title="formTitle"></forms>
   </div>
 </template>
 <script>
   import api from '../../../api/'
-  import form from './form'
+  import forms from './form'
   import { MessageBox } from 'element-ui'
 
   export default {
     components: {
-      'forms': form
+      'forms': forms
     },
     data() {
       return {
         show: false,
         LogWid: '',
+        dialogVisible: false,
         formVisible: false,
+        formTitle: '',
         dialogTitle: '更新日志',
         dialogWidth: '',
         dialogTop: '5%',
+        disabled: true,
         selectionRows: '',
         // 搜索条
         queryData: {
           formData: {},
           formItem: [
             {
-            key: 'signalId',
+            key: 'userId',
             label: '',
             value: null,
-            placeholder: '信号源ID',
+            placeholder: '用户ID',
             width: 180,
+            type: ''
+            },
+            {
+              key: 'username',
+              label: '',
+              value: null,
+              placeholder: '用户账号',
+              width: 200,
+              type: ''
+            },
+          {
+            key: 'brokerName',
+            label: '',
+            value: null,
+            placeholder: '经纪商',
+            width: 200,
             type: ''
           },
           {
-            key: 'signalName',
+            key: 'serverName',
             label: '',
             value: null,
-            placeholder: '信号源名称',
+            placeholder: '服务器',
             width: 200,
             type: ''
           },
@@ -59,8 +77,8 @@
             key: 'mtAccId',
             label: '',
             value: null,
-            placeholder: 'MT账户ID',
-            width: 200,
+            placeholder: 'MT账号',
+            width: 100,
             type: ''
           }]
         },
@@ -68,7 +86,7 @@
         columnOperate: [
           {
             label: '操作',
-            width: '110px',
+            width: '80px',
             fixed: 'left',
             isBtn: true,
             children: [{
@@ -83,70 +101,75 @@
         // 表头
         columnData: [
           {
-            prop: 'id',
-            label: '信号源ID',
+            prop: 'userConState',
+            label: '连接状态',
             width: '90',
-            align: 'center'
-          },
-          {
-            prop: 'signalName',
-            label: '信号源名称',
-            width: '90',
-            align: 'center'
-          },
-          {
-            prop: 'monthlyAverageIncome',
-            label: '月均收益',
-            width: '80',
-            align: 'center'
-          },
-          {
-            prop: 'historyWithdraw',
-            label: '最大回撤',
-            width: '80',
-            align: 'center'
-          },
-          {
-            prop: 'signalTem',
-            label: '团队信息',
-            width: '',
-            align: 'center'
-          },
-          {
-            prop: 'signalDesc',
-            label: '信号源简介',
-            width: '',
-            align: 'center'
-          },
-          {
-            prop: 'email',
-            label: '电子邮件',
-            width: '100',
-            align: 'center'
-          },
-          {
-            prop: 'phone',
-            label: '手机号',
-            width: '100',
-            align: 'center'
-          },
-          {
-            prop: 'qqNumber',
-            label: 'QQ号码',
-            width: '100',
             align: 'center'
           },
           {
             prop: 'userId',
-            label: '申请人',
+            label: '用户ID',
+            width: '90',
+            align: 'center'
+          },
+          {
+            prop: 'username',
+            label: '用户账号',
+            width: '150',
+            align: 'center'
+          },
+          {
+            prop: 'userType',
+            label: '用户类型',
             width: '80',
             align: 'center'
           },
           {
-            prop: 'applyDate',
-            label: '申请时间',
-            width: '150',
-            format: 'yyyy-MM-dd HH:mm:ss',
+            prop: 'refName',
+            label: '用户昵称',
+            width: '120',
+            align: 'center'
+          },
+          {
+            prop: 'mobile',
+            label: '手机号',
+            width: '120',
+            align: 'center'
+          },
+          {
+            prop: 'brokerName',
+            label: '经纪商',
+            width: '',
+            align: 'center'
+          },
+          {
+            prop: 'serverName',
+            label: '服务器',
+            width: '',
+            align: 'center'
+          },
+          {
+            prop: 'mtAccId',
+              label: '账号',
+            width: '',
+            align: 'center'
+          },
+          {
+            prop: 'passwordWatchChecked',
+            label: '观摩密码',
+            width: '100',
+            align: 'center'
+          },
+          {
+            prop: 'introducer',
+            label: '介绍人',
+            width: '80',
+            align: 'center'
+          },
+          {
+            prop: 'recommend',
+            label: '推荐人数',
+            width: '80',
             align: 'center'
           }
         ],
@@ -176,63 +199,26 @@
     methods: {
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
-          // let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          this.$store.commit('loading', true)
+          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          // 判断用户权限
           let params = {
-            // userId: userInfo.userId, // 用户id
-            signalId: this.queryData.formData.signalId, // 申请id
-            signalName: this.queryData.formData.signalName, // 信号源名称
-            mtAccId: this.queryData.formData.mtAccId, // MT账户
-            signalState: 0, // 正常状态
+            operUserId: userInfo.userId, // 操作用户id
+            userId: this.queryData.formData.userId, // 用户ID
+            username: this.queryData.formData.username, // 名称
+            mtAccId: this.queryData.formData.mtAccId, // 类型
+            brokerName: this.queryData.formData.brokerName, // 代理商
+            serverName: this.queryData.formData.serverName, // 服务器
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }
-          api.getSignalInfos(params, (res) => {
-            this.tableData = res.content.records
+          api.queryUsersMtAccount(params, (res) => {
+            this.tableData = res.content.data
             this.pageDataTotal = res.content.total
           })
         } else {
           this.$message('获取用户信息失败！')
         }
-      },
-      // 审核结果
-      applyCheck(state) {
-        // 判断数据
-        if (this.selectionRows === '' || this.selectionRows.length === 0) {
-          window.alert('请选择需要操作的数据！')
-          return
-        }
-        if (this.selectionRows.length > 1) {
-          window.alert('只能选择一条数据操作！')
-          return
-        }
-        MessageBox.confirm('确定提交审核结果吗？', '审核提示', {
-          cancelButtonText: '取消',
-          confirmButtonText: '确认',
-          type: 'warning'
-        }).then(() => {
-          let param = {
-            id: this.selectionRows[0].id,
-            state: state,
-            message: '审核！'
-          }
-          // 审核流程
-          api.reviewProductSignal(param, (res) => {
-            if (res.status === 0 && res.content.data !== '') {
-              this.$options.methods.getQuery.bind(this)()
-              // 保存成功
-              window.alert('操作成功！')
-            } else {
-              window.alert('操作失败！')
-            }
-          })
-        }).catch(() => {
-          this.$message({
-          type: 'info',
-          message: '已取消审核'
-          })
-        })
-      },
-      getWList2() {
       },
       // 分页
       handlePage() {
@@ -254,6 +240,27 @@
           this.dialogTop = '10%'
         }
       },
+      // 查看
+      viewAddTabUser(row, index, name) {
+        this.$store.dispatch('delTab', {id: 'm1_view'})
+        let _data = {
+          id: 'm1_view',
+          name: '查看基础信息',
+          url: 'userDetail',
+          uid: {
+            formType: 'view',
+            id: row.id,
+            wname: row.username
+          }
+        }
+        setTimeout(() => {
+          this.$store.dispatch('addTab', _data)
+          this.$store.dispatch('m1_form_state', this.$store.state.m1.m1_form_state + 1)
+        }, 10)
+      },
+      selectionChange(rows) {
+        this.selectionRows = rows
+      },
       accConnectStart() {
         // 判断数据
         if (this.selectionRows === '' || this.selectionRows.length === 0) {
@@ -270,16 +277,19 @@
           type: 'warning'
         }).then(() => {
           let param = {
-            signalId: this.selectionRows[0].id// 信号源ID
+            userId: this.selectionRows[0].userId, // 用户ID
+            username: this.selectionRows[0].username, // 名称
+            mtAccId: this.selectionRows[0].mtAccId, // 类型
+            serverName: this.selectionRows[0].serverName // 服务器
           }
-          // 链接账号
-          api.connectSignalMTAccount(param, (res) => {
+          // 审核流程
+          api.connectUserMTAccount(param, (res) => {
             if (res.status === 0 && res.content === true) {
               this.$options.methods.getQuery.bind(this)()
               // 保存成功
               window.alert('操作成功！')
             } else {
-              window.alert('操作失败！')
+              window.alert('操作成功！')
             }
           })
         }).catch(() => {
@@ -306,10 +316,13 @@
         }).then(() => {
           this.$store.commit('loading', true)
           let param = {
-            signalId: this.selectionRows[0].id// 信号源ID
+            userId: this.selectionRows[0].userId, // 用户ID
+            username: this.selectionRows[0].username, // 名称
+            mtAccId: this.selectionRows[0].mtAccId, // 类型
+            serverName: this.selectionRows[0].serverName // 服务器
           }
           // 审核流程
-          api.disConnectSignalMTAccount(param, (res) => {
+          api.disConnectUserMTAccount(param, (res) => {
             if (res.status === 0 && res.content === true) {
               this.$options.methods.getQuery.bind(this)()
               // 保存成功
@@ -324,9 +337,6 @@
             message: '已取消操作'
           })
         })
-      },
-      selectionChange(rows) {
-        this.selectionRows = rows
       }
     },
     mounted() {

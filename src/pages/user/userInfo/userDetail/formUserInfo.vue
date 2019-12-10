@@ -11,24 +11,10 @@
           <el-input v-model="dataForm.username" :disabled="true"></el-input>
         </el-form-item>
       </el-col>
-      <el-col :span="5">
-        <el-form-item label="用户类型:" prop="useType">
-          <el-input v-model="dataForm.useType" :disabled="true"></el-input>
-        </el-form-item>
-      </el-col>
+
       <el-col :span="5">
         <el-form-item label="昵称:" prop="refName">
           <el-input v-model="dataForm.refName" :disabled="true"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="5">
-        <el-form-item label="介绍人:" prop="introducer">
-          <el-input v-model="dataForm.introducer" :disabled="true"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="5">
-        <el-form-item label="推荐人数:" prop="recommend">
-          <el-input v-model="dataForm.recommend" :disabled="true"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="5">
@@ -39,6 +25,21 @@
       <el-col :span="5">
         <el-form-item label="性别:" prop="sex">
           <el-input v-model="dataForm.sex" :disabled="disabled"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="5">
+          <el-form-item label="用户类型:" prop="useType">
+            <el-input v-model="dataForm.useType" :disabled="true"></el-input>
+          </el-form-item>
+      </el-col>
+      <el-col :span="5">
+          <el-form-item label="介绍人:" prop="introducer">
+            <el-input v-model="dataForm.introducer" :disabled="true"></el-input>
+          </el-form-item>
+      </el-col>
+      <el-col :span="5">
+        <el-form-item label="推荐人数:" prop="recommend">
+          <el-input v-model="dataForm.recommend" :disabled="true"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="5">
@@ -64,6 +65,11 @@
       <el-col :span="5">
         <el-form-item label="电子邮件:" prop="email">
           <el-input v-model="dataForm.email" :disabled="disabled"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="5">
+        <el-form-item label="用户状态:" prop="useState">
+          <el-input v-model="dataForm.useState" :disabled="true"></el-input>
         </el-form-item>
       </el-col>
   </div>

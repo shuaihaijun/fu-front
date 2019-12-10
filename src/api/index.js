@@ -55,6 +55,10 @@ module.exports = {
   },
   // /*---------------------账户信息 MT账户---------------------*/
   // 获取MT账户信息
+  queryUsersMtAccount(params, callback) {
+    proxy.call(this, 'post', _host + '/account/queryUsersMtAccount', params, callback)
+  },
+  // 获取MT账户信息
   getUserMtAccountByCondition(params, callback) {
     proxy.call(this, 'post', _host + '/account/getUserMtAccountByCondition', params, callback)
   },
@@ -65,6 +69,14 @@ module.exports = {
   // 保存MT账户信息
   saveUserMTAccount(params, callback) {
     proxy.call(this, 'post', _host + '/account/saveUserMTAccount', params, callback)
+  },
+  // 连接MT账户信息
+  connectUserMTAccount(params, callback) {
+    proxy.call(this, 'post', _host + '/account/connectUserMTAccount', params, callback)
+  },
+  // 断开连接MT账户信息
+  disConnectUserMTAccount(params, callback) {
+    proxy.call(this, 'post', _host + '/account/disConnectUserMTAccount', params, callback)
   },
   // /*--------------------订单接口--------------------*/
   // 获取客户交易订单
@@ -103,6 +115,34 @@ module.exports = {
   // 根据ID 修改信号源信息
   signalApplySaveOrUpdate(params, callback) {
     proxy.call(this, 'post', _host + '/signalApply/saveOrUpdate', params, callback)
+  },
+  // 查询信号源信息
+  getSignalInfos(params, callback) {
+    proxy.call(this, 'post', _host + '/signal/findApply', params, callback)
+  },
+  // 根据信号源ID查询
+  findApplyById(params, callback) {
+  proxy.call(this, 'post', _host + '/signal/findApplyById', params, callback)
+  },
+  // 根据ID 修改信号源信息
+  signalFollowsQuery(params, callback) {
+    proxy.call(this, 'post', _host + '/signal/signalFollowsQuery', params, callback)
+  },
+  // 根据ID 修改信号源信息
+  signalFollowsRemove(params, callback) {
+    proxy.call(this, 'post', _host + '/signal/signalFollowsRemove', params, callback)
+  },
+  // 根据ID 修改信号源信息
+  signalFollowsSaveOrUpdate(params, callback) {
+    proxy.call(this, 'post', _host + '/signal/signalFollowsSaveOrUpdate', params, callback)
+  },
+  // 连接MT账户信息
+  connectSignalMTAccount(params, callback) {
+    proxy.call(this, 'post', _host + '/account/connectSignalMTAccount', params, callback)
+  },
+  // 断开连接MT账户信息
+  disConnectSignalMTAccount(params, callback) {
+    proxy.call(this, 'post', _host + '/account/disConnectSignalMTAccount', params, callback)
   },
   // /*---------------------数据字典---------------------*/
   // 保存数据字典信息
