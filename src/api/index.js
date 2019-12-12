@@ -1,4 +1,5 @@
 import proxy from './proxy'
+import store from '../store/index'
 
 let xmlhttp = new window.XMLHttpRequest()
 xmlhttp.open('GET', '/static/env.json', false)
@@ -20,6 +21,18 @@ switch (xmlDoc.env) {
 
 module.exports = {
   // /*---------------------公共接口---------------------*/
+  // 数据字典获取值
+  getDicValue: function (dicSign, dicKey) {
+    let dic = store.state.dictionary.dictionaryData
+    if (dic[dicSign]) {
+      for (let index = 0; index < dic[dicSign].length; index++) {
+        if (dicKey === dic[dicSign][index]['dicKey']) {
+          return dic[dicSign][index]['dicValue']
+        }
+      }
+    }
+    return ''
+  },
   // 用户图片上传接口
   getPictureUploadUrl: function () {
     return _host + '/com/uploadPicture'
@@ -151,6 +164,9 @@ module.exports = {
   },
   queryDictionary(params, callback) {
     proxy.call(this, 'post', _host + '/dictionary/queryDictionary', params, callback)
+  },
+  queryDictionaryAll(params, callback) {
+    proxy.call(this, 'post', _host + '/dictionary/queryDictionaryAll', params, callback)
   },
   getDictionaryById(params, callback) {
     proxy.call(this, 'post', _host + '/dictionary/getDictionaryById', params, callback)

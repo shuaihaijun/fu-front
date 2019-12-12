@@ -164,13 +164,15 @@
             pageNum: this.pageDataNum
           }
           api.queryDictionary(params, (res) => {
-            console.log(res)
             this.tableData = res.content.records
             this.pageDataTotal = res.content.total
           })
         } else {
           this.$message('获取用户信息失败！')
         }
+        this.$store.dispatch('getDictionary')
+        let dicValue = api.getDicValue('user.sex', '1')
+        console.log(dicValue)
       },
       // 修改数据
       dictionaryEdit() {
