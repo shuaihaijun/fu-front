@@ -28,6 +28,7 @@
       return {
         visible: false,
         formTitle: '',
+        ruleType: this.$api.getDicValues('follow.ruleType'),
         formData: {
           formData: {},
           formItem: [
@@ -40,21 +41,8 @@
               key: 'ruleType',
               label: '规则类型',
               value: '',
-              placeholder: '规则类型',
-              width: 200,
               type: 'select',
-              option: [{
-                label: '按手数比例',
-                value: '0'
-                },
-                {
-                  label: '按净值金额',
-                  value: '1'
-                },
-                {
-                  label: '按固定手数',
-                  value: '2'
-                }]
+              option: this.ruleType
             },
             {
               key: 'amount',
@@ -111,9 +99,9 @@
         // this.visible = true
         this.formTitle = '信号源信息'
       }
-
     },
     created() {
+      this.formData.formItem[1].option = this.ruleType
     }
   }
 </script>

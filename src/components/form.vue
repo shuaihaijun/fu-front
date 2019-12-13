@@ -12,8 +12,11 @@
             <div @click="clickItem(item.key, item)">
               <el-form-item :label="item.label+'：'" :required="item.required">
                 <template v-if="item.type == 'select'">
-                  <el-select v-model="item.value" filterable clearable @change="handleChange(item.value)" :placeholder="item.placeholder"  :style="{ width: item.width + 'px'}">
-                    <el-option v-for="r in item.option" :label="r.label" :value="r.value"></el-option>
+                  <el-select v-if="item.value === null || item.value === undefined || item.value === ''" v-model="item.value" filterable clearable @change="handleChange(item.value)" :placeholder="item.placeholder"  :style="{ width: item.width + 'px'}">
+                    <el-option v-for="r in item.option" :label="r.dicValue" :value="r.dicKey"></el-option>
+                  </el-select>
+                  <el-select v-else v-model="item.value.toString()" filterable clearable @change="handleChange(item.value)" :placeholder="item.placeholder"  :style="{ width: item.width + 'px'}">
+                    <el-option v-for="r in item.option" :label="r.dicValue" :value="r.dicKey"></el-option>
                   </el-select>
                 </template>
                 <template v-else-if="item.type == 'time'">

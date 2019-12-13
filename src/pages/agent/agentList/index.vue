@@ -38,6 +38,7 @@
         dialogWidth: '',
         dialogTop: '5%',
         disabled: true,
+        agentType: this.$api.getDicValues('agent.agentType'),
         selectionRows: '',
         // 搜索条
         queryData: {
@@ -64,8 +65,9 @@
             label: '',
             value: null,
             placeholder: '代理类型',
-            width: 200,
-            type: ''
+            width: 150,
+            type: 'select',
+            option: this.agentType
           },
           {
             key: 'userId',
@@ -107,15 +109,19 @@
             align: 'center'
           },
           {
-            prop: 'applyState',
+            prop: 'agentState',
             label: '代理状态',
             width: '80',
+            formatter: true,
+            columnKey: 'agent.agentState',
             align: 'center'
           },
           {
             prop: 'agentType',
             label: '代理类型',
             width: '80',
+            formatter: true,
+            columnKey: 'agent.agentType',
             align: 'center'
           },
           {
@@ -172,6 +178,7 @@
           }
         })
       })
+      this.queryData.formItem[2].option = this.agentType
     },
     methods: {
       getQuery() { // 搜索获取表格数据

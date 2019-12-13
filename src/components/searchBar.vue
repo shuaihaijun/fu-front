@@ -5,7 +5,7 @@
         <div @click="clickItem(item.key, item)">
           <template v-if="item.type == 'select'">
             <el-select v-model="item.value" filterable clearable @change="changeItem" :placeholder="item.placeholder" :size="dataOption.size" :style="{ width: item.width + 'px'}">
-              <el-option v-for="r in item.option" :label="r.label" :value="r.value"></el-option>
+              <el-option v-for="r in item.option" :label="r.dicValue" :value="r.dicKey"></el-option>
             </el-select>
           </template>
           <template v-else-if="item.type == 'time'">

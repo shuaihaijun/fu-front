@@ -50,12 +50,16 @@
             prop: 'userType',
             label: '用户类型',
             width: '80',
+            formatter: true,
+            columnKey: 'user.userType',
             align: 'center'
           },
           {
             prop: 'userState',
             label: '用户状态',
             width: '80',
+            formatter: true,
+            columnKey: 'user.userState',
             align: 'center'
           },
           {
@@ -73,13 +77,17 @@
           {
             prop: 'isVerified',
             label: '是否已验证身份',
-            width: '120',
+            width: '100',
+            formatter: true,
+            columnKey: 'com.yes',
             align: 'center'
           },
           {
             prop: 'isAccount',
             label: '是否已绑定MT',
-            width: '120',
+            width: '100',
+            formatter: true,
+            columnKey: 'com.yes',
             align: 'center'
           },
           {

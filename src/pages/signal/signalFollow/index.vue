@@ -92,7 +92,9 @@
           {
             prop: 'ruleType',
             label: '规则类型',
-            width: '80',
+            width: '110',
+            formatter: true,
+            columnKey: 'follow.ruleType',
             align: 'center'
           },
           {

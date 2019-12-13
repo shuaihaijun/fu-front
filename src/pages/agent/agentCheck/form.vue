@@ -47,6 +47,7 @@
       return {
         visible: false,
         formTitle: '',
+        applyType: this.$api.getDicValues('agent.applyType'),
         formData: {
           formData: {},
           formItem: [{
@@ -67,9 +68,11 @@
               value: ''
             },
             {
-              key: 'agentType',
+              key: 'applyType',
               label: '申请类型',
-              value: ''
+              value: '',
+              type: 'select',
+              option: this.applyType
             },
             {
               key: 'applyDesc',
@@ -129,6 +132,7 @@
           }
         })
       }
+      this.formData.formItem[3].option = this.applyType
     }
   }
 </script>

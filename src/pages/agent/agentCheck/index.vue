@@ -37,6 +37,7 @@
         dialogWidth: '',
         dialogTop: '5%',
         disabled: true,
+        applyType: this.$api.getDicValues('agent.applyType'),
         selectionRows: '',
         // 搜索条
         queryData: {
@@ -62,9 +63,10 @@
             key: 'applyType',
             label: '',
             value: null,
-            placeholder: '代理类型',
-            width: 200,
-            type: ''
+            placeholder: '申请类型',
+            width: 150,
+            type: 'select',
+            option: this.applyType
           },
           {
             key: 'userId',
@@ -107,14 +109,18 @@
           },
           {
             prop: 'applyState',
-            label: '代理状态',
+            label: '申请状态',
             width: '80',
+            formatter: true,
+            columnKey: 'agent.applyState',
             align: 'center'
           },
           {
-            prop: 'agentType',
-            label: '代理类型',
+            prop: 'applyType',
+            label: '申请类型',
             width: '80',
+            formatter: true,
+            columnKey: 'agent.applyType',
             align: 'center'
           },
           {
@@ -165,6 +171,7 @@
           }
         })
       })
+      this.queryData.formItem[2].option = this.applyType
     },
     methods: {
       getQuery() { // 搜索获取表格数据

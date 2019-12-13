@@ -37,6 +37,7 @@
         dialogWidth: '',
         dialogTop: '5%',
         disabled: true,
+        userType: this.$api.getDicValues('user.userType'),
         selectionRows: '',
         // 搜索条
         queryData: {
@@ -64,7 +65,8 @@
             value: null,
             placeholder: '用户类型',
             width: 100,
-            type: ''
+            type: 'select',
+            option: this.userType
           },
           {
             key: 'introducer',
@@ -109,12 +111,16 @@
             prop: 'userType',
             label: '用户类型',
             width: '80',
+            formatter: true,
+            columnKey: 'user.userType',
             align: 'center'
           },
           {
             prop: 'userState',
             label: '用户状态',
             width: '80',
+            formatter: true,
+            columnKey: 'user.userState',
             align: 'center'
           },
           {
@@ -133,12 +139,16 @@
             prop: 'isVerified',
             label: '是否已验证身份',
             width: '100',
+            formatter: true,
+            columnKey: 'com.yes',
             align: 'center'
           },
           {
             prop: 'isAccount',
             label: '是否已绑定MT',
             width: '100',
+            formatter: true,
+            columnKey: 'com.yes',
             align: 'center'
           },
           {
@@ -183,6 +193,7 @@
           }
         })
       })
+      this.queryData.formItem[2].option = this.userType
     },
     methods: {
       getQuery() { // 搜索获取表格数据

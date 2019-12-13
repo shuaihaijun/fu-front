@@ -101,6 +101,8 @@
             prop: 'serverState',
             label: '服务器状态',
             value: '',
+            formatter: true,
+            columnKey: 'com.serverState',
             align: 'center'
           },
           {

@@ -5,7 +5,6 @@
         <!-- <input type="text"> -->
       </os-search>
     </div>
-
     <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="viewAddTabUser">
       <div slot="r">
         <el-button @click="accConnectStart()"><i class="el-icon-check"></i> 启动监听</el-button>
@@ -122,6 +121,8 @@
             prop: 'userType',
             label: '用户类型',
             width: '80',
+            formatter: true,
+            columnKey: 'user.userType',
             align: 'center'
           },
           {

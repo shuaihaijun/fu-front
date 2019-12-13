@@ -10,7 +10,7 @@
       </div>
     </div>
     <!--表格-->
-    <el-table ref="table" @row-click="handleRowClick" :data="tableData" :height="tableHeight ? tableHeight : countHeight" :highlight-current-row="highlight" border style="width: 100%" @selection-change="handleSelectionChange">
+    <el-table ref="table" stripe @row-click="handleRowClick" :data="tableData" :height="tableHeight ? tableHeight : countHeight" :highlight-current-row="highlight" border style="width: 100%" @selection-change="handleSelectionChange">
       <el-table-column
         type="selection"
         width="40"
@@ -18,7 +18,9 @@
       </el-table-column>
       <el-table-column type="index" align="center" width="50" label="序号" v-if="showIndex">
       </el-table-column>
-      <el-table-column :showOverflowTooltip="showTip" v-for="r in columnData" :prop="r.prop" :label="r.label" :width="r.width" :align="r.align" :fixed="r.fixed">
+      <el-table-column :showOverflowTooltip="showTip"  v-for="r in columnData" v-if="r.formatter" :column-key="r.columnKey" :prop="r.prop" :label="r.label" :width="r.width" :align="r.align" :fixed="r.fixed" :formatter="dicFormatter">
+      </el-table-column>
+      <el-table-column :showOverflowTooltip="showTip" v-else :prop="r.prop" :label="r.label" :width="r.width" :align="r.align" :fixed="r.fixed">
         <el-table-column :showOverflowTooltip="showTip" v-if="r.children" v-for="rc in r.children" :prop="rc.prop" :label="rc.label" :width="rc.width" :fixed="rc.fixed" :align="rc.align">
         </el-table-column>
         <template scope="scope">
@@ -120,6 +122,9 @@
       },
       handleRowClick(row, event, column) {
         this.$emit('row-click', row)
+      },
+      dicFormatter(row, column) {
+        return this.$api.getDicValue(column.columnKey, row[column.property])
       }
     }
   }

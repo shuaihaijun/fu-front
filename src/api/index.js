@@ -25,13 +25,22 @@ module.exports = {
   getDicValue: function (dicSign, dicKey) {
     let dic = store.state.dictionary.dictionaryData
     if (dic[dicSign]) {
+      if (dicKey === null || dicKey === undefined || dicKey === '') {
+        return ''
+      }
+      let key = dicKey.toString()
       for (let index = 0; index < dic[dicSign].length; index++) {
-        if (dicKey === dic[dicSign][index]['dicKey']) {
+        if (key === dic[dicSign][index]['dicKey']) {
           return dic[dicSign][index]['dicValue']
         }
       }
     }
     return ''
+  },
+  // 数据字典获取值
+  getDicValues: function (dicSign) {
+    let dic = store.state.dictionary.dictionaryData
+    return dic[dicSign]
   },
   // 用户图片上传接口
   getPictureUploadUrl: function () {

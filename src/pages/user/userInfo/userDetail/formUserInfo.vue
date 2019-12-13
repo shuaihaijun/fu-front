@@ -24,12 +24,26 @@
       </el-col>
       <el-col :span="5">
         <el-form-item label="性别:" prop="sex">
-          <el-input v-model="dataForm.sex" :disabled="disabled"></el-input>
+          <el-select v-model="dataForm.sex" placeholder="请选择" :disabled="disabled">
+            <el-option
+              v-for="item in userSex"
+              :key="item.dicKey"
+              :label="item.dicValue"
+              :value="item.dicKey">
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="5">
-          <el-form-item label="用户类型:" prop="useType">
-            <el-input v-model="dataForm.useType" :disabled="true"></el-input>
+          <el-form-item label="用户类型:" prop="userType">
+            <el-select v-model="dataForm.userType.toString()" placeholder="请选择" :disabled="disabled">
+              <el-option
+                v-for="item in userType"
+                :key="item.dicKey"
+                :label="item.dicValue"
+                :value="item.dicKey">
+              </el-option>
+            </el-select>
           </el-form-item>
       </el-col>
       <el-col :span="5">
@@ -94,6 +108,8 @@
         dialogVisible: false,
         formTitle: '更新日志',
         disabled: false,
+        userSex: this.$api.getDicValues('user.sex'),
+        userType: this.$api.getDicValues('user.userType'),
         LogWid: ''
       }
     },
