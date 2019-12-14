@@ -69,7 +69,7 @@
       },
       // 监听表单内容
       changeItem(v) {
-        this.$emit('change-item', v, this.item)
+        // this.$emit('change-item', v, this.item)
       },
       // 按钮事件
       submitForm() {

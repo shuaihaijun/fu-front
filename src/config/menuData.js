@@ -150,9 +150,9 @@ const menuData = [{
     'children': [{
       'id': '04-1',
       'pid': '01',
-      'name': '订单管理',
+      'name': '社区跟随订单',
       'ico': '',
-      'url': '',
+      'url': 'orderFollow',
       'control': '',
       'remark': '',
       'children': [],
@@ -161,9 +161,9 @@ const menuData = [{
       {
         'id': '04-2',
         'pid': '02',
-        'name': '社区交易订单',
+        'name': '信号源交易订单',
         'ico': '',
-        'url': 'orderInfo',
+        'url': 'orderSignal',
         'control': '',
         'remark': '',
         'children': [],

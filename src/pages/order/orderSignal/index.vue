@@ -6,25 +6,20 @@
       </os-search>
     </div>
 
-    <os-table :showIndex="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :tableData="tableData" @click-operate="handleOperate">
-      <div slot="l">本次共查询出订单总数：{{tableDataTitle.orderCount}} 单 ，整货件数： {{tableDataTitle.wholeCount}}  件，散货件数： {{tableDataTitle.scatteredCount}} 件</div>
+    <os-table :showIndex="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :tableData="tableData">
     </os-table>
     
     <os-pag :pageTotal="pageDataTotal"></os-pag>
 
     <os-dialog :visible="dialogVisible" :title="dialogTitle" :visibleButton="false" :width="dialogWidth +'px'" :top="dialogTop">
-      <forms v-if="show == 'forms'" :pwid="LogWid"></forms>
-      <log-table v-if="show == 'table'" :pwid="LogWid"></log-table>
     </os-dialog>
     
   </div>
 </template>
 <script>
   import api from '../../../api/'
-  import form from './form'
   export default {
     components: {
-      'forms': form
     },
     data() {
       return {
@@ -220,7 +215,7 @@
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }
-          api.getOrderCustomer(params, (res) => {
+          api.getOrderSignal(params, (res) => {
             this.tableData = res.content.records
             this.pageDataTotal = res.content.total
           })

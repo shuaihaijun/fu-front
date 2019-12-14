@@ -142,7 +142,7 @@
       },
       handleChange(v) {
         this.change = true
-        this.$emit('handle-change', this.change)
+        this.$emit('handle-change', this.change, v)
       },
       setFormData() {
         console.log(this.dataSource.formData)

@@ -105,13 +105,17 @@ module.exports = {
   getOrderCustomer(params, callback) {
     proxy.call(this, 'post', _host + '/orderCustomer/getOrderCustomer', params, callback)
   },
+  // 获取客户交易订单
+  getOrderSignal(params, callback) {
+    proxy.call(this, 'post', _host + '/orderSignal/getOrderSignal', params, callback)
+  },
   // 获取社区订单
   getOrderAlive(params, callback) {
     proxy.call(this, 'post', _host + '/order/getMTAliveOrders', params, callback)
   },
   // 获取社区订单
-  getOrders(params, callback) {
-    proxy.call(this, 'post', _host + '/order/getOrders', params, callback)
+  getOrderFollows(params, callback) {
+    proxy.call(this, 'post', _host + '/order/getOrderFollows', params, callback)
   },
   // /*---------------------信号源---------------------*/
   // 保存信号源信息

@@ -6,8 +6,7 @@
       </os-search>
     </div>
 
-    <os-table :showIndex="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :tableData="tableData" @click-operate="handleOperate">
-      <div slot="l">本次共查询出订单总数：{{tableDataTitle.orderCount}} 单 ，整货件数： {{tableDataTitle.wholeCount}}  件，散货件数： {{tableDataTitle.scatteredCount}} 件</div>
+    <os-table :showIndex="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :tableData="tableData">
     </os-table>
     
     <os-pag :pageTotal="pageDataTotal"></os-pag>
@@ -193,10 +192,8 @@
       }
     },
     created() {
-      this.getWList()
       if (window.localStorage.getItem('nice_user')) {
         let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-        console.log(userInfo)
         if (userInfo.userType < 8 || userInfo.userType > 10) {
           // 管理者
           this.queryData.formItem[0].value = userInfo.userId
@@ -220,15 +217,13 @@
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }
-          api.getOrderCustomer(params, (res) => {
+          api.getOrderSignal(params, (res) => {
             this.tableData = res.content.records
             this.pageDataTotal = res.content.total
           })
         } else {
           this.$message('获取用户信息失败！')
         }
-      },
-      getWList() {
       },
       changeItem() {
         let branchIdParams = ''
@@ -248,19 +243,6 @@
             this.queryData.formItem[1].option = _arr._w
             this.queryData.formItem[2].option = _arr.wT
           }
-        })
-      },
-      getWList2() {
-      },
-      getWList3() {
-        let params = {
-          branchId: this.queryData.formData.wid
-        }
-        this.$api.xsrwd.getinsert(params, (res) => {
-          let _arr = {}
-          _arr.wT = res.result.list.map(item => { return { label: item.wnameTarget, value: item.widTarget } })
-          this.queryData.formItem[2].option = _arr.wT
-        //   console.log(res, 'getinsert')
         })
       },
       // 分页

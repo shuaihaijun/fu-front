@@ -100,9 +100,11 @@
         // 表头
         columnData: [
           {
-            prop: 'userConState',
+            prop: 'connectState',
             label: '连接状态',
             width: '90',
+            formatter: true,
+            columnKey: 'com.connectState',
             align: 'center'
           },
           {

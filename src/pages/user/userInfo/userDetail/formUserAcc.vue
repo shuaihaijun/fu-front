@@ -1,10 +1,9 @@
 <template>
     <div class="form_box_item">
-
       <label class="el-form-item__label">MT账户信息:</label>
       <div class="form_box_table">
         <el-table :data="tableData" style="width: 100%;">
-          <el-table-column prop="accountType" label="MT账户类型"  width="200"  align="center">
+          <el-table-column prop="accountType" label="MT账户类型"  width="100"  align="center">
             <template slot-scope="scope">
               <el-select v-model="scope.row.accountType" placeholder="请选择" v-if="formType == 'edit'">
                 <el-option label="MT4" value="0"></el-option>
@@ -15,14 +14,14 @@
           </el-table-column>
           <el-table-column prop="brokerId" label="经纪商" width="200" align="center">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.brokerId" :min="0" :controls="false" v-if="formType == 'edit'"></el-input>
-              <span v-if="formType == 'view'">{{ scope.row.brokerId }}</span>
+              <el-input v-model="scope.row.brokerName" :min="0" :controls="false" v-if="formType == 'edit'"></el-input>
+              <span v-if="formType == 'view'">{{ scope.row.brokerName }}</span>
             </template>
           </el-table-column>
           <el-table-column prop="serverId" label="服务器" width="150" align="center">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.serverId" :min="0" :controls="false" v-if="formType == 'edit'"></el-input>
-              <span v-if="formType == 'view'">{{ scope.row.serverId }}</span>
+              <el-input v-model="scope.row.serverName" :min="0" :controls="false" v-if="formType == 'edit'"></el-input>
+              <span v-if="formType == 'view'">{{ scope.row.serverName }}</span>
             </template>
           </el-table-column>
           <el-table-column prop="mtAccId" label="MT账户ID" width="150" align="center">
@@ -34,7 +33,7 @@
           <el-table-column prop="mtPasswordWatch" label="MT账户观摩密码" width="150" align="center">
             <template slot-scope="scope">
               <el-input v-model="scope.row.mtPasswordWatch" :min="0" :controls="false" v-if="formType == 'edit'" show-password ></el-input>
-              <span v-if="formType == 'view'">*****</span>
+              <span v-if="formType == 'view'">{{ scope.row.mtPasswordWatch }}</span>
             </template>
           </el-table-column>
           <el-table-column prop="mtPasswordTrade" label="MT账户交易密码" width="150" align="center">
@@ -43,10 +42,12 @@
               <span v-if="formType == 'view'">*****</span>
             </template>
           </el-table-column>
-         <!-- <el-table-column prop="height" label="MT账户交易密码" width="150" align="center">
-              <el-button @click="handleSave('ruleForm')"><i class="el-icon-check"></i> 绑定MT账户</el-button>
-              <span v-if="formType == 'view'">{{ scope.row.height }}</span>
-          </el-table-column>-->
+          <el-table-column prop="connectState" label="MT账户登录状态" width="150" align="center">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.connectState" :min="0" :controls="false" v-if="formType == 'edit'" :disabled="true"></el-input>
+              <span v-if="formType == 'view'">{{ scope.row.connectState }}</span>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
     </div>

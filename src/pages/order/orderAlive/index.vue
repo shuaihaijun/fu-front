@@ -1,31 +1,27 @@
 <template>
   <div>
     <div ref="search">
-      <os-search :dataSource='queryData' @click-submit='getQuery' @change-item="changeItem">
+      <os-search :dataSource='queryData' @click-submit='getQuery'>
         <!-- <input type="text"> -->
       </os-search>
     </div>
 
-    <os-table :showIndex="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @click-operate="handleOperate">
-      <div slot="l">本次共查询出订单总数：{{tableDataTitle.orderCount}} 单 ，整货件数： {{tableDataTitle.wholeCount}}  件，散货件数： {{tableDataTitle.scatteredCount}} 件</div>
+    <os-table :showIndex="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData"  :tableData="tableData" >
     </os-table>
     
     <os-pag :pageTotal="pageDataTotal"></os-pag>
 
     <os-dialog :visible="dialogVisible" :title="dialogTitle" :visibleButton="false" :width="dialogWidth +'px'" :top="dialogTop">
       <forms v-if="show == 'forms'" :pwid="LogWid"></forms>
-      <log-table v-if="show == 'table'" :pwid="LogWid"></log-table>
     </os-dialog>
     
   </div>
 </template>
 <script>
   import api from '../../../api/'
-  import logTable from './logTable'
   import form from './form'
   export default {
     components: {
-      'log-table': logTable,
       'forms': form
     },
     data() {
@@ -40,6 +36,14 @@
         queryData: {
           formData: {},
           formItem: [{
+            key: 'userId',
+            label: '',
+            value: null,
+            placeholder: '用户ID',
+            width: 180,
+            type: ''
+          },
+            {
             key: 'orderId',
             label: '',
             value: null,
@@ -53,23 +57,7 @@
               value: null,
               placeholder: '交易产品',
               width: 160,
-              type: 'select',
-              option: [{
-                label: '接单成功',
-                value: 0
-              }, {
-                label: '取消',
-                value: 1
-              }, {
-                label: '仓库处理中',
-                value: 2
-              }, {
-                label: '配送在途',
-                value: 3
-              }, {
-                label: '完成',
-                value: 4
-              }]
+              type: ''
             },
             {
               key: 'orderOpenDate',
@@ -80,28 +68,6 @@
               type: 'datetimerange'
             }]
         },
-        // 表格操作按钮
-        columnOperate: [
-          {
-            label: '操作',
-            width: '110px',
-            fixed: 'left',
-            isBtn: false,
-            children: [{
-                iconClass: 'el-icon-view',
-                name: '详情',
-                show: 'IsBtn2',
-                isBtn: false
-              },
-              {
-                iconClass: 'el-icon-edit-outline',
-                name: '日志',
-                show: 'IsBtn1',
-                isBtn: false
-              }
-            ]
-          }
-        ],
         // 表头
         columnData: [{
           prop: 'userId',
@@ -110,7 +76,7 @@
           align: 'center'
           },
           {
-            prop: 'mtId',
+            prop: 'mtAccId',
             label: 'MT账户ID',
             width: '100',
             align: 'center'
@@ -131,6 +97,8 @@
             prop: 'orderTradeOperation',
             label: '操作',
             width: '100',
+            formatter: true,
+            columnKey: 'order.tradeOperation',
             align: 'center'
           },
           {
@@ -160,13 +128,13 @@
           {
             prop: 'orderOpenPrice',
             label: '开仓价格',
-            width: '100',
+            width: '',
             align: 'center'
           },
           {
             prop: 'orderOpenDate',
             label: '开仓时间',
-            width: '150',
+            width: '',
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           }
@@ -181,26 +149,32 @@
       }
     },
     created() {
-      this.getWList()
-      this.columnOperate.forEach((item, index) => {
-        item.children.forEach((Citem, Cindex) => {
-          if (Citem.show === 'IsBtn1' && this.IsBtn1) {
-            item.isBtn = true
-            Citem.isBtn = true
-          }
-          if (Citem.show === 'IsBtn2' && this.IsBtn2) {
-            item.isBtn = true
-            Citem.isBtn = true
-          }
-        })
-      })
+      if (window.localStorage.getItem('nice_user')) {
+        let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+        console.log(userInfo)
+        if (userInfo.userType < 8 || userInfo.userType > 10) {
+          // 管理者
+          this.queryData.formItem[0].value = userInfo.userId
+          this.queryData.formItem[0].readonly = true
+        }
+      } else {
+        this.$message('获取用户信息失败！')
+      }
     },
     methods: {
       getQuery() { // 搜索获取表格数据
+        // 在仓订单查询 用户不能为空
+        if (!this.queryData.formData.userId) {
+          this.$message('用户信息不能为空！')
+          return
+        }
+        if (!this.queryData.formData.orderOpenDate) {
+          this.$message('查询时间段不能为空！')
+          return
+        }
         if (window.localStorage.getItem('nice_user')) {
-          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           let params = {
-            userId: userInfo.userId, // 用户id
+            userId: this.queryData.formData.userId, // 用户id
             orderId: this.queryData.formData.orderId, // 订单id
             orderSymbol: this.queryData.formData.orderSymbol, // 外汇产品
             orderOpenDate: this.queryData.formData.orderOpenDate, // 订单开仓时间
@@ -208,79 +182,25 @@
             pageNum: this.pageDataNum
           }
           api.getOrderAlive(params, (res) => {
-            console.log(res.content)
-            this.tableData = res.content.data
+            console.log(res)
+            if (res.status === 0 && res.content !== null && res.content.data !== '') {
+              this.tableData = res.content.data
+              // 保存成功
+              window.alert('操作成功！')
+            } else {
+              if (res.message) {
+                window.alert(res.message)
+              }
+            }
           })
         } else {
           this.$message('获取用户信息失败！')
         }
       },
-      getWList() {
-        this.$api.xsrwd.getFindTotal({}, (res) => {
-          this.tableDataTitle = res.result
-        })
-        this.$api.xsrwd.getinsert({}, (res) => {
-          let _arr = {}
-          _arr.branch = res.result.list.map(item => { return { label: item.branchName, value: item.branchId } })
-          this.queryData.formItem[0].option = _arr.branch
-        })
-      },
-      changeItem() {
-        let branchIdParams = ''
-        if (this.queryData.formItem[0].value !== null) {
-          branchIdParams = this.queryData.formItem[0].value
-        }
-        let params = {
-          branchId: branchIdParams
-        }
-        console.log(params, 'params')
-        branchIdParams = ''
-        this.$api.xsrwd.getinsert(params, (res) => {
-          let _arr = {}
-          if (this.queryData.formItem[0].value !== null) {
-            _arr._w = res.result.list.map(item => { return { label: item.wname, value: item.wid } })
-            _arr.wT = res.result.list.map(item => { return { label: item.wname, value: item.wid } })
-            this.queryData.formItem[1].option = _arr._w
-            this.queryData.formItem[2].option = _arr.wT
-          }
-        })
-      },
-      getWList2() {
-      },
-      getWList3() {
-        let params = {
-          branchId: this.queryData.formData.wid
-        }
-        this.$api.xsrwd.getinsert(params, (res) => {
-          let _arr = {}
-          _arr.wT = res.result.list.map(item => { return { label: item.wnameTarget, value: item.widTarget } })
-          this.queryData.formItem[2].option = _arr.wT
-        //   console.log(res, 'getinsert')
-        })
-      },
       // 分页
       handlePage() {
         this.tableData = []
         this.getQuery()
-      },
-      // 查看or编辑
-      handleOperate(row, index, name) {
-        console.log(row)
-        this.LogWid = row
-        if (name === '详情') {
-          this.dialogVisible = true
-          this.dialogTitle = '主单：' + row.wtcOrderCode + ' 详情 '
-          this.show = 'forms'
-          this.dialogWidth = 1200
-          this.dialogTop = '2%'
-        }
-        if (name === '日志') {
-          this.dialogVisible = true
-          this.dialogTitle = '日志 '
-          this.show = 'table'
-          this.dialogWidth = 700
-          this.dialogTop = '5%'
-        }
       }
     },
     mounted() {

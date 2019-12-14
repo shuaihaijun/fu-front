@@ -1,7 +1,10 @@
 <template>
   <div>
-    <os-form :visible="visible" :disabled="disabled" :dataSource="formData" :title="formTitle" v-on:handle-button="affirm"></os-form>
+    <div>
+      <os-form :visible="visible" :disabled="disabled" :dataSource="formData" :title="formTitle" v-on:handle-button="affirm" v-on:handle-change="handleChange"></os-form>
+    </div>
   </div>
+
 </template>
 <script>
   import api from '../../../api/'
@@ -45,6 +48,7 @@
       return {
         visible: false,
         formTitle: '',
+        mtAccountInfo: [],
         formData: {
           formData: {},
           formItem: [{
@@ -62,23 +66,43 @@
               readonly: true
             },
             {
-              key: 'signalName',
-              label: '信号源名称',
-              value: ''
+              key: 'mtAccountInfo',
+              label: 'MT账户信息',
+              value: '',
+              type: 'select',
+              option: [{}]
+            },
+            {
+              key: 'brokerName',
+              label: '经纪商名称',
+              value: '',
+              placeholder: '自动获取',
+              readonly: true
             },
             {
               key: 'serverName',
               label: '服务器名称',
-              value: ''
+              value: '',
+              placeholder: '自动获取',
+              readonly: true
             },
             {
               key: 'mtAccId',
               label: 'MT平台账号',
-              value: ''
+              value: '',
+              placeholder: '自动获取',
+              readonly: true
             },
             {
               key: 'mtPasswordWatch',
               label: '观摩密码',
+              value: '',
+              placeholder: '自动获取',
+              readonly: true
+            },
+            {
+              key: 'signalName',
+              label: '信号源名称',
               value: ''
             },
             {
@@ -136,15 +160,23 @@
       handleSave() {
         console.log(this.dataForm)
       },
+      handleChange(change, value) {
+        console.log(value)
+        for (let index = 0; index < this.mtAccountInfo.length; index++) {
+          if (value === this.mtAccountInfo[index].accountId) {
+            this.formData.formItem[3].value = this.mtAccountInfo[index].brokerName
+            this.formData.formItem[4].value = this.mtAccountInfo[index].serverName
+            this.formData.formItem[5].value = this.mtAccountInfo[index].mtAccId
+            this.formData.formItem[6].value = this.mtAccountInfo[index].mtPasswordWatch
+          }
+        }
+      },
       affirm(v, obj) {
         if (window.localStorage.getItem('nice_user')) {
           let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-
           obj.userId = userInfo.userId // 用户id
-          console.log(obj)
           // 校验数据
           api.signalApplySaveOrUpdate(obj, (res) => {
-            console.log(res)
             if (res.status === 0 && res.content !== null && res.content.data !== '') {
               // 保存成功
               window.alert('保存成功！')
@@ -166,13 +198,40 @@
         let params = {
           applyId: this.pwid.id // 申请id
         }
-        console.log(params)
         api.getSignalApplyById(params, (res) => {
-          console.log(res)
           if (res.status === 0 && res.content !== null) {
             this.formData.formData = res.content
           } else {
             window.alert('查詢失败！')
+          }
+        })
+      }
+      if (window.localStorage.getItem('nice_user')) {
+        let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+        this.formData.formItem[1].value = userInfo.userId
+        let params = {
+          userId: userInfo.userId, // 用户id
+          pageSize: this.pageDataSize,
+          pageNum: this.pageDataNum
+        }
+        // 初始化账号
+        api.getUsersMtAccountByCondition(params, (res) => {
+          if (res.content !== null && res.content.data !== null) {
+            if (res.content.data.length === 0) {
+              this.$message('获取用户账户信息失败！')
+            }
+            let object = []
+            // 重组数据
+            for (let index = 0; index < res.content.data.length; index++) {
+              let object1 = {}
+              object1.dicValue = res.content.data[index].mtAccId
+              object1.dicKey = res.content.data[index].accountId
+              object[index] = object1
+            }
+            this.mtAccountInfo = res.content.data
+            this.formData.formItem[2].option = object
+          } else {
+            this.$message('获取用户账户信息失败！')
           }
         })
       }
