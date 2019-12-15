@@ -37,6 +37,7 @@
         dialogWidth: '',
         dialogTop: '5%',
         disabled: true,
+        resSwitchBut: this.$api.getDicValues('resource.resSwitchBut'),
         selectionRows: '',
         // 搜索条
         queryData: {
@@ -73,14 +74,7 @@
             placeholder: '权限类型',
             width: 200,
             type: 'select',
-            option: [
-              {
-                label: '菜单',
-                value: 1
-              }, {
-                label: '按钮',
-                value: 2
-              }]
+            option: this.resSwitchBut
           }]
         },
         // 表格操作按钮
@@ -141,11 +135,15 @@
             prop: 'resSwitchBut',
             label: '权限类型',
             value: '',
+            formatter: true,
+            columnKey: 'resource.resSwitchBut',
             align: 'center'
           },
           {
             prop: 'resStatus',
             label: '状态',
+            formatter: true,
+            columnKey: 'com.status',
             value: '',
             align: 'center'
           },
@@ -199,6 +197,7 @@
           }
         })
       })
+      this.queryData.formItem[3].option = this.resSwitchBut
     },
     methods: {
       getQuery() { // 搜索获取表格数据

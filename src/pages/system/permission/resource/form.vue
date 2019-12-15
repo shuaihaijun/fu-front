@@ -20,13 +20,15 @@
       return {
         visible: false,
         formTitle: '',
+        resSwitchBut: this.$api.getDicValues('resource.resSwitchBut'),
         formData: {
           formData: {},
           formItem: [{
-            key: 'id',
-            label: 'ID',
-            value: '',
-            readonly: true
+              key: 'id',
+              label: 'ID',
+              placeholder: '自动填充',
+              value: '',
+              readonly: true
             },
             {
               key: 'resName',
@@ -58,14 +60,7 @@
               label: '权限资源类型',
               value: '',
               type: 'select',
-              option: [
-                {
-                  label: '菜单',
-                  value: 1
-                }, {
-                  label: '按钮',
-                  value: 2
-                }]
+              option: this.resSwitchBut
             }
           ]
         }
@@ -148,6 +143,7 @@
           }
         })
       }
+      this.formData.formItem[6].option = this.resSwitchBut
     }
   }
 </script>

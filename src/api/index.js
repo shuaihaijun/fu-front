@@ -6,11 +6,11 @@ xmlhttp.open('GET', '/static/env.json', false)
 xmlhttp.send()
 let xmlDoc = JSON.parse(xmlhttp.response)
 
-let _host = 'http://127.0.0.1:8080'
+let _host = 'http://127.0.0.1:8088'
 
 switch (xmlDoc.env) {
   case 'alpha':
-    _host = 'http://127.0.0.1:8080'
+    _host = 'http://127.0.0.1:8088'
     break
   case 'pre':
     _host = ''
@@ -24,6 +24,7 @@ module.exports = {
   // 数据字典获取值
   getDicValue: function (dicSign, dicKey) {
     let dic = store.state.dictionary.dictionaryData
+
     if (dic[dicSign]) {
       if (dicKey === null || dicKey === undefined || dicKey === '') {
         return ''
@@ -50,6 +51,10 @@ module.exports = {
   //  登录
   getLogin(params, callback) {
     proxy.call(this, 'post', _host + '/admin/login', params, callback)
+  },
+  getLogout(params, callback) {
+    console.log(123)
+    proxy.call(this, 'post', _host + '/admin/logout', params, callback)
   },
   // 注册
   registered(params, callback) {
@@ -111,11 +116,11 @@ module.exports = {
   },
   // 获取社区订单
   getOrderAlive(params, callback) {
-    proxy.call(this, 'post', _host + '/order/getMTAliveOrders', params, callback)
+    proxy.call(this, 'post', _host + '/orderFollowInfo/getMTAliveOrders', params, callback)
   },
   // 获取社区订单
   getOrderFollows(params, callback) {
-    proxy.call(this, 'post', _host + '/order/getOrderFollows', params, callback)
+    proxy.call(this, 'post', _host + '/orderFollowInfo/getOrderFollows', params, callback)
   },
   // /*---------------------信号源---------------------*/
   // 保存信号源信息

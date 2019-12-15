@@ -20,11 +20,14 @@
       return {
         visible: false,
         formTitle: '',
+        roleLevel: this.$api.getDicValues('role.roleLevel'),
+        roleSign: this.$api.getDicValues('role.roleSign'),
         formData: {
           formData: {},
           formItem: [{
             key: 'id',
             label: 'ID',
+            placeholder: '自动填充',
             value: '',
             readonly: true
             },
@@ -41,16 +44,20 @@
             {
               key: 'roleLevel',
               label: '角色级别',
-              value: ''
-            },
-            {
-              key: 'roleDesc',
-              label: '角色描述',
+              type: 'select',
+              option: this.roleLevel,
               value: ''
             },
             {
               key: 'roleSign',
               label: '角色标识',
+              type: 'select',
+              option: this.roleSign,
+              value: ''
+            },
+            {
+              key: 'roleDesc',
+              label: '角色描述',
               value: ''
             }
           ]
@@ -79,7 +86,10 @@
           let params = {
             id: this.pwid.id // 申请id
           }
-          api.queryDetailPermissionRole(params, (res) => {
+          let data = {
+            params
+          }
+          api.queryDetailPermissionRole(data, (res) => {
             console.log(res)
             if (res.status === 0 && res.content !== null) {
               this.formData.formData = res.content
@@ -95,16 +105,23 @@
         console.log(this.dataForm)
       },
       affirm(v, obj) {
-        console.log(obj)
-        // 校验数据
-        api.savePermissionRole(obj, (res) => {
-          console.log(res)
-          if (res.status === 0 && res.content.data !== '') {
+        let params = obj
+        params.projKey = 0
+        let data = {
+          params
+        }
+          // 校验数据
+        api.savePermissionRole(data, (res) => {
+          if (res.status === 0 && res.content !== null) {
             // 保存成功
             window.alert('操作成功！')
             this.visible = false
           } else {
-            window.alert('操作失败！请检查数据')
+            if (res.message) {
+              window.alert(res.message)
+            } else {
+              window.alert('操作失败！请检查数据')
+            }
           }
         })
       }
@@ -117,7 +134,10 @@
         let params = {
           id: this.pwid.id // 申请id
         }
-        api.queryDetailPermissionRole(params, (res) => {
+        let data = {
+          params
+        }
+        api.queryDetailPermissionRole(data, (res) => {
           console.log(res)
           if (res.status === 0 && res.content !== null) {
             this.formData.formData = res.content
@@ -126,6 +146,8 @@
           }
         })
       }
+      this.formData.formItem[3].option = this.roleLevel
+      this.formData.formItem[4].option = this.roleSign
     }
   }
 </script>

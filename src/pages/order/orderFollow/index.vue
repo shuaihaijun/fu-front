@@ -11,19 +11,12 @@
     
     <os-pag :pageTotal="pageDataTotal"></os-pag>
 
-    <os-dialog :visible="dialogVisible" :title="dialogTitle" :visibleButton="false" :width="dialogWidth +'px'" :top="dialogTop">
-      <forms v-if="show == 'forms'" :pwid="LogWid"></forms>
-      <log-table v-if="show == 'table'" :pwid="LogWid"></log-table>
-    </os-dialog>
-    
   </div>
 </template>
 <script>
   import api from '../../../api/'
-  import form from './form'
   export default {
     components: {
-      'forms': form
     },
     data() {
       return {
@@ -46,13 +39,29 @@
             type: ''
           },
             {
+              key: 'signalId',
+              label: '',
+              value: null,
+              placeholder: '信号源ID',
+              width: 180,
+              type: ''
+            },
+            {
             key: 'orderId',
             label: '',
             value: null,
-            placeholder: '订单号',
+            placeholder: '跟随订单号',
             width: 180,
             type: ''
           },
+            {
+              key: 'signalOrderId',
+              label: '',
+              value: null,
+              placeholder: '信号订单号',
+              width: 180,
+              type: ''
+            },
           {
             key: 'orderSymbol',
             label: '',
@@ -89,21 +98,27 @@
         },
         // 表头
         columnData: [{
-          prop: 'userId',
-          label: '用户ID',
-          width: '80',
-          align: 'center'
-          },
-          {
-            prop: 'mtServerName',
-            label: '服务器',
-            width: '150',
+            prop: 'userId',
+            label: '用户ID',
+            width: '80',
             align: 'center'
           },
           {
-            prop: 'mtAccId',
-            label: 'MT账户ID',
-            width: '100',
+            prop: 'signalId',
+            label: '信号源ID',
+            width: '80',
+            align: 'center'
+          },
+          {
+            prop: 'orderId',
+            label: '跟随订单号',
+            width: '120',
+            align: 'center'
+          },
+          {
+            prop: 'signalOrderId',
+            label: '信号源订单号',
+            width: '120',
             align: 'center'
           },
           {
@@ -112,12 +127,6 @@
             width: '100',
             formatter: true,
             columnKey: 'order.tradeType',
-            align: 'center'
-          },
-          {
-            prop: 'orderId',
-            label: '订单ID',
-            width: '100',
             align: 'center'
           },
           {
@@ -202,14 +211,16 @@
       } else {
         this.$message('获取用户信息失败！')
       }
-      this.queryData.formItem[3].option = this.orderType
+      this.queryData.formItem[5].option = this.orderType
     },
     methods: {
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
           let params = {
-            userId: this.queryData.formData.userId, // 订单id
+            userId: this.queryData.formData.userId, // 用户ID
+            signalId: this.queryData.formData.signalId, // 信号源ID
             orderId: this.queryData.formData.orderId, // 订单id
+            signalOrderId: this.queryData.formData.orderId, // 信号源订单id
             orderType: this.queryData.formData.orderType, // 交易类型
             orderSymbol: this.queryData.formData.orderSymbol, // 外汇产品
             orderOpenDate: this.queryData.formData.orderOpenDate, // 订单开仓时间
@@ -217,7 +228,7 @@
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }
-          api.getOrderSignal(params, (res) => {
+          api.getOrderFollows(params, (res) => {
             this.tableData = res.content.records
             this.pageDataTotal = res.content.total
           })

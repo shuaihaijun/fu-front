@@ -13,6 +13,7 @@
 	</div>
 </template>
 <script>
+  import api from '../../api/'
 	export default {
 		data() {
 			return {
@@ -54,8 +55,17 @@
 			},
 			// 退出
 			handleLogOut () {
+        let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+        // 判断用户权限
+        let params = {
+          userId: userInfo.userId, // 操作用户id
+          username: userInfo.username // 名称
+        }
+        api.getLogout(params, (res) => {
+        })
         window.localStorage.removeItem('nice_user')
         this.$router.push({path: '/'})
+        this.api.getLogout()
 			}
 		},
 		computed: {

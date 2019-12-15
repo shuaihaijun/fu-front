@@ -10,7 +10,7 @@ Vue.mixin({
       pageDataTotal: 0,
       pageDataNum: 1,
       pageDataSize: 20,
-      UsInfo: JSON.parse(window.localStorage.getItem('wtc_userInfo')) || {},
+      UsInfo: JSON.parse(window.localStorage.getItem('nice_user')) || {},
       IsBtn1: false,
       IsBtn2: false,
       IsBtn3: false,

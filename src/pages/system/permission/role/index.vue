@@ -99,18 +99,21 @@
             prop: 'roleLevel',
             label: '角色级别',
             value: '',
+            formatter: true,
+            columnKey: 'role.roleLevel',
             align: 'center'
           },
           {
             prop: 'roleDesc',
             label: '角色描述',
             value: '',
-
             align: 'center'
           },
           {
             prop: 'roleSign',
             label: '角色标识',
+            formatter: true,
+            columnKey: 'role.roleSign',
             value: '',
             align: 'center'
           },
@@ -210,15 +213,18 @@
           confirmButtonText: '确认',
           type: 'warning'
         }).then(() => {
-          let param = {
-            id: this.selectionRows[0].id
+          let params = {
+            delIds: this.selectionRows[0].id
           }
-          // 审核流程
-          api.removePermissionRole(param, (res) => {
-            if (res.status === 0 && res.content.data !== '') {
-              this.$options.methods.getQuery.bind(this)()
+          let data = {
+            params
+          }
+          // 删除流程
+          api.removePermissionRole(data, (res) => {
+            if (res.status === 0 && res.content !== null) {
               // 保存成功
               window.alert('操作成功！')
+              this.$options.methods.getQuery.bind(this)()
             } else {
               window.alert('操作失败！')
             }

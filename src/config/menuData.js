@@ -22,7 +22,7 @@ const menuData = [{
         'pid': '02',
         'name': '待审用户',
         'ico': '',
-        'url': 'userCheckl',
+        'url': 'userCheck',
         'control': '',
         'remark': '',
         'children': [],

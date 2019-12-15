@@ -4,7 +4,7 @@
       <b class="logo_text">{{osName}}</b>
     </div>
     <div class="login_user" v-if="login">
-      <b>{{UsInfo.user_name}}</b>欢迎您！
+      <b>{{UsInfo.refName}}</b>欢迎您！
       <el-dropdown @command="handleCommand" v-if="roleList">
         <span class="el-dropdown-link">
 		    	<el-tag>{{userInfo.deptName}}: {{userInfo.roleName}}</el-tag>&nbsp;
