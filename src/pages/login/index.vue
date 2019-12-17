@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<os-header osName="全球第一帅 泰国旅行 谨慎行事！" :login="false"> </os-header>
+		<os-header osName="精诚所至 金石为开！" :login="false"> </os-header>
     <li class="login_zhuce"><a @click="userNew()">用户注册</a> &nbsp;&nbsp;&nbsp; <a onclick="alert('请联系管理员找回！')">密码找回</a></li>
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="erp_ruleForm">
 			<el-form-item label="用户名:" prop="userName">
