@@ -24,7 +24,7 @@
 					adminName: '用户名'
 				},
 				roleList: '',
-				osName: '系统标题:天下第一帅',
+				osName: '精诚所至 金石为开',
 				height: ''
 			}
 		},
@@ -91,6 +91,15 @@
 			}
 		},
 		created () {
+      // 初始化 menu
+      // 初始化 dictionary
+      this.$store.dispatch('getDictionary')
+      if (window.localStorage.getItem('nice_user')) {
+        let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+        this.$store.dispatch('getMenu', {userId: userInfo.userId})
+      } else {
+        this.$message('获取用户信息失败！')
+      }
 //    // 获取url参数为token的值并且保存本地
 //    var url = window.location.search
 //    if (url.indexOf('?') !== -1) {
@@ -109,7 +118,7 @@
 //          user_name: res.result.user_name
 //        }
 //        window.localStorage.setItem('wtc_userInfo', JSON.stringify(_userInfo))
-//        this.$store.dispatch('getMenu', {user_id: res.result.user_id})
+//       this.$store.dispatch('getMenu', {user_id: res.result.user_id})
 //      } else {
 //        this.handleLogOut()
 //      }

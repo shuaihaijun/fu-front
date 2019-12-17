@@ -21,39 +21,19 @@ export default {
       var _env = process.env.NODE_ENV
       console.log(_env)
 //    var _env = 'development'
-      if (_env === 'production' || _env === 'development') {
-        api.getMenus(data, res => {
-          if (res.result.result === null) {
+      if (_env === 'production' || _env === 'test') {
+        api.findRoleResourceTree(data, res => {
+          if (res.content === null || res.content.data === null) {
             console.log('无菜单权限')
             commit('menuData', [])
             return
           }
-          window.sessionStorage.setItem('wtc_menuList', JSON.stringify(res.result.result))
-          if (res.result.result !== null) {
-            let _menu = res.result.result[0].menuArray
-            let _arr = _menu.map(item => {
-              return {
-                id: item.menu_id,
-                pid: item.menu_pid,
-                name: item.menu_name,
-                ico: item.ico_view,
-                url: item.per_action,
-                control: item.per_controller,
-                remark: item.remark,
-                children: item.menuArray.map(item => {
-                  return {
-                    id: item.menu_id,
-                    pid: item.menu_pid,
-                    name: item.menu_name,
-                    ico: item.ico_view,
-                    url: item.per_action,
-                    control: item.per_controller,
-                    remark: item.remark,
-                    children: item.menuArray
-                  }
-                })
-              }
-            })
+          window.sessionStorage.setItem('nice_menuList', JSON.stringify(res.content.data))
+          if (res.content.data !== null) {
+            let _menu = res.content.data[0].children
+            let _arr = api.buildTree(_menu)
+            console.log(menuData)
+            console.log(_arr)
             commit('menuData', _arr)
           } else {
             console.log('无权限')

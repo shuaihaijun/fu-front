@@ -28,6 +28,8 @@ const pages = {
   dictionaryList: r => require.ensure([], () => r(require('../pages/system/dictionary/'))),
   permissionResource: r => require.ensure([], () => r(require('../pages/system/permission/resource/'))),
   permissionRole: r => require.ensure([], () => r(require('../pages/system/permission/role/'))),
+  roleResource: r => require.ensure([], () => r(require('../pages/system/permission/roleResource/'))),
+  roleResourceDetail: r => require.ensure([], () => r(require('../pages/system/permission/roleResource/roleResourceDetail/'))),
   permissionUserRole: r => require.ensure([], () => r(require('../pages/system/permission/userRole/')))
 }
 

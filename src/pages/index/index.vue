@@ -24,9 +24,6 @@ export default {
     }
   },
   created() {
-    // 初始化 menu
-    // 初始化 dictionary
-    this.$store.dispatch('getDictionary')
   }
 }
 </script>

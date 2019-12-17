@@ -259,7 +259,7 @@ const menuData = [{
       {
         'id': '09-3',
         'pid': '03',
-        'name': '权限资源管理',
+        'name': '资源管理',
         'ico': '',
         'url': 'permissionResource',
         'control': '',
@@ -281,6 +281,17 @@ const menuData = [{
       {
         'id': '09-5',
         'pid': '05',
+        'name': '角色资源管理',
+        'ico': '',
+        'url': 'roleResource',
+        'control': '',
+        'remark': '',
+        'children': [],
+        'buttons': null
+      },
+      {
+        'id': '09-6',
+        'pid': '06',
         'name': '用户角色关系',
         'ico': '',
         'url': 'permissionUserRole',

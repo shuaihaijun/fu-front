@@ -10,7 +10,8 @@
       </div>
     </div>
     <!--表格-->
-    <el-table ref="table" stripe @row-click="handleRowClick" :data="tableData" :height="tableHeight ? tableHeight : countHeight" :highlight-current-row="highlight" border style="width: 100%" @selection-change="handleSelectionChange">
+    <el-table ref="table" stripe @row-click="handleRowClick" :data="tableData" :height="tableHeight ? tableHeight : countHeight" :highlight-current-row="highlight" border style="width: 100%"
+              row-key="id" default-expand-all :tree-props="{children: 'children', hasChildren: 'hasChildren'}" @selection-change="handleSelectionChange">
       <el-table-column
         type="selection"
         width="40"
@@ -109,6 +110,7 @@
     },
     created () {
       setTimeout(() => {
+        this.setThisRefs(this.$refs)
         let _h = document.documentElement.clientHeight
         this.countHeight = _h - 200 - this.searchHeight
       }, 0)
@@ -125,6 +127,9 @@
       },
       dicFormatter(row, column) {
         return this.$api.getDicValue(column.columnKey, row[column.property])
+      },
+      setThisRefs(refs) {
+        this.$emit('this-refs', refs)
       }
     }
   }

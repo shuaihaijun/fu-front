@@ -38,6 +38,24 @@ module.exports = {
     }
     return ''
   },
+  buildTree: function (data) {
+    if (data !== null && data !== undefined && data !== 'undefined' && data.length > 0) {
+      let _arr = data.map(item => {
+        return {
+          id: item.id,
+          pid: item.resPid,
+          name: item.resName,
+          ico: item.resIco,
+          url: item.resAction,
+          control: '',
+          remark: item.resDesc,
+          children: this.buildTree(item.children)
+        }
+      })
+      return _arr
+    }
+    return []
+  },
   // 数据字典获取值
   getDicValues: function (dicSign) {
     let dic = store.state.dictionary.dictionaryData
@@ -251,6 +269,9 @@ module.exports = {
   modifyPermissionResource(params, callback) {
     proxy.call(this, 'post', _host + '/permission/resource/modify', params, callback)
   },
+  findResourceTree(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/resource/findResourceTree', params, callback)
+  },
   // /*---------------------权限信息----角色-----------------*/
   savePermissionRole(params, callback) {
     proxy.call(this, 'post', _host + '/permission/role/save', params, callback)
@@ -276,6 +297,12 @@ module.exports = {
   },
   queryPagePermissionRoleResource(params, callback) {
     proxy.call(this, 'post', _host + '/permission/roleResource/queryPage', params, callback)
+  },
+  findResIdsByRoleId(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/roleResource/findResIdsByRoleId', params, callback)
+  },
+  findRoleResourceTree(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/roleResource/findRoleResourceTree', params, callback)
   },
   // /*---------------------权限信息----用户角色-----------------*/
   queryPermissionUserRole(params, callback) {
