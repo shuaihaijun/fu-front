@@ -23,49 +23,15 @@
         formData: {
           formData: {},
           formItem: [{
-            key: 'id',
-            label: 'ID',
-            value: '',
-            readonly: true
-            },
-            {
-              key: 'resName',
-              label: '权限资源名称',
-              value: ''
-            },
-            {
-              key: 'resPid',
-              label: '权限资源父ID',
-              value: ''
-            },
-            {
-              key: 'resAction',
-              label: '权限资源事件',
-              value: ''
-            },
-            {
-              key: 'resDesc',
-              label: '权限资源描述',
-              value: ''
-            },
-            {
-              key: 'resIco',
-              label: '响应式图标',
-              value: ''
-            },
-            {
-              key: 'resSwitchBut',
-              label: '权限资源类型',
+              key: 'userId',
+              label: '用户ID',
               value: '',
-              type: 'select',
-              option: [{
-                label: '1',
-                value: '菜单'
-                },
-                {
-                  label: '2',
-                  value: '按钮'
-                }]
+              readonly: true
+            },
+            {
+              key: 'roleId',
+              label: '角色ID',
+              value: ''
             }
           ]
         }
@@ -91,11 +57,10 @@
         } else {
           // 校验数据
           let params = {
-            id: this.pwid.id // 申请id
+            userId: this.pwid.userId, // 申请id
+            roleId: this.pwid.roleId // 申请id
           }
-          console.log(params)
-          api.getPermissionResource(params, (res) => {
-            console.log(res)
+          api.queryPermissionUserRole(params, (res) => {
             if (res.status === 0 && res.content !== null) {
               this.formData.formData = res.content
             } else {
@@ -110,16 +75,26 @@
         console.log(this.dataForm)
       },
       affirm(v, obj) {
-        console.log(obj)
-        // 校验数据
-        api.savePermissionResource(obj, (res) => {
-          console.log(res)
-          if (res.status === 0 && res.content.data !== '') {
+        let params = obj
+        let roleIds = []
+        roleIds[0] = params.roleId
+        params.projKey = 0
+        params.roleIds = roleIds
+        let data = {
+          params
+        }
+          // 校验数据
+        api.savePermissionUserRole(data, (res) => {
+          if (res.status === 0 && res.content !== null) {
             // 保存成功
             window.alert('操作成功！')
             this.visible = false
           } else {
-            window.alert('操作失败！请检查数据')
+            if (res.message) {
+              window.alert(res.message)
+            } else {
+              window.alert('操作失败！请检查数据')
+            }
           }
         })
       }
@@ -130,13 +105,12 @@
       } else {
         // 校验数据
         let params = {
-          id: this.pwid.id // 申请id
+          userId: this.pwid.userId, // 申请id
+          roleId: this.pwid.roleId // 申请id
         }
-        console.log(params)
-        api.getPermissionResource(params, (res) => {
-          console.log(res)
+        api.queryPermissionUserRole(params, (res) => {
           if (res.status === 0 && res.content !== null) {
-            this.formData.formData = res.content
+            this.formData.formData = res.content.data[0]
           } else {
             window.alert('查詢失败！')
           }

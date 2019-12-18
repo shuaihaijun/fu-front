@@ -306,7 +306,7 @@ module.exports = {
   },
   // /*---------------------权限信息----用户角色-----------------*/
   queryPermissionUserRole(params, callback) {
-    proxy.call(this, 'post', _host + '/permission/userRole/query', params, callback)
+    proxy.call(this, 'post', _host + '/permission/userRole/queryUserRole', params, callback)
   },
   savePermissionUserRole(params, callback) {
     proxy.call(this, 'post', _host + '/permission/userRole/save', params, callback)

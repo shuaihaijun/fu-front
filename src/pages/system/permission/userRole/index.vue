@@ -7,7 +7,7 @@
 
     <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
       <div slot="r">
-        <el-button @click="resourceEdit()"><i class="el-icon"></i> 编辑</el-button>
+        <el-button @click="userRoleEdit()"><i class="el-icon"></i> 编辑关系</el-button>
       </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
@@ -18,7 +18,6 @@
 <script>
   import api from '../../../../api/'
   import forms from './form'
-
   export default {
     components: {
       'forms': forms
@@ -43,18 +42,42 @@
             key: 'userId',
             label: '',
             value: null,
-            placeholder: '用户ID',
+            placeholder: '用戶ID',
             width: 180,
             type: ''
           },
           {
-            key: 'roleId',
+            key: 'username',
             label: '',
             value: null,
-            placeholder: '角色ID',
+            placeholder: '用户登录ID',
             width: 200,
             type: ''
-          }]
+          },
+            {
+              key: 'refName',
+              label: '',
+              value: null,
+              placeholder: '用户昵称',
+              width: 200,
+              type: ''
+            },
+            {
+              key: 'roleId',
+              label: '',
+              value: null,
+              placeholder: '角色ID',
+              width: 200,
+              type: ''
+            },
+            {
+              key: 'roleName',
+              label: '',
+              value: null,
+              placeholder: '角色名称',
+              width: 200,
+              type: ''
+            }]
         },
         // 表格操作按钮
         columnOperate: [
@@ -75,56 +98,60 @@
         // 表头
         columnData: [
           {
-            prop: 'id',
-            label: 'ID',
+            prop: 'userId',
+            label: '用户ID',
+            width: '111',
+            align: 'center'
+          },
+          {
+            prop: 'username',
+            label: '用户登录号',
+            width: '111',
+            align: 'center'
+          },
+          {
+            prop: 'refName',
+            label: '用户昵称',
+            width: '111',
+            align: 'center'
+          },
+          {
+            prop: 'userType',
+            label: '用户类型',
             width: '90',
+            formatter: true,
+            columnKey: 'user.userType',
             align: 'center'
           },
           {
-            prop: 'resName',
-            label: '权限名称',
+            prop: 'roleId',
+            label: '角色代码',
             value: '',
             align: 'center'
           },
           {
-            prop: 'resAction',
-            label: '权限事件',
+            prop: 'roleName',
+            label: '角色名称',
             value: '',
             align: 'center'
           },
           {
-            prop: 'resDesc',
-            label: '权限描述',
+            prop: 'roleCode',
+            label: '角色代码',
             value: '',
             align: 'center'
           },
           {
-            prop: 'resIco',
-            label: '响应式图标',
+            prop: 'roleLevel',
+            label: '角色级别',
             value: '',
+            formatter: true,
+            columnKey: 'role.roleLevel',
             align: 'center'
           },
           {
-            prop: 'resSwitchBut',
-            label: '权限类型',
-            value: '',
-            align: 'center'
-          },
-          {
-            prop: 'resStatus',
-            label: '状态',
-            value: '',
-            align: 'center'
-          },
-          {
-            prop: 'resSort',
-            label: '排序',
-            value: '',
-            align: 'center'
-          },
-          {
-            prop: 'creater',
-            label: '创建人',
+            prop: 'roleDesc',
+            label: '角色描述',
             value: '',
             align: 'center'
           },
@@ -132,13 +159,6 @@
             prop: 'createDate',
             label: '创建时间',
             value: '',
-            width: '150',
-            format: 'yyyy-MM-dd HH:mm:ss',
-            align: 'center'
-          },
-          {
-            prop: 'modifyDate',
-            label: '修改时间',
             width: '150',
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
@@ -172,11 +192,14 @@
         if (window.localStorage.getItem('nice_user')) {
           let params = {
             userId: this.queryData.formData.userId, // 用户ID
+            username: this.queryData.formData.username, // 用户名称
+            refName: this.queryData.formData.refName, // 用户昵称
             roleId: this.queryData.formData.roleId, // 角色ID
+            roleName: this.queryData.formData.roleName, // 角色名称
             pageSize: this.pageDataSize,
-            pageNum: this.pageDataNum
+            pageNo: this.pageDataNum
           }
-          api.queryPagePermissionRole(params, (res) => {
+          api.queryPermissionUserRole(params, (res) => {
             this.tableData = res.content.data
             this.pageDataTotal = res.content.total
           })
@@ -199,7 +222,7 @@
         setTimeout(() => {
           this.formVisible = true
         }, 0)
-        this.formTitle = '数据字典信息'
+        this.formTitle = '用户角色关系信息'
         this.show = 'forms'
         this.disabled = false
       },
