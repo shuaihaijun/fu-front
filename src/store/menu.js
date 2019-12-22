@@ -19,10 +19,10 @@ export default {
       commit
     }, data) {
       var _env = process.env.NODE_ENV
-      console.log(_env)
 //    var _env = 'development'
       if (_env === 'production' || _env === 'test') {
         api.findRoleResourceTree(data, res => {
+          console.log(res.content.data)
           if (res.content === null || res.content.data === null) {
             console.log('无菜单权限')
             commit('menuData', [])
@@ -32,8 +32,6 @@ export default {
           if (res.content.data !== null) {
             let _menu = res.content.data[0].children
             let _arr = api.buildTree(_menu)
-            console.log(menuData)
-            console.log(_arr)
             commit('menuData', _arr)
           } else {
             console.log('无权限')

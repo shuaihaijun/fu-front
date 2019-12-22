@@ -167,11 +167,11 @@ module.exports = {
   },
   // 查询信号源信息
   getSignalInfos(params, callback) {
-    proxy.call(this, 'post', _host + '/signal/findApply', params, callback)
+    proxy.call(this, 'post', _host + '/signal/getSignalInfos', params, callback)
   },
   // 根据信号源ID查询
-  findApplyById(params, callback) {
-  proxy.call(this, 'post', _host + '/signal/findApplyById', params, callback)
+  findSignalById(params, callback) {
+  proxy.call(this, 'post', _host + '/signal/findSignalById', params, callback)
   },
   // 根据ID 修改信号源信息
   signalFollowsQuery(params, callback) {

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import qs from 'qs'
-import { Message } from 'element-ui'
+// import { Message } from 'element-ui'
 Vue.use(VueAxios, axios)
 
 /**
@@ -53,7 +53,7 @@ const proxy = (type, url, params, callback, version) => {
 
   axios(datas).then((res) => {
     if (res.data.code !== 200) {
-      Message('code：' + res.data.code + '，' + res.data.message)
+      // Message('code：' + res.data.code + '，' + res.data.message)
     }
     console.log(res.data)
     callback(res.data)

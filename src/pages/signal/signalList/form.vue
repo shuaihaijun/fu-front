@@ -31,7 +31,7 @@
           let params = {
             signalId: this.pwid.id // 申请id
           }
-          api.findApplyById(params, (res) => {
+          api.findSignalById(params, (res) => {
             console.log(res)
             if (res.status === 0 && res.content !== null) {
               this.formData.formData = res.content
@@ -152,7 +152,7 @@
       let params = {
         signalId: this.pwid.id // 申请id
       }
-      api.findApplyById(params, (res) => {
+      api.findSignalById(params, (res) => {
         console.log(res)
         if (res.status === 0 && res.content !== null) {
           this.formData.formData = res.content

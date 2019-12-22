@@ -36,6 +36,8 @@
         formType: 'edit',
         activeName: '1',
         selectionRows: '',
+        tableSelectiveIds: [],
+        tableSelectiveRows: [],
         thisRefs: '',
         dataForm: {
           modifyPersonName: '',
@@ -109,6 +111,9 @@
     },
     created() {
       this.createdCom()
+      // setTimeout(() => {
+      //   this.tableSelective()
+      // }, 0)
     },
     methods: {
       createdCom() {
@@ -138,7 +143,9 @@
         // 查询角色资源信息 ids List<String>
         this.$api.findResIdsByRoleId(params, (res) => {
           if (res.content !== null && res.content.data !== null && res.content.data.length > 0) {
-            this.tableSelective(this.thisRefs.table.data, res.content.data)
+            setTimeout(() => {
+              this.tableSelective(this.thisRefs.table.data, res.content.data)
+            }, 0)
           }
         })
       },
@@ -220,11 +227,9 @@
         })
       },
       tableSelective(rows, ids) {
-        console.log(rows)
         for (let row = 0; row < rows.length; row++) {
           for (let index = 0; index < ids.length; index++) {
             if (rows[row].id === ids[index]) {
-              console.log(rows[row])
               this.thisRefs.table.toggleRowSelection(rows[row])
             }
           }
