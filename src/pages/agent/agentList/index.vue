@@ -194,7 +194,7 @@
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }
-          api.queryAgentApply(params, (res) => {
+          api.queryAgent(params, (res) => {
             this.tableData = res.content.records
             this.pageDataTotal = res.content.total
           })

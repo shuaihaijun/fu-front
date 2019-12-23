@@ -43,7 +43,7 @@
                     <el-input v-model="item.value" @change="handleChange(item.value)" :placeholder="item.placeholder"  type="textarea" :style="{ width: item.width + 'px'}"></el-input>
                 </template>
                 <template v-else>
-                  <el-input v-model="item.value" @change="handleChange(item.value)" :placeholder="item.placeholder"  :style="{ width: item.width + 'px'}" :readonly="item.readonly" ></el-input>
+                  <el-input v-model="item.value" @change="handleChange(item.value)" :placeholder="item.placeholder"  :style="{ width: item.width + 'px'}" :readonly="item.readonly" :show-password="item.showPassword"></el-input>
                 </template>
               </el-form-item>
             </div>

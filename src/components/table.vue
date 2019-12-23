@@ -10,7 +10,7 @@
       </div>
     </div>
     <!--表格-->
-    <el-table ref="table" stripe @row-click="handleRowClick" :data="tableData" :height="tableHeight ? tableHeight : countHeight" :highlight-current-row="highlight" border style="width: 100%"
+    <el-table v-loading="loading" ref="table" stripe @row-click="handleRowClick" :data="tableData" :height="tableHeight ? tableHeight : countHeight" :highlight-current-row="highlight" border style="width: 100%"
               row-key="id" default-expand-all :tree-props="{children: 'children', hasChildren: 'hasChildren'}" @selection-change="handleSelectionChange">
       <el-table-column
         type="selection"
@@ -81,6 +81,11 @@
       tableData: {
         default() {
           return ''
+        }
+      },
+      loading: {
+        default() {
+          return false
         }
       },
       operate: false,

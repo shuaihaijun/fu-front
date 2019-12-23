@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-  import api from '../../api/'
+  import api from '../../../api/'
   export default {
     props: {
       pwid: '',
@@ -29,9 +29,9 @@
         } else {
           // 校验数据
           let params = {
-            applyId: this.pwid.id // 申请id
+            id: this.pwid.id // 申请id
           }
-          api.getSignalApplyById(params, (res) => {
+          api.getUserByIdOrName(params, (res) => {
             if (res.status === 0 && res.content !== null) {
               this.formData.formData = res.content
             } else {
@@ -47,72 +47,56 @@
         formTitle: '',
         formData: {
           formData: {},
-          formItem: [
-            {
-              key: 'introducer',
-              label: '介绍人ID',
-              value: ''
+          formItem: [{
+              key: 'id',
+              label: '用户ID',
+              value: '',
+              readonly: true
             },
             {
               key: 'username',
-              label: '登录名',
+              label: '用户账号',
               value: '',
-              required: true
-            },
-            {
-              key: 'password',
-              label: '密码',
-              value: '',
-              showPassword: true,
-              required: true
-            },
-            {
-              key: 'password2',
-              label: '确认密码',
-              value: '',
-              showPassword: true,
-              required: true
+              readonly: true
             },
             {
               key: 'refName',
-              label: '昵称',
-              value: '',
-              required: true
+              label: '用户昵称',
+              value: ''
+            },
+            {
+              key: 'userType',
+              label: '用户类型',
+              value: ''
+            },
+            {
+              key: 'email',
+              label: '用户邮件',
+              value: ''
             },
             {
               key: 'mobile',
               label: '手机号',
-              value: '',
-              required: true
-            },
-            {
-              key: 'sex',
-              label: '性别',
-              value: '',
-              type: 'select',
-              required: true,
-              option: [{
-                dicValue: '女',
-                dicKey: 0
-              }, {
-                dicValue: '男',
-                dicKey: 1
-              }]
-            },
-            {
-              key: 'email',
-              label: '电子邮件',
-              value: '',
-              required: true
-            },
-            {
-              key: 'province',
-              label: '省份',
               value: ''
             },
             {
-              key: 'city',
-              label: '城市',
+              key: 'isVerified',
+              label: '是否已验证身份',
+              value: ''
+            },
+            {
+              key: 'isAccount',
+              label: '是否已绑定MT账号',
+              value: ''
+            },
+            {
+              key: 'introducer',
+              label: '介绍人',
+              value: ''
+            },
+            {
+              key: 'recommend',
+              label: '推荐人数',
               value: ''
             }
           ]
@@ -124,9 +108,14 @@
         console.log(this.dataForm)
       },
       affirm(v, obj) {
+        if (window.localStorage.getItem('nice_user')) {
+          // 添加默认用户
+          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          obj['userId'] = userInfo.userId
+        }
         console.log(obj)
         // 校验数据
-        api.registered(obj, (res) => {
+        api.getUserByIdOrName(obj, (res) => {
           console.log(res)
           if (res.status === 0 && res.content.data !== '') {
             // 保存成功
@@ -144,10 +133,10 @@
       } else {
         // 校验数据
         let params = {
-          applyId: this.pwid.id // 申请id
+          id: this.pwid.id // 申请id
         }
         console.log(params)
-        api.getSignalApplyById(params, (res) => {
+        api.getUserByIdOrName(params, (res) => {
           console.log(res)
           if (res.status === 0 && res.content !== null) {
             this.formData.formData = res.content

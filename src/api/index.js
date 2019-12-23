@@ -7,6 +7,8 @@ xmlhttp.send()
 let xmlDoc = JSON.parse(xmlhttp.response)
 
 let _host = 'http://127.0.0.1:8088'
+// let _host = 'http://172.16.207.145:8088'
+// let _host = 'http://47.96.165.40:8088'
 
 switch (xmlDoc.env) {
   case 'alpha':
@@ -15,8 +17,8 @@ switch (xmlDoc.env) {
   case 'pre':
     _host = ''
     break
-  case 'pro':
-    _host = ''
+  case 'prod':
+    _host = 'http://172.16.207.145:8088'
 }
 
 module.exports = {
@@ -71,7 +73,6 @@ module.exports = {
     proxy.call(this, 'post', _host + '/admin/login', params, callback)
   },
   getLogout(params, callback) {
-    console.log(123)
     proxy.call(this, 'post', _host + '/admin/logout', params, callback)
   },
   // 注册
@@ -101,27 +102,37 @@ module.exports = {
   // /*---------------------账户信息 MT账户---------------------*/
   // 获取MT账户信息
   queryUsersMtAccount(params, callback) {
-    proxy.call(this, 'post', _host + '/account/queryUsersMtAccount', params, callback)
+    proxy.call(this, 'post', _host + '/accountMt/queryUsersMtAccount', params, callback)
   },
   // 获取MT账户信息
   getUserMtAccountByCondition(params, callback) {
-    proxy.call(this, 'post', _host + '/account/getUserMtAccountByCondition', params, callback)
+    proxy.call(this, 'post', _host + '/accountMt/getUserMtAccountByCondition', params, callback)
   },
   // 获取MT账户信息
   getUsersMtAccountByCondition(params, callback) {
-    proxy.call(this, 'post', _host + '/account/getUsersMtAccountByCondition', params, callback)
+    proxy.call(this, 'post', _host + '/accountMt/getUsersMtAccountByCondition', params, callback)
   },
   // 保存MT账户信息
   saveUserMTAccount(params, callback) {
-    proxy.call(this, 'post', _host + '/account/saveUserMTAccount', params, callback)
+    proxy.call(this, 'post', _host + '/accountMt/saveUserMTAccount', params, callback)
   },
   // 连接MT账户信息
   connectUserMTAccount(params, callback) {
-    proxy.call(this, 'post', _host + '/account/connectUserMTAccount', params, callback)
+    proxy.call(this, 'post', _host + '/accountMt/connectUserMTAccount', params, callback)
   },
   // 断开连接MT账户信息
   disConnectUserMTAccount(params, callback) {
-    proxy.call(this, 'post', _host + '/account/disConnectUserMTAccount', params, callback)
+    proxy.call(this, 'post', _host + '/accountMt/disConnectUserMTAccount', params, callback)
+  },
+  // /*---------------------账户信息 佣金账户---------------------*/
+  getPageAccountCommisson(params, callback) {
+    proxy.call(this, 'post', _host + '/account/CommissionInfo/getPageAccountCommisson', params, callback)
+  },
+  getAccountCommissonByUserId(params, callback) {
+    proxy.call(this, 'post', _host + '/account/CommissionInfo/getAccountCommissonByUserId', params, callback)
+  },
+  getPageCommissonFlow(params, callback) {
+    proxy.call(this, 'post', _host + '/account/CommissionFlow/getPageCommissonFlow', params, callback)
   },
   // /*--------------------订单接口--------------------*/
   // 获取客户交易订单
@@ -187,11 +198,11 @@ module.exports = {
   },
   // 连接MT账户信息
   connectSignalMTAccount(params, callback) {
-    proxy.call(this, 'post', _host + '/account/connectSignalMTAccount', params, callback)
+    proxy.call(this, 'post', _host + '/accountMt/connectSignalMTAccount', params, callback)
   },
   // 断开连接MT账户信息
   disConnectSignalMTAccount(params, callback) {
-    proxy.call(this, 'post', _host + '/account/disConnectSignalMTAccount', params, callback)
+    proxy.call(this, 'post', _host + '/accountMt/disConnectSignalMTAccount', params, callback)
   },
   // /*---------------------数据字典---------------------*/
   // 保存数据字典信息
@@ -228,6 +239,9 @@ module.exports = {
     proxy.call(this, 'post', _host + '/comServer/findComServerById', params, callback)
   },
   // /*---------------------代理信息---------------------*/
+  queryAgent(params, callback) {
+  proxy.call(this, 'post', _host + '/agent/queryAgent', params, callback)
+},
   queryAgentApply(params, callback) {
     proxy.call(this, 'post', _host + '/agent/queryAgentApply', params, callback)
   },
@@ -313,5 +327,21 @@ module.exports = {
   },
   removePermissionUserRole(params, callback) {
   proxy.call(this, 'post', _host + '/permission/userRole/remove', params, callback)
+  },
+  // /*---------------------佣金----佣金规则-----------------*/
+  getPageCommissonLevel(params, callback) {
+    proxy.call(this, 'post', _host + '/commission/commissionLevel/getPageCommissonLevel', params, callback)
+  },
+  getCommissonLevelById(params, callback) {
+    proxy.call(this, 'post', _host + '/commission/commissionLevel/getCommissonLevelById', params, callback)
+  },
+  saveCommissonLevel(params, callback) {
+    proxy.call(this, 'post', _host + '/commission/commissionLevel/saveCommissonLevel', params, callback)
+  },
+  upateCommissonLevel(params, callback) {
+    proxy.call(this, 'post', _host + '/commission/commissionLevel/upateCommissonLevel', params, callback)
+  },
+  deleteCommissonLevelById(params, callback) {
+    proxy.call(this, 'post', _host + '/commission/commissionLevel/deleteCommissonLevelById', params, callback)
   }
 }

@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-  import api from '../../../../api/'
+  import api from '../../../api/'
   export default {
     props: {
       pwid: '',
@@ -20,7 +20,11 @@
       return {
         visible: false,
         formTitle: '',
-        resSwitchBut: this.$api.getDicValues('resource.resSwitchBut'),
+        commissionType: this.$api.getDicValues('commissionLevel.commissionType'),
+        orderType: this.$api.getDicValues('commissionLevel.orderType'),
+        commissionUserType: this.$api.getDicValues('user.userType'),
+        commissionUserLevel: this.$api.getDicValues('commissionLevel.userLevel'),
+        rateType: this.$api.getDicValues('commissionLevel.rateType'),
         formData: {
           formData: {},
           formItem: [{
@@ -31,36 +35,50 @@
               readonly: true
             },
             {
-              key: 'resName',
-              label: '权限资源名称',
-              value: ''
+              key: 'levelName',
+              label: '佣金规则名称',
+              value: '',
+              type: ''
             },
             {
-              key: 'resPid',
-              label: '权限资源父ID',
-              value: ''
-            },
-            {
-              key: 'resAction',
-              label: '权限资源事件',
-              value: ''
-            },
-            {
-              key: 'resDesc',
-              label: '权限资源描述',
-              value: ''
-            },
-            {
-              key: 'resIco',
-              label: '响应式图标',
-              value: ''
-            },
-            {
-              key: 'resSwitchBut',
-              label: '权限资源类型',
+              key: 'commissionType',
+              label: '佣金类型',
               value: '',
               type: 'select',
-              option: this.resSwitchBut
+              option: this.commissionType
+            },
+            {
+              key: 'orderType',
+              label: '订单类型',
+              value: '',
+              type: 'select',
+              option: this.orderType
+            },
+            {
+              key: 'commissionUserType',
+              label: '收佣用户类型',
+              value: '',
+              type: 'select',
+              option: this.commissionUserType
+            },
+            {
+              key: 'commissionUserLevel',
+              label: '返佣等级',
+              value: '',
+              type: 'select',
+              option: this.commissionUserLevel
+            },
+            {
+              key: 'rateType',
+              label: '比率计算类型',
+              value: '',
+              type: 'select',
+              option: this.rateType
+            },
+            {
+              key: 'rate',
+              label: '返佣比率',
+              value: ''
             }
           ]
         }
@@ -110,16 +128,28 @@
         let data = {
           params: obj
         }
-        // 校验数据
-        api.savePermissionResource(data, (res) => {
-          if (res.status === 0) {
-            // 保存成功
-            window.alert('操作成功！')
-            this.visible = false
-          } else {
-            window.alert('操作失败！请检查数据')
-          }
-        })
+        if (obj.id != null) {
+          api.upateCommissonLevel(data, (res) => {
+            if (res.status === 0) {
+              // 保存成功
+              window.alert('操作成功！')
+              this.visible = false
+            } else {
+              window.alert('操作失败！请检查数据')
+            }
+          })
+        } else {
+          // 校验数据
+          api.saveCommissonLevel(data, (res) => {
+            if (res.status === 0) {
+              // 保存成功
+              window.alert('操作成功！')
+              this.visible = false
+            } else {
+              window.alert('操作失败！请检查数据')
+            }
+          })
+        }
       }
     },
     created() {
@@ -133,8 +163,7 @@
         let data = {
           params
         }
-        api.getPermissionResource(data, (res) => {
-          console.log(res)
+        api.getCommissonLevelById(data, (res) => {
           if (res.status === 0 && res.content !== null) {
             this.formData.formData = res.content
           } else {
@@ -142,7 +171,11 @@
           }
         })
       }
-      this.formData.formItem[6].option = this.resSwitchBut
+      this.formData.formItem[2].option = this.commissionType
+      this.formData.formItem[3].option = this.orderType
+      this.formData.formItem[4].option = this.commissionUserType
+      this.formData.formItem[5].option = this.commissionUserLevel
+      this.formData.formItem[6].option = this.rateType
     }
   }
 </script>

@@ -222,7 +222,7 @@
           }
           // 审核流程
           api.reviewAgentApply(param, (res) => {
-            if (res.status === 0 && res.content.data !== '') {
+            if (res.status === 0 && res.content !== null) {
               this.$options.methods.getQuery.bind(this)()
               // 保存成功
               window.alert('操作成功！')

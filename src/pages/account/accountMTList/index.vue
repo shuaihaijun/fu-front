@@ -5,7 +5,7 @@
         <!-- <input type="text"> -->
       </os-search>
     </div>
-    <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="viewAddTabUser">
+    <os-table  :loading="loading" :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="viewAddTabUser">
       <div slot="r">
         <el-button @click="accConnectStart()"><i class="el-icon-check"></i> 启动监听</el-button>
         <el-button @click="accConnectClose()"><i class="el-icon-close"></i> 关闭监听</el-button>
@@ -35,6 +35,7 @@
         dialogWidth: '',
         dialogTop: '5%',
         disabled: true,
+        loading: false,
         selectionRows: '',
         // 搜索条
         queryData: {
@@ -202,7 +203,7 @@
     methods: {
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
-          this.$store.commit('loading', true)
+          this.loading = true
           let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           // 判断用户权限
           let params = {
@@ -219,6 +220,7 @@
             this.tableData = res.content.data
             this.pageDataTotal = res.content.total
           })
+          this.loading = false
         } else {
           this.$message('获取用户信息失败！')
         }
@@ -279,6 +281,7 @@
           confirmButtonText: '确认',
           type: 'warning'
         }).then(() => {
+          this.loading = true
           let param = {
             userId: this.selectionRows[0].userId, // 用户ID
             username: this.selectionRows[0].username, // 名称
@@ -288,12 +291,13 @@
           // 审核流程
           api.connectUserMTAccount(param, (res) => {
             if (res.status === 0 && res.content === true) {
-              this.$options.methods.getQuery.bind(this)()
               // 保存成功
               window.alert('操作成功！')
+              this.$options.methods.getQuery.bind(this)()
             } else {
-              window.alert('操作成功！')
+              window.alert('操作失败！')
             }
+            this.loading = false
           })
         }).catch(() => {
           this.$message({
@@ -317,7 +321,7 @@
           confirmButtonText: '确认',
           type: 'warning'
         }).then(() => {
-          this.$store.commit('loading', true)
+          this.loading = true
           let param = {
             userId: this.selectionRows[0].userId, // 用户ID
             username: this.selectionRows[0].username, // 名称
@@ -334,6 +338,7 @@
               window.alert('操作失败！')
             }
           })
+          this.loading = false
         }).catch(() => {
           this.$message({
             type: 'info',

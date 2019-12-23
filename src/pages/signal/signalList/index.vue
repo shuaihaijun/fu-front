@@ -6,7 +6,7 @@
       </os-search>
     </div>
 
-    <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
+    <os-table :loading="loading" :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
       <div slot="r">
         <el-button @click="accConnectStart()"><i class="el-icon-check"></i> 启动监听</el-button>
         <el-button @click="accConnectClose()"><i class="el-icon-close"></i> 关闭监听</el-button>
@@ -34,6 +34,7 @@
         dialogTitle: '更新日志',
         dialogWidth: '',
         dialogTop: '5%',
+        loading: false,
         selectionRows: '',
         // 搜索条
         queryData: {
@@ -177,6 +178,7 @@
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
           // let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          this.loading = true
           let params = {
             // userId: userInfo.userId, // 用户id
             signalId: this.queryData.formData.signalId, // 申请id
@@ -190,6 +192,7 @@
             this.tableData = res.content.records
             this.pageDataTotal = res.content.total
           })
+          this.loading = false
         } else {
           this.$message('获取用户信息失败！')
         }
@@ -269,19 +272,23 @@
           confirmButtonText: '确认',
           type: 'warning'
         }).then(() => {
+          this.loading = true
           let param = {
             signalId: this.selectionRows[0].id// 信号源ID
           }
           // 链接账号
           api.connectSignalMTAccount(param, (res) => {
+            console.log(res.content)
             if (res.status === 0 && res.content === true) {
-              this.$options.methods.getQuery.bind(this)()
               // 保存成功
               window.alert('操作成功！')
+              this.$options.methods.getQuery.bind(this)()
             } else {
               window.alert('操作失败！')
             }
           })
+
+          this.loading = false
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -304,7 +311,7 @@
           confirmButtonText: '确认',
           type: 'warning'
         }).then(() => {
-          this.$store.commit('loading', true)
+          this.loading = true
           let param = {
             signalId: this.selectionRows[0].id// 信号源ID
           }
@@ -318,6 +325,7 @@
               window.alert('操作失败！')
             }
           })
+          this.loading = false
         }).catch(() => {
           this.$message({
             type: 'info',

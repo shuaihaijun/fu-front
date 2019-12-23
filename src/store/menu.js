@@ -22,7 +22,6 @@ export default {
 //    var _env = 'development'
       if (_env === 'production' || _env === 'test') {
         api.findRoleResourceTree(data, res => {
-          console.log(res.content.data)
           if (res.content === null || res.content.data === null) {
             console.log('无菜单权限')
             commit('menuData', [])
