@@ -134,6 +134,9 @@ module.exports = {
   getPageCommissonFlow(params, callback) {
     proxy.call(this, 'post', _host + '/account/CommissionFlow/getPageCommissonFlow', params, callback)
   },
+  findCommissionCustomerByCondition(params, callback) {
+    proxy.call(this, 'post', _host + '/commission/commissionCustomer/findCommissionByCondition', params, callback)
+  },
   // /*--------------------订单接口--------------------*/
   // 获取客户交易订单
   getOrderCustomer(params, callback) {

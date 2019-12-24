@@ -1,7 +1,7 @@
 <template>
   <div>
-    <os-table :showTip="false" :topbar="false" :tableHeight="420" :columnData="columnData" :tableData="tableData"
-       :operate="true" :columnOperate="columnOperate" @click-operate="handleOperate">
+    <os-table :showTip="false" :topbar="false" :tableHeight="500" :columnData="columnData" :tableData="tableData"
+       :operate="true">
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
     
@@ -16,27 +16,105 @@
       return {
         // 表头
         columnData: [{
-            prop: 'wid',
-            label: '序号',
-            width: '60',
-            align: 'center'
-          },
-          {
-            prop: 'modifyPersonName',
-            label: '更新人',
-            width: '100',
-            align: 'center'
-          },
-          {
-            prop: 'modifyTimeStr',
-            label: '更新时间',
-            width: '180',
-            align: 'center'
-          },
-          {
-            prop: 'modifyContext',
-            label: '更新内容',
+            prop: 'sourceUserId',
+            label: '源用户ID',
             width: '',
+            align: 'center'
+          },
+          {
+            prop: 'sourceOrderId',
+            label: '源订单号',
+            width: '',
+            align: 'center'
+          },
+          {
+            prop: 'sourceOrderOper',
+            label: '原订单操作类型',
+            width: '',
+            formatter: true,
+            columnKey: 'order.tradeType',
+            align: 'center'
+          },
+          {
+            prop: 'sourceOrderMoney',
+            label: '源金额',
+            width: '',
+            align: 'center'
+          },
+          {
+            prop: 'sourceOrderLots',
+            label: '订单手数',
+            width: '',
+            align: 'center'
+          },
+          {
+            prop: 'commissionDate',
+            label: '发生佣金时间',
+            width: '',
+            align: 'center'
+          },
+          {
+            prop: 'commissionType',
+            label: '佣金类型',
+            width: '',
+            formatter: true,
+            columnKey: 'commissionLevel.commissionType',
+            align: 'center'
+          },
+          {
+            prop: 'commissionUserId',
+            label: '收佣用户ID',
+            width: '',
+            align: 'center'
+          },
+          {
+            prop: 'commissionUserType',
+            label: '收佣用户类型',
+            width: '',
+            formatter: true,
+            columnKey: 'user.userType',
+            align: 'center'
+          },
+          {
+            prop: 'commissionUserLevel',
+            label: '收佣等级',
+            width: '',
+            formatter: true,
+            columnKey: 'commissionLevel.userLevel',
+            align: 'center'
+          },
+          {
+            prop: 'commissionAccountId',
+            label: '收佣账户ID',
+            width: '',
+            align: 'center'
+          },
+          {
+            prop: 'commissionRateType',
+            label: '计算类型',
+            width: '',
+            formatter: true,
+            columnKey: 'commissionLevel.rateType',
+            align: 'center'
+          },
+          {
+            prop: 'commissionRate',
+            label: '佣金比例',
+            width: '',
+            align: 'center'
+          },
+          {
+            prop: 'commissionMoney',
+            label: '返佣佣金',
+            width: '',
+            align: 'center'
+          },
+          {
+            prop: 'commissionState',
+            label: '返佣状态',
+            width: '',
+            formatter: true,
+            columnKey: 'commission.commissionState',
             align: ''
           }
         ],
@@ -59,24 +137,27 @@
     methods: {
       getList() {
         let params = {
-          wid: this.wid,
-          pageSize: this.pageDataSize,
-          pageNum: this.pageDataNum
+          commissionUserId: this.wid.userId,
+          commissionAccountId: this.wid.accountId,
+          commissionDate: this.wid.commissionDate
         }
-        this.$api.CKXX.getLog(params, (res) => {
-          this.tableData = res.result.list
-          this.pageDataTotal = res.result.total
-          console.log(this.tableData)
+        let pageInfoHelper = {
+          pageSize: this.pageDataSize,
+          pageNo: this.pageDataNum
+        }
+        let data = {
+          params,
+          pageInfoHelper
+        }
+        this.$api.findCommissionCustomerByCondition(data, (res) => {
+          this.tableData = res.content.data
+          this.pageDataTotal = res.page.size
         })
       },
       // 分页
       handlePage() {
         this.tableData = []
         this.getList()
-      },
-      // 查看详情
-      handleOperate(row, index, name) {
-        this.$emit('click-operate', row.wid)
       }
     },
     computed: {

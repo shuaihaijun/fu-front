@@ -22,21 +22,24 @@
         </div>
       </el-row>
     </el-form>
-    <os-dialog :visible="dialogVisible" :title="formTitle" :visibleButton="false" width="960px" top="4.5%">
+    <os-dialog :visible="dialogVisible" :title="formTitle" :visibleButton="false" width="1280px" top="4.5%">
       <log-table :pwid="LogWid" @click-operate="handleOperate1"></log-table>
     </os-dialog>
   </div>
 </template>
 <script>
   import form1 from './formCommission.vue'
+  import logTable from './logTable.vue'
   export default {
     components: {
-      'form-1': form1
+      'form-1': form1,
+      'log-table': logTable
     },
     data() {
       return {
         formType: 'view',
         activeName: '1',
+        currentUserId: 0,
         dialogVisible: false,
         formTitle: '佣金订流水生成日志',
         commissionType: this.$api.getDicValues('commissionLevel.commissionType'),
@@ -93,7 +96,7 @@
         columnOperate: [
           {
             label: '操作',
-            width: '80px',
+            width: '100px',
             fixed: 'left',
             isBtn: true,
             children: [{
@@ -164,7 +167,7 @@
             align: 'center'
           },
           {
-            prop: 'commissionTate',
+            prop: 'commissionRate',
             label: '返佣比率',
             width: '100',
             align: 'center'
@@ -196,6 +199,12 @@
       }
     },
     created() {
+      if (this.$store.state.tab.uid !== undefined && this.$store.state.tab.uid.userId !== undefined) {
+        this.currentUserId = this.$store.state.tab.uid.userId
+      } else {
+        let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+        this.currentUserId = userInfo.userId
+      }
       this.createdCom()
       this.queryData.formItem[0].option = this.commissionType
       this.queryData.formItem[1].option = this.commissionUserType
@@ -205,15 +214,8 @@
     methods: {
       createdCom() {
         if (window.localStorage.getItem('nice_user')) {
-          let aUserId = 0
-          if (this.$store.state.tab.uid !== undefined && this.$store.state.tab.uid.userId !== undefined) {
-            aUserId = this.$store.state.tab.uid.userId
-          } else {
-            let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-            aUserId = userInfo.userId
-          }
           let params = {
-            userId: aUserId
+            userId: this.currentUserId
           }
           let data = {
             params: params
@@ -244,10 +246,9 @@
       },
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
-          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           // 判断用户权限
           let params = {
-            userId: userInfo.userId, // 操作用户id
+            userId: this.currentUserId, // 操作用户id
             accountId: this.dataForm.accountId,
             commissionType: this.queryData.formData.commissionType, //
             commissionUserType: this.queryData.formData.commissionUserType, //
@@ -290,7 +291,7 @@
       // 查看or编辑
       handleOperate(row, index, name) {
           this.dialogVisible = true
-          this.LogWid = row.wid
+          this.LogWid = row
       }
     },
     computed: {
