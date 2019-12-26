@@ -85,7 +85,6 @@
     },
     methods: {
       delRow(v, index) {
-        console.log(v, index)
         this.tableData.splice(index, 1)
       },
       addRow(v, index) {
@@ -95,7 +94,6 @@
         })
       },
       parkingSpace(value) {
-        console.log('改变之后:', value)
         if (value === 0 || value === '0') {
           this.dataForm.loadingEmbryosInOut = 0
           this.dataForm.loadingPlatformSingleBilateral = 0

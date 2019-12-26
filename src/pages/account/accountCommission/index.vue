@@ -22,7 +22,7 @@
         </div>
       </el-row>
     </el-form>
-    <os-dialog :visible="dialogVisible" :title="formTitle" :visibleButton="false" width="1280px" top="4.5%">
+    <os-dialog :visible="dialogVisible" :title="formTitle" :visibleButton="false" width="1380px" top="4.5%">
       <log-table :pwid="LogWid" @click-operate="handleOperate1"></log-table>
     </os-dialog>
   </div>

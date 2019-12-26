@@ -165,7 +165,7 @@
           this.$message.warning('账户已绑定，不允许编辑！')
           return
         }
-        if (row.userState > 0) {
+        if (row.userState > 1) {
           this.$message.warning('该用户状态，不允许编辑！')
           return
         }

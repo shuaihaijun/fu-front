@@ -1,6 +1,6 @@
 <template>
   <div>
-    <os-table :showTip="false" :topbar="false" :tableHeight="500" :columnData="columnData" :tableData="tableData"
+    <os-table :showTip="false" :showIndex="true" :topbar="false" :tableHeight="500" :columnData="columnData" :tableData="tableData"
        :operate="true">
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
@@ -50,7 +50,7 @@
           {
             prop: 'commissionDate',
             label: '发生佣金时间',
-            width: '',
+            width: '120',
             align: 'center'
           },
           {

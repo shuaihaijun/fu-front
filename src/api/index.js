@@ -137,6 +137,9 @@ module.exports = {
   findCommissionCustomerByCondition(params, callback) {
     proxy.call(this, 'post', _host + '/commission/commissionCustomer/findCommissionByCondition', params, callback)
   },
+  accountCommissonWithdraw(params, callback) {
+    proxy.call(this, 'post', _host + '/account/CommissionInfo/accountCommissonWithdraw', params, callback)
+  },
   // /*--------------------订单接口--------------------*/
   // 获取客户交易订单
   getOrderCustomer(params, callback) {

@@ -7,6 +7,7 @@
 
     <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="viewAddTabUser">
       <div slot="r">
+        <el-button @click="commissionWithDraw()"><i class="el-icon-check"></i> 佣金提取</el-button>
       </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
@@ -17,6 +18,7 @@
 <script>
   import api from '../../../api/'
   import forms from './form'
+  import { MessageBox } from 'element-ui'
 
   export default {
     components: {
@@ -222,6 +224,48 @@
           this.$store.dispatch('addTab', _data)
           this.$store.dispatch('m1_form_state', this.$store.state.m1.m1_form_state + 1)
         }, 10)
+      },
+      commissionWithDraw() {
+        if (!window.localStorage.getItem('nice_user')) {
+          this.$message('获取用户信息失败！')
+        }
+        let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+        // 判断数据
+        if (this.selectionRows === '' || this.selectionRows.length === 0) {
+          window.alert('请选择需要操作的数据！')
+          return
+        }
+        if (this.selectionRows.length > 1) {
+          window.alert('只能选择一条数据操作！')
+          return
+        }
+        MessageBox.confirm('确定提取该账户所有佣金吗？', '审核提示', {
+          cancelButtonText: '取消',
+          confirmButtonText: '确认',
+          type: 'warning'
+        }).then(() => {
+          let param = {
+            operId: userInfo.userId,
+            userId: this.selectionRows[0].userId,
+            accountId: this.selectionRows[0].accountId,
+            commissionMoney: this.selectionRows[0].commissionMoney
+          }
+          // 审核流程
+          api.accountCommissonWithdraw(param, (res) => {
+            if (res.status === 0 && res.content !== null) {
+              this.$options.methods.getQuery.bind(this)()
+              // 保存成功
+              window.alert('操作成功！')
+            } else {
+              window.alert('操作失败！')
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消操作'
+          })
+        })
       },
       selectionChange(rows) {
         this.selectionRows = rows
