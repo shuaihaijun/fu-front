@@ -36,7 +36,7 @@
       </el-col>
       <el-col :span="5">
           <el-form-item label="用户类型:" prop="userType">
-            <el-select v-model="dataForm.userType.toString()" placeholder="请选择" :disabled="disabled">
+            <el-select v-model="dataForm.userType" placeholder="请选择" :disabled="true">
               <el-option
                 v-for="item in userType"
                 :key="item.dicKey"
@@ -57,6 +57,28 @@
         </el-form-item>
       </el-col>
       <el-col :span="5">
+        <el-form-item label="用户状态:" prop="userState">
+          <el-select v-model="dataForm.userState" placeholder="请选择" :disabled="true">
+            <el-option
+              v-for="item in userState"
+              :key="item.dicKey"
+              :label="item.dicValue"
+              :value="item.dicKey">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="5">
+        <el-form-item label="联系电话:" prop="mobile">
+          <el-input v-model="dataForm.mobile" :disabled="disabled"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="10">
+        <el-form-item label="电子邮件:" prop="email">
+          <el-input v-model="dataForm.email" :disabled="disabled"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="5">
         <el-form-item label="省份:" prop="province">
           <el-input v-model="dataForm.province" :disabled="disabled"></el-input>
         </el-form-item>
@@ -69,21 +91,6 @@
       <el-col :span="10">
         <el-form-item label="地址:" prop="address">
           <el-input v-model="dataForm.address" :disabled="disabled"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="5">
-        <el-form-item label="联系电话:" prop="mobile">
-          <el-input v-model="dataForm.mobile" :disabled="disabled"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="5">
-        <el-form-item label="电子邮件:" prop="email">
-          <el-input v-model="dataForm.email" :disabled="disabled"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="5">
-        <el-form-item label="用户状态:" prop="useState">
-          <el-input v-model="dataForm.useState" :disabled="true"></el-input>
         </el-form-item>
       </el-col>
   </div>
@@ -107,15 +114,16 @@
         tableDataLog: [],
         dialogVisible: false,
         formTitle: '更新日志',
-        disabled: false,
+        disabled: true,
         userSex: this.$api.getDicValues('user.sex'),
         userType: this.$api.getDicValues('user.userType'),
+        userState: this.$api.getDicValues('user.userState'),
         LogWid: ''
       }
     },
     created() {
-      if (this.formType === 'view') {
-        this.disabled = true
+      if (this.formType === 'edit') {
+        this.disabled = false
       }
     },
     methods: {

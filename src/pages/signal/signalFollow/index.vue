@@ -138,11 +138,14 @@
       }
     },
     created() {
+      this.getQuery()
     },
     methods: {
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
+          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           let params = {
+            operUserId: userInfo.userId,
             userId: this.queryData.formData.userId, // 用户id
             signalId: this.queryData.formData.signalId, // 申请id
             ruleState: 0, // 状态（0 正常，1  隐藏，2 废弃）

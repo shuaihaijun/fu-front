@@ -39,7 +39,7 @@
       </el-col>
     <el-col :span="5">
       <el-form-item label="账户状态:" prop="accountState">
-        <el-select v-model="dataForm.accountState.toString()" placeholder="请选择" :disabled="disabled">
+        <el-select v-model="dataForm.accountState" placeholder="请选择" :disabled="disabled">
           <el-option
             v-for="item in accountState"
             :key="item.dicKey"

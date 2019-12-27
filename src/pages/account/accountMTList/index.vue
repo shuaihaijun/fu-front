@@ -199,6 +199,7 @@
           }
         })
       })
+      this.getQuery()
     },
     methods: {
       getQuery() { // 搜索获取表格数据
@@ -211,7 +212,7 @@
             userId: this.queryData.formData.userId, // 用户ID
             username: this.queryData.formData.username, // 名称
             mtAccId: this.queryData.formData.mtAccId, // 类型
-            brokerName: this.queryData.formData.brokerName, // 代理商
+            brokerName: this.queryData.formData.brokerName, // 经纪商
             serverName: this.queryData.formData.serverName, // 服务器
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum

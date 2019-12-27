@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-  import api from '../../../api/'
+  import api from '../../api/'
   export default {
     props: {
       pwid: '',
@@ -29,10 +29,9 @@
         } else {
           // 校验数据
           let params = {
-            id: this.pwid.id // 申请id
+            applyId: this.pwid.id // 申请id
           }
-          api.getAgentApplyById(params, (res) => {
-            console.log(res)
+          api.getSignalApplyById(params, (res) => {
             if (res.status === 0 && res.content !== null) {
               this.formData.formData = res.content
             } else {
@@ -46,45 +45,29 @@
       return {
         visible: false,
         formTitle: '',
-        applyType: this.$api.getDicValues('agent.applyType'),
         formData: {
           formData: {},
-          formItem: [{
-              key: 'id',
-              label: '申请ID',
+          formItem: [
+            {
+              key: 'password',
+              label: '源密码',
               value: '',
-              placeholder: '自动填充',
-              readonly: true
+              showPassword: true,
+              required: true
             },
             {
-              key: 'userId',
-              label: '申请人ID',
+              key: 'passwordNew',
+              label: '新密码',
               value: '',
-              readonly: true
+              showPassword: true,
+              required: true
             },
             {
-              key: 'agentName',
-              label: '代理名称',
-              value: ''
-            },
-            {
-              key: 'applyType',
-              label: '申请类型',
+              key: 'passwordNew2',
+              label: '确认密码',
               value: '',
-              type: 'select',
-              option: this.applyType
-            },
-            {
-              key: 'applyDesc',
-              label: '代理描述',
-              value: '',
-              type: 'textarea'
-            },
-            {
-              key: 'applyReason',
-              label: '申请原由',
-              value: '',
-              type: 'textarea'
+              showPassword: true,
+              required: true
             }
           ]
         }
@@ -95,23 +78,28 @@
         console.log(this.dataForm)
       },
       affirm(v, obj) {
-        if (window.localStorage.getItem('nice_user')) {
-          // 添加默认用户
-          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-          obj['userId'] = userInfo.userId
-        }
         console.log(obj)
-        // 校验数据
-        api.saveAgentApply(obj, (res) => {
-          console.log(res)
-          if (res.status === 0 && res.content.data !== '') {
-            // 保存成功
-            window.alert('保存成功！')
-            this.visible = false
-          } else {
-            window.alert('保存失败！请检查数据')
+        if (window.localStorage.getItem('nice_user')) {
+          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          if (obj.passwordNew !== obj.passwordNew2) {
+            window.alert('两次输入的密码不一致！')
+            return
           }
-        })
+          obj.userId = userInfo.userId
+          obj.username = userInfo.username
+          // 校验数据
+          api.updatePassword(obj, (res) => {
+            if (res.status === 0 && res.content.data !== '') {
+              // 保存成功
+              window.alert('保存成功！')
+              this.visible = false
+            } else {
+              window.alert(res.message)
+            }
+          })
+        } else {
+          this.$message('获取用户信息失败！')
+        }
       }
     },
     created() {
@@ -120,9 +108,10 @@
       } else {
         // 校验数据
         let params = {
-          id: this.pwid.id // 申请id
+          applyId: this.pwid.id // 申请id
         }
-        api.getAgentApplyById(params, (res) => {
+        console.log(params)
+        api.getSignalApplyById(params, (res) => {
           console.log(res)
           if (res.status === 0 && res.content !== null) {
             this.formData.formData = res.content
@@ -131,7 +120,6 @@
           }
         })
       }
-      this.formData.formItem[3].option = this.applyType
     }
   }
 </script>

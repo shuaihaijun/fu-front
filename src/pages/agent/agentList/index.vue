@@ -178,6 +178,7 @@
           }
         })
       })
+      this.getQuery()
       this.queryData.formItem[2].option = this.agentType
     },
     methods: {

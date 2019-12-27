@@ -51,6 +51,7 @@
             {
               key: 'introducer',
               label: '介绍人ID',
+              required: true,
               value: ''
             },
             {
@@ -124,10 +125,8 @@
         console.log(this.dataForm)
       },
       affirm(v, obj) {
-        console.log(obj)
         // 校验数据
         api.registered(obj, (res) => {
-          console.log(res)
           if (res.status === 0 && res.content.data !== '') {
             // 保存成功
             window.alert('保存成功！')

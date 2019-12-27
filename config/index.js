@@ -4,8 +4,8 @@ var path = require('path')
 module.exports = {
   build: {
     env: require('./prod.env'),
-    index: path.resolve('../wtc-frontend-pages/index.html'),
-    assetsRoot: path.resolve('../wtc-frontend-pages'),
+    index: path.resolve('../fu-frontend-pages/index.html'),
+    assetsRoot: path.resolve('../fu-frontend-pages'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     productionSourceMap: false,
@@ -18,8 +18,8 @@ module.exports = {
   },
   buildtest: {
     env: require('./dev.env'),
-    index: path.resolve('../wtc-frontend-pages/index.html'),
-    assetsRoot: path.resolve('../wtc-frontend-pages'),
+    index: path.resolve('../fu-frontend-pages/index.html'),
+    assetsRoot: path.resolve('../fu-frontend-pages'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     productionSourceMap: false,

@@ -42,15 +42,23 @@
         dialogImageUrl: '',
         dialogVisible: false,
         uploadUrl: '',
-        disabled: false
+        disabled: true
       }
     },
     created() {
         // 照片
         this.type = 0
         this.uploadUrl = this.$api.getPictureUploadUrl()
-        if (this.showType === 'view') {
-          this.disabled = true
+        if (this.showType === 'edit') {
+          this.disabled = false
+          if (this.dataForm !== null && this.dataForm.isVerified === 1) {
+            // 已绑定用户 不能修改证件信息
+            this.disabled = true
+          }
+          if (this.title === '头像') {
+            // 可以修改头像
+            this.disabled = false
+          }
         }
     },
     methods: {
@@ -62,7 +70,9 @@
           duration: 6000
         })
         if (res.response.status === 0) {
-          if (this.title === '身份证正面') {
+          if (this.title === '头像') {
+            this.dataForm.avatarUrl = res.response.content.url // 将返回的文件储存路径赋值
+          } else if (this.title === '身份证正面') {
             this.dataForm.idFront = res.response.content.url // 将返回的文件储存路径赋值
           } else {
             this.dataForm.idObverse = res.response.content.url // 将返回的文件储存路径赋值

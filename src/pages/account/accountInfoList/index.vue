@@ -213,6 +213,7 @@
       this.queryData.formItem[2].option = this.userType
       this.queryData.formItem[3].option = this.isVerified
       this.queryData.formItem[4].option = this.isAccount
+      this.getQuery()
     },
     methods: {
       getQuery() { // 搜索获取表格数据

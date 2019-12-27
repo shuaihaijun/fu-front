@@ -161,12 +161,12 @@
       },
       // 新建编辑
       editAddTabUser(v, n, row) {
-        if (row.isAccount > 0) {
-          this.$message.warning('账户已绑定，不允许编辑！')
-          return
-        }
-        if (row.userState > 1) {
-          this.$message.warning('该用户状态，不允许编辑！')
+        // if (row.isAccount > 0) {
+        //   this.$message.warning('账户已绑定，不允许编辑！')
+        //   return
+        // }
+        if (row.userState === 2) {
+          this.$message.warning('待审核状态，不允许编辑！')
           return
         }
         this.$store.dispatch('delTab', {id: 'm1_edit'})

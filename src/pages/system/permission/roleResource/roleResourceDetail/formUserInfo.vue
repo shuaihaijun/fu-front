@@ -19,7 +19,7 @@
       </el-col>
       <el-col :span="5">
         <el-form-item label="角色级别:" prop="roleLevel">
-          <el-select v-model="dataForm.roleLevel.toString()" placeholder="请选择" :disabled="true">
+          <el-select v-model="dataForm.roleLevel" placeholder="请选择" :disabled="true">
             <el-option
               v-for="item in roleLevel"
               :key="item.dicKey"
@@ -31,7 +31,7 @@
       </el-col>
     <el-col :span="5">
       <el-form-item label="角色标识:" prop="roleSign">
-        <el-select v-model="dataForm.roleSign.toString()" placeholder="请选择" :disabled="true">
+        <el-select v-model="dataForm.roleSign" placeholder="请选择" :disabled="true">
           <el-option
             v-for="item in roleSign"
             :key="item.dicKey"

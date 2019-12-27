@@ -16,11 +16,13 @@
         <form-1 :dataForm="dataForm" :formType="formType"></form-1>
         <div>
           <h3>MT账户信息</h3>
+          <span><small class="title_s" v-if="formType=='edit'">注：已绑定账户只能做修改密码操作！修改密码后请联系管理员重新启动监听！</small></span>
           <form-2 :dataForm="dataForm" :formType="formType" :tableData="tableData1"></form-2>
         </div>
         <div>
           <h3>证件信息</h3>
-          <span><small class="title_s" v-if="formType=='edit'">注：上传单个文件不能大于2M，文件名称为：用户ID + 昵称</small></span>
+          <span><small class="title_s" v-if="formType=='edit'">注：上传单个文件不能大于2M，文件名称为：用户ID + 昵称，上传文件后需按保存按钮！</small></span>
+          <form-3 title="头像" :images="images.avatarUrl" :dataForm="dataForm" :showType="formType"></form-3>
           <form-3 title="身份证正面" :images="images.idFront" :dataForm="dataForm" :showType="formType"></form-3>
           <form-3 title="身份证反面" :images="images.idObverse" :dataForm="dataForm" :showType="formType"></form-3>
         </div>
@@ -88,6 +90,8 @@
         tableData2: [{}],
         disabled: false,
         images: {
+          avatarUrl: [
+          ],
           idFront: [
           ],
           idObverse: [
@@ -154,12 +158,23 @@
           // this.images.idObverse = [{name: '123', url: 'D:\\test\\2019\\12\\c8ea15ce36d3d539881d35e23787e950352ab0ea.png'}]
           // this.images.idFront = _dataForm.idFront.split(',')
           // this.images.idObverse = _dataForm.idObverse.split(',')
-          this.setFileNames(1, _dataForm.idFront)
-          this.setFileNames(2, _dataForm.idObverse)
+          if (_dataForm.avatarUrl !== '') {
+            this.setFileNames(1, _dataForm.avatarUrl)
+          }
+          if (_dataForm.idFront !== '') {
+            this.setFileNames(2, _dataForm.idFront)
+          }
+          if (_dataForm.idObverse !== '') {
+            this.setFileNames(3, _dataForm.idObverse)
+          }
         })
         this.$api.getUsersMtAccountByCondition(params, (res) => {
           if (res.content !== null) {
-            this.tableData1 = res.content.data
+            if (res.content.data.length > 0) {
+              this.tableData1 = res.content.data
+            } else {
+              this.initTable()
+            }
           } else {
             this.tableData1 = [{}]
           }
@@ -170,12 +185,16 @@
         let object = []
         for (let index = 0; index < fileArr.length; index++) {
           let fileName = fileArr[index].substring(fileArr[index].lastIndexOf('\\') + 1, fileArr[index].lastIndexOf('.'))
-          object[index] = {name: fileName, url: fileArr[index]}
+          let fileUrl = this.$api.getPictureDownloadUrl(fileArr[index])
+          object[index] = {name: fileName, url: fileUrl}
         }
         if (idFlag === 1) {
-          this.images.idFront = object
+          this.images.avatarUrl = object
         }
         if (idFlag === 2) {
+          this.images.idFront = object
+        }
+        if (idFlag === 3) {
           this.images.idObverse = object
         }
       },
@@ -191,23 +210,39 @@
             // 保存
             this.$api.saveOrUpdateUser(params, (res) => {
               if (res.status !== 0) {
-                window.alert('操作失败！')
+                window.alert(res.message)
                 return
               }
-              this.$message(res.msg)
+              this.$message('操作成功！')
             })
             this.$api.saveUserMTAccount(params, (res) => {
               if (res.status !== 0) {
-                window.alert('操作失败！')
+                window.alert(res.message)
                 return
               }
-              this.$message(res.msg)
+              this.$message('操作成功！')
             })
           } else {
             this.$message('请书写完整')
             return false
           }
         })
+      },
+      initTable() {
+        this.tableData1 = [
+          {
+            'accountType': '',
+            'brokerName': '',
+            'serverName': '',
+            'mtAccId': '',
+            'mtPasswordWatch': '',
+            'mtPasswordTrade': '',
+            'connectState': ''
+          }
+        ]
+      },
+      handleCheck1() {
+        this.$router.go(0)
       },
       handleCheck(formName) {
         this.$refs[formName].validate((valid) => {
@@ -232,6 +267,11 @@
                   this.$message('请上传照片信息！')
                   return
                 }
+              if (params.avatarUrl === undefined || params.avatarUrl === null || params.avatarUrl === '') {
+                // 用户需要输入交易密码
+                this.$message('请上传头像照片信息！')
+                return
+              }
             }
             // 提价申请
             this.$api.submitUserBinding(params, (res) => {

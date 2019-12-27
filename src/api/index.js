@@ -31,7 +31,7 @@ module.exports = {
       if (dicKey === null || dicKey === undefined || dicKey === '') {
         return ''
       }
-      let key = dicKey.toString()
+      let key = dicKey
       for (let index = 0; index < dic[dicSign].length; index++) {
         if (key === dic[dicSign][index]['dicKey']) {
           return dic[dicSign][index]['dicValue']
@@ -67,6 +67,10 @@ module.exports = {
   getPictureUploadUrl: function () {
     return _host + '/com/uploadPicture'
   },
+  // 用户图片反显
+  getPictureDownloadUrl: function (path) {
+    return _host + path
+  },
   // /*---------------------用户信息---------------------*/
   //  登录
   getLogin(params, callback) {
@@ -82,6 +86,10 @@ module.exports = {
   // 修改
   saveOrUpdateUser(params, callback) {
     proxy.call(this, 'post', _host + '/admin/saveOrUpdateUser', params, callback)
+  },
+  // 修改
+  updatePassword(params, callback) {
+    proxy.call(this, 'post', _host + '/admin/updatePassword', params, callback)
   },
   // 提交审核申请
   submitUserBinding(params, callback) {
@@ -243,6 +251,19 @@ module.exports = {
   },
   findServerById(params, callback) {
     proxy.call(this, 'post', _host + '/comServer/findComServerById', params, callback)
+  },
+  // /*---------------------经纪商信息--------------------*/
+  saveComBroker(params, callback) {
+    proxy.call(this, 'post', _host + '/comBroker/saveComBroker', params, callback)
+  },
+  queryComBroker(params, callback) {
+    proxy.call(this, 'post', _host + '/comBroker/queryComBroker', params, callback)
+  },
+  findComBrokerById(params, callback) {
+    proxy.call(this, 'post', _host + '/comBroker/findComBrokerById', params, callback)
+  },
+  deleteComBroker(params, callback) {
+    proxy.call(this, 'post', _host + '/comBroker/deleteComBroker', params, callback)
   },
   // /*---------------------代理信息---------------------*/
   queryAgent(params, callback) {

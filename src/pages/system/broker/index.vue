@@ -2,14 +2,13 @@
   <div>
     <div ref="search">
       <os-search :dataSource='queryData' @click-submit='getQuery'>
-        <!-- <input type="text"> -->
       </os-search>
     </div>
-
-    <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
+    <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
       <div slot="r">
-        <el-button @click="applyCheck(3)"><i class="el-icon-back"></i> 审核驳回</el-button>
-        <el-button @click="applyCheck(0)"><i class="el-icon-edit-outline"></i> 审核通过</el-button>
+        <el-button @click="serverAdd()"><i class="el-icon-edit-outline"></i> 新增</el-button>
+        <el-button @click="serverEdit()"><i class="el-icon"></i> 编辑</el-button>
+        <el-button @click="serverDelete()"><i class="el-icon"></i> 删除</el-button>
       </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
@@ -33,46 +32,20 @@
         dialogVisible: false,
         formVisible: false,
         formTitle: '',
-        dialogTitle: '更新日志',
+        dialogTitle: '数据字典',
         dialogWidth: '',
         dialogTop: '5%',
         disabled: true,
-        applyType: this.$api.getDicValues('agent.applyType'),
         selectionRows: '',
         // 搜索条
         queryData: {
           formData: {},
           formItem: [
-            {
-            key: 'id',
-            label: '',
-            value: null,
-            placeholder: '代理ID',
-            width: 180,
-            type: ''
-          },
           {
-            key: 'agentName',
+            key: 'brokerName',
             label: '',
             value: null,
-            placeholder: '代理名称',
-            width: 200,
-            type: ''
-          },
-          {
-            key: 'applyType',
-            label: '',
-            value: null,
-            placeholder: '申请类型',
-            width: 150,
-            type: 'select',
-            option: this.applyType
-          },
-          {
-            key: 'userId',
-            label: '',
-            value: null,
-            placeholder: '用户ID',
+            placeholder: '经纪商名称',
             width: 200,
             type: ''
           }]
@@ -97,55 +70,28 @@
         columnData: [
           {
             prop: 'id',
-            label: '代理ID',
+            label: 'ID',
             width: '90',
             align: 'center'
           },
           {
-            prop: 'agentName',
-            label: '代理名称',
-            width: '150',
+            prop: 'brokerName',
+            label: '经纪商代码',
+            value: '',
             align: 'center'
           },
           {
-            prop: 'applyState',
-            label: '申请状态',
-            width: '80',
+            prop: 'comment',
+            label: '经纪商名称',
+            value: '',
+            align: 'center'
+          },
+          {
+            prop: 'brokerType',
+            label: '经纪商类型',
             formatter: true,
-            columnKey: 'agent.applyState',
-            align: 'center'
-          },
-          {
-            prop: 'applyType',
-            label: '申请类型',
-            width: '80',
-            formatter: true,
-            columnKey: 'agent.applyType',
-            align: 'center'
-          },
-          {
-            prop: 'userId',
-            label: '申请人',
-            width: '80',
-            align: 'center'
-          },
-          {
-            prop: 'applyReason',
-            label: '申请原由',
-            width: '',
-            align: 'center'
-          },
-          {
-            prop: 'applyDesc',
-            label: '代理描述',
-            width: '',
-            align: 'center'
-          },
-          {
-            prop: 'createDate',
-            label: '创建时间',
-            width: '150',
-            format: 'yyyy-MM-dd HH:mm:ss',
+            columnKey: 'broker.brokerType',
+            value: '',
             align: 'center'
           }
         ],
@@ -172,32 +118,26 @@
         })
       })
       this.getQuery()
-      this.queryData.formItem[2].option = this.applyType
     },
     methods: {
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
-          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           let params = {
-            operUserId: userInfo.userId, // 操作用户id
-            applyId: this.queryData.formData.id, // 申请id
-            agentName: this.queryData.formData.agentName, // 名称
-            applyType: this.queryData.formData.applyType, // 类型
-            userId: this.queryData.formData.userId, // 类型
-            applyState: 2, // 类型
-            pageSize: this.pageDataSize,
-            pageNum: this.pageDataNum
+            name: this.queryData.formData.brokerName // MT账户
           }
-          api.queryAgentApply(params, (res) => {
-            this.tableData = res.content.records
+          let data = {
+            params: params
+          }
+          api.queryComBroker(data, (res) => {
+            this.tableData = res.content.data
             this.pageDataTotal = res.content.total
           })
         } else {
           this.$message('获取用户信息失败！')
         }
       },
-      // 提交审核
-      applyCheck(state) {
+      // 修改数据
+      serverEdit() {
         // 判断数据
         if (this.selectionRows === '' || this.selectionRows.length === 0) {
           window.alert('请选择需要操作的数据！')
@@ -207,23 +147,39 @@
           window.alert('只能选择一条数据操作！')
           return
         }
-        MessageBox.confirm('确定提交申请吗？', '操作提示', {
+        this.LogWid = this.selectionRows[0]
+        setTimeout(() => {
+          this.formVisible = true
+        }, 0)
+        this.formTitle = '数据字典信息'
+        this.show = 'forms'
+        this.disabled = false
+      },
+      // 删除数据
+      serverDelete() {
+        // 判断数据
+        if (this.selectionRows === '' || this.selectionRows.length === 0) {
+          window.alert('请选择需要操作的数据！')
+          return
+        }
+        if (this.selectionRows.length > 1) {
+          window.alert('只能选择一条数据操作！')
+          return
+        }
+        MessageBox.confirm('确定删除吗？', '提示', {
           cancelButtonText: '取消',
           confirmButtonText: '确认',
           type: 'warning'
         }).then(() => {
-          let resultMsg = '审核通过'
-          if (state > 0) {
-            resultMsg = '审核驳回'
+          let params = {
+            id: this.selectionRows[0].id
           }
-          let param = {
-            id: this.selectionRows[0].id,
-            applyState: state,
-            message: resultMsg
+          let data = {
+            params
           }
           // 审核流程
-          api.reviewAgentApply(param, (res) => {
-            if (res.status === 0 && res.content !== null) {
+          api.deleteComBroker(data, (res) => {
+            if (res.status === 0 && res.content.data !== '') {
               this.$options.methods.getQuery.bind(this)()
               // 保存成功
               window.alert('操作成功！')
@@ -234,9 +190,18 @@
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消审核'
+            message: '已取消操作'
           })
         })
+      },
+      serverAdd() {
+        this.LogWid = ''
+        setTimeout(() => {
+          this.formVisible = true
+        }, 0)
+        this.formTitle = '经纪商信息'
+        this.show = 'forms'
+        this.disabled = false
       },
       // 分页
       handlePage() {

@@ -221,6 +221,7 @@
       this.queryData.formItem[3].option = this.commissionUserType
       this.queryData.formItem[4].option = this.commissionUserLevel
       this.queryData.formItem[5].option = this.rateType
+      this.getQuery()
     },
     methods: {
       getQuery() { // 搜索获取表格数据

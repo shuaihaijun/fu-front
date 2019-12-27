@@ -211,6 +211,7 @@
       } else {
         this.$message('获取用户信息失败！')
       }
+      this.getQuery()
       this.queryData.formItem[5].option = this.orderType
     },
     methods: {

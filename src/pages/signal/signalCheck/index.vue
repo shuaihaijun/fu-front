@@ -180,6 +180,7 @@
           }
         })
       })
+      this.getQuery()
     },
     methods: {
       getQuery() { // 搜索获取表格数据

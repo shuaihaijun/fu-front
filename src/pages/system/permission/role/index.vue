@@ -154,11 +154,14 @@
           }
         })
       })
+      this.getQuery()
     },
     methods: {
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
+          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           let params = {
+            userId: userInfo.userId,
             roleCode: this.queryData.formData.roleCode, // 角色代码
             roleName: this.queryData.formData.roleName // 角色名称
           }

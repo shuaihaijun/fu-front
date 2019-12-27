@@ -122,7 +122,6 @@
         let params = {
           id: this.pwid.id // 申请id
         }
-        console.log(params)
         api.getAgentApplyById(params, (res) => {
           console.log(res)
           if (res.status === 0 && res.content !== null) {

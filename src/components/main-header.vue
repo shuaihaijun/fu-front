@@ -16,12 +16,20 @@
       </el-dropdown>
       <el-tag type="gray">
         <div @click="handleExit"> 退出 </div>
+      </el-tag>&nbsp;&nbsp;&nbsp;
+      <el-tag type="gray">
+        <div @click="passwordChange"> 修改密码 </div>
       </el-tag>
     </div>
+    <forms :_visible="formVisible" v-if="show" :pwid="LogWid" :disabled="disabled" :title="formTitle"></forms>
   </div>
 </template>
 <script>
+  import forms from './../pages/login/passwordForm'
   export default {
+    components: {
+      'forms': forms
+    },
     name: 'os-header',
     props: {
       osName: {
@@ -45,7 +53,29 @@
         }
       }
     },
+    data() {
+      return {
+        show: false,
+        LogWid: '',
+        formTitle: '',
+        disabled: true,
+        formVisible: false
+      }
+    },
     methods: {
+      passwordChange() {
+        if (window.localStorage.getItem('nice_user')) {
+            this.LogWid = ''
+            setTimeout(() => {
+              this.formVisible = true
+            }, 0)
+            this.formTitle = '用户修改密码'
+            this.show = 'forms'
+            this.disabled = false
+        } else {
+          this.$message('获取用户信息失败！')
+        }
+      },
       handleExit() {
         this.$emit('handleExit')
       },
