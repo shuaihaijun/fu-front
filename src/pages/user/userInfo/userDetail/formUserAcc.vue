@@ -5,7 +5,7 @@
         <el-table :data="tableData" style="width: 100%;">
           <el-table-column prop="brokerName" label="经纪商"  width="120"  align="center">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.brokerName" placeholder="请选择" :disabled="disabled">
+              <el-select v-model="scope.row.brokerName" placeholder="请选择" :disabled="disabled" @change="getServerInfo">
                 <el-option
                   v-for="item in brokerName"
                   :key="item.dicKey"
@@ -15,9 +15,16 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column prop="serverId" label="服务器" width="150" align="center">
+          <el-table-column prop="serverName" label="服务器"  width="120"  align="center">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.serverName" :min="0" :controls="false" :disabled="disabled"></el-input>
+              <el-select v-model="scope.row.serverName" placeholder="请选择" :disabled="disabled" >
+                <el-option
+                  v-for="item in serverName"
+                  :key="item.dicKey"
+                  :label="item.dicValue"
+                  :value="item.dicKey">
+                </el-option>
+              </el-select>
             </template>
           </el-table-column>
           <el-table-column prop="mtAccId" label="MT账户ID" width="150" align="center">
@@ -108,7 +115,7 @@
     },
     data() {
       return {
-        disabled: true,
+        disabled: false,
         accountType: '',
         accountState: '',
         platType: '',
@@ -128,8 +135,7 @@
           if (this.tableData !== null && this.tableData.length > 0) {
             // 账户已绑定 不让修改
             for (let index = 0; index < this.tableData.length; index++) {
-              let tab = this.tableData[index]
-              if (tab.passwordTradeChecked === 1) {
+              if (this.tableData[index].passwordTradeChecked === 1) {
                 this.disabled = true
                 break
               }
@@ -177,29 +183,26 @@
           })
         }
       },
-      getServerInfo() {
+      getServerInfo(brokerName) {
         if (window.localStorage.getItem('nice_user')) {
-          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-          this.formData.formItem[1].value = userInfo.userId
-          let params = {}
-          let data = {
-            params
+          let params = {
+            brokerName: brokerName
           }
           // 初始化账号
-          this.$api.queryComBroker(data, (res) => {
-            if (res.content !== null && res.content.data !== null) {
-              if (res.content.data.length === 0) {
-                this.$message('获取经纪商信息失败！')
+          this.$api.queryServer(params, (res) => {
+            if (res.content !== null && res.content.records !== null) {
+              if (res.content.records.length === 0) {
+                this.$message('获取服务器信息失败！')
               }
               let object = []
               // 重组数据
-              for (let index = 0; index < res.content.data.length; index++) {
+              for (let index = 0; index < res.content.records.length; index++) {
                 let object1 = {}
-                object1.dicValue = res.content.data[index].comment
-                object1.dicKey = res.content.data[index].brokerName
+                object1.dicValue = res.content.records[index].serverName
+                object1.dicKey = res.content.records[index].serverName
                 object[index] = object1
               }
-              this.brokerName = object
+              this.serverName = object
             } else {
               this.$message('获取经纪商信息失败！')
             }

@@ -65,7 +65,6 @@
         })
         window.localStorage.removeItem('nice_user')
         this.$router.push({path: '/'})
-        this.api.getLogout()
 			}
 		},
 		computed: {
