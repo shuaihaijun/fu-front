@@ -1,95 +1,28 @@
 <template>
     <div class="form_box_item">
-      <label class="el-form-item__label">MT账户信息:</label>
+      <label class="el-form-item__label">银行卡信息:</label>
       <div class="form_box_table">
         <el-table :data="tableData" style="width: 100%;">
-          <el-table-column prop="brokerName" label="经纪商"  width="120"  align="center">
+          <el-table-column prop="bankName" label="银行名称" width="250" align="center">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.brokerName" placeholder="请选择" :disabled="disabled" @change="getServerInfo">
-                <el-option
-                  v-for="item in brokerName"
-                  :key="item.dicKey"
-                  :label="item.dicValue"
-                  :value="item.dicKey">
-                </el-option>
-              </el-select>
+              <el-input v-model="scope.row.bankName" :min="0" :controls="false" :disabled="disabled">></el-input>
             </template>
           </el-table-column>
-          <el-table-column prop="serverName" label="服务器"  width="120"  align="center">
+          <el-table-column prop="hostName" label="户主名称" width="150" align="center">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.serverName" placeholder="请选择" :disabled="disabled" >
-                <el-option
-                  v-for="item in serverName"
-                  :key="item.dicKey"
-                  :label="item.dicValue"
-                  :value="item.dicKey">
-                </el-option>
-              </el-select>
+              <el-input v-model="scope.row.hostName" :min="0" :controls="false" :disabled="disabled">></el-input>
             </template>
           </el-table-column>
-          <el-table-column prop="mtAccId" label="MT账户ID" width="150" align="center">
+          <el-table-column prop="code" label="银行卡号" width="250" align="center">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.mtAccId" :min="0" :controls="false" :disabled="disabled">></el-input>
+              <el-input v-model.number="scope.row.code" :min="0" :controls="false" :disabled="disabled">></el-input>
             </template>
           </el-table-column>
-          <el-table-column prop="mtPasswordWatch" label="MT账户观摩密码" width="150" align="center">
+          <!--<el-table-column prop="code" label="操作" width="250" align="center">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.mtPasswordWatch" :min="0" :controls="false" show-password ></el-input>
+              <a @click="saveBankCode()"> 保 存</a>
             </template>
-          </el-table-column>
-          <el-table-column prop="mtPasswordTrade" label="MT账户交易密码" width="150" align="center">
-            <template slot-scope="scope">
-              <el-input  v-model="scope.row.mtPasswordTrade" :min="0" :controls="false"  show-password ></el-input>
-            </template>
-          </el-table-column>
-          <el-table-column prop="accountType" label="MT账户类型"  width="120"  align="center">
-            <template slot-scope="scope">
-              <el-select v-model="scope.row.accountType" placeholder="请选择" :disabled="disabled">
-                <el-option
-                  v-for="item in accountType"
-                  :key="item.dicKey"
-                  :label="item.dicValue"
-                  :value="item.dicKey">
-                </el-option>
-              </el-select>
-            </template>
-          </el-table-column>
-          <el-table-column prop="platType" label="MT平台类型"  width="120"  align="center">
-            <template slot-scope="scope">
-              <el-select v-model="scope.row.platType" placeholder="请选择" :disabled="disabled">
-                <el-option
-                  v-for="item in platType"
-                  :key="item.dicKey"
-                  :label="item.dicValue"
-                  :value="item.dicKey">
-                </el-option>
-              </el-select>
-            </template>
-          </el-table-column>
-          <el-table-column prop="accountState" label="MT账户状态"  width="120"  align="center">
-            <template slot-scope="scope">
-              <el-select v-model="scope.row.accountState" placeholder="正常"  disabled>
-                <el-option
-                  v-for="item in accountState"
-                  :key="item.dicKey"
-                  :label="item.dicValue"
-                  :value="item.dicKey">
-                </el-option>
-              </el-select>
-            </template>
-          </el-table-column>
-          <el-table-column prop="connectState" label="MT账户链接状态"  width="120"  align="center">
-            <template slot-scope="scope">
-              <el-select v-model="scope.row.connectState" placeholder="未连接" disabled>
-                <el-option
-                  v-for="item in connectState"
-                  :key="item.dicKey"
-                  :label="item.dicValue"
-                  :value="item.dicKey">
-                </el-option>
-              </el-select>
-            </template>
-          </el-table-column>
+          </el-table-column>-->
         </el-table>
       </div>
     </div>

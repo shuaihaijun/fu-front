@@ -89,7 +89,7 @@
             key: 'introducer',
             label: '',
             value: null,
-            placeholder: '介绍人',
+            placeholder: '推荐码',
             width: 100,
             type: ''
           }]
@@ -170,7 +170,7 @@
           },
           {
             prop: 'introducer',
-            label: '介绍人',
+            label: '推荐码',
             width: '80',
             align: 'center'
           },
@@ -227,7 +227,7 @@
             userType: this.queryData.formData.userType, // 类型
             isVerified: this.queryData.formData.isVerified, // 是否已校验身份
             isAccount: this.queryData.formData.isAccount, // 是否已校验账户
-            introducer: this.queryData.formData.introducer, // 介绍人
+            introducer: this.queryData.formData.introducer, // 推荐码
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }

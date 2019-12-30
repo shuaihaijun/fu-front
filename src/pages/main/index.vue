@@ -24,7 +24,7 @@
 					adminName: '用户名'
 				},
 				roleList: '',
-				osName: '精诚所至 金石为开',
+				osName: '壹道守十 精诚所至',
 				height: ''
 			}
 		},

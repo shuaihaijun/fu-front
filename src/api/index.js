@@ -7,8 +7,9 @@ xmlhttp.send()
 let xmlDoc = JSON.parse(xmlhttp.response)
 
 let _host = 'http://127.0.0.1:8088'
-// let _host = 'http://172.16.207.145:8088'
+let _front = 'http://127.0.0.1:8081'
 // let _host = 'http://47.96.165.40:8088'
+// let _front = 'http://47.96.165.40:8081'
 
 switch (xmlDoc.env) {
   case 'alpha':
@@ -71,6 +72,10 @@ module.exports = {
   getPictureDownloadUrl: function (path) {
     return _host + path
   },
+  // 获取用户推广链接
+  getIntroducerloadUrl: function (introducer) {
+    return _front + '/register?introducer=' + introducer
+  },
   // /*---------------------用户信息---------------------*/
   //  登录
   getLogin(params, callback) {
@@ -106,6 +111,18 @@ module.exports = {
   // 用户详情
   getUserByIdOrName(params, callback) {
     proxy.call(this, 'post', _host + '/admin/getUserByIdOrName', params, callback)
+  },
+  // 用户银行卡获取
+  getUserBank(params, callback) {
+    proxy.call(this, 'post', _host + '/userBank/find', params, callback)
+  },
+  // 用户银行卡获取
+  saveOrUpdateUserBank(params, callback) {
+    proxy.call(this, 'post', _host + '/userBank/saveOrUpdate', params, callback)
+  },
+  // 用户银行卡获取
+  updateUserBank(params, callback) {
+    proxy.call(this, 'post', _host + '/userBank/modify', params, callback)
   },
   // /*---------------------账户信息 MT账户---------------------*/
   // 获取MT账户信息

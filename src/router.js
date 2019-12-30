@@ -15,6 +15,14 @@ const router = new VueRouter({
 				requireAuth: true
 			}
 		},
+    {
+      path: '/register',
+      name: 'register',
+      component: resolve => require(['./pages/register/index'], resolve),
+      meta: {
+        requireAuth: false
+      }
+    },
 		{
 			path: '/',
 			name: 'login',

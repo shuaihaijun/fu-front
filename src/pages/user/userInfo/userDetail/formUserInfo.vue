@@ -14,7 +14,7 @@
 
       <el-col :span="5">
         <el-form-item label="昵称:" prop="refName">
-          <el-input v-model="dataForm.refName" :disabled="true"></el-input>
+          <el-input v-model="dataForm.refName" :disabled="disabled"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="5">
@@ -47,7 +47,7 @@
           </el-form-item>
       </el-col>
       <el-col :span="5">
-          <el-form-item label="介绍人:" prop="introducer">
+          <el-form-item label="推荐码:" prop="introducer">
             <el-input v-model="dataForm.introducer" :disabled="true"></el-input>
           </el-form-item>
       </el-col>
@@ -93,6 +93,17 @@
           <el-input v-model="dataForm.address" :disabled="disabled"></el-input>
         </el-form-item>
       </el-col>
+    <h3>推广信息</h3>
+      <el-col :span="5">
+        <el-form-item label="邀请码:" prop="userIdCode">
+          <el-input v-model="dataForm.id" :disabled="true"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="10">
+        <el-form-item label="邀请链接:" prop="introducerUrl">
+          <el-input v-model="introducerUrl" :disabled="true"></el-input>
+        </el-form-item>
+      </el-col>
   </div>
 </template>
 <script>
@@ -115,6 +126,7 @@
         dialogVisible: false,
         formTitle: '更新日志',
         disabled: true,
+        introducerUrl: '',
         userSex: this.$api.getDicValues('user.sex'),
         userType: this.$api.getDicValues('user.userType'),
         userState: this.$api.getDicValues('user.userState'),
@@ -125,6 +137,9 @@
       if (this.formType === 'edit') {
         this.disabled = false
       }
+      setTimeout(() => {
+        this.introducerUrl = this.$api.getIntroducerloadUrl(this.dataForm.id)
+      }, 0)
     },
     methods: {
       // 查看日志

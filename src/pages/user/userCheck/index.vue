@@ -72,7 +72,7 @@
             key: 'introducer',
             label: '',
             value: null,
-            placeholder: '介绍人',
+            placeholder: '推荐码',
             width: 100,
             type: ''
           }]
@@ -153,7 +153,7 @@
           },
           {
             prop: 'introducer',
-            label: '介绍人',
+            label: '推荐码',
             width: '80',
             align: 'center'
           },
@@ -207,7 +207,7 @@
             username: this.queryData.formData.username, // 名称
             userType: this.queryData.formData.userType, // 类型
             userState: 2, // 用户类型 ，2：待审核
-            introducer: this.queryData.formData.introducer, // 介绍人
+            introducer: this.queryData.formData.introducer, // 推荐码
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }

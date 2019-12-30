@@ -1,6 +1,6 @@
 <template>
   <div>
-    <os-form :visible="visible" :disabled="disabled" :dataSource="formData" :title="formTitle" v-on:handle-button="affirm" :modal-append-to-body='false'></os-form>
+    <os-form :visible="visible" :disabled="disabled" :dataSource="formData" :title="formTitle" v-on:handle-button="affirm"></os-form>
   </div>
 </template>
 <script>
@@ -13,13 +13,9 @@
         default() {
           return 'edit'
         }
-      },
-      _visible: false
+      }
     },
     watch: {
-      _visible: function(v1) {
-        this.visible = v1
-      },
       visible(v) {
         this.$parent.formVisible = v
       },

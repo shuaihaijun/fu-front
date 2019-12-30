@@ -92,7 +92,7 @@
           },
           {
             prop: 'introducer',
-            label: '介绍人',
+            label: '推荐码',
             width: '80',
             align: 'center'
           },

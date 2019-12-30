@@ -91,7 +91,7 @@
             },
             {
               key: 'introducer',
-              label: '介绍人',
+              label: '推荐码',
               value: ''
             },
             {

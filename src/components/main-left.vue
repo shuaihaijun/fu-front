@@ -2,6 +2,7 @@
   <div class="main_left" :style="{'width': leftWidth}">
     <div class="main_menu">
       <div class="menu_bar">
+        <!--<span><small  class="title_shangwu">  商 务 中 心</small></span>-->
         <i class="el-icon-d-arrow-left" v-if="icoShowLeft" @click="collapseLeft"></i>
         <i class="el-icon-d-arrow-right" v-if="icoShowRight" @click="collapseRight" style="right: 25px;"></i>
       </div>
@@ -314,8 +315,9 @@
     padding-left: 15px;
     font-size: 14px;
     background: url('../assets/images/tab_bg.png') repeat-x;
-    border-bottom: 1px solid #cecece;
-    border: 1px solid #cecece;
+    border-bottom: 1px solid #cccccc;
+    border: 1px solid #cccccc;
+    background-color: #666666;
     border-right-width: 0;
     position: relative;
   }
@@ -552,6 +554,11 @@
  .el-menu--collapse{
    width: 60px;
  }
+  .title_shangwu {
+    font-size: 15px;
+    font-weight: 200;
+    margin-left: 20px;
+  }
  .main_left .el-menu{
    overflow-y:auto ;
    height: 100%;

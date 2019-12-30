@@ -14,7 +14,22 @@
     <el-form :model="dataForm" class="dataForm" :rules="rules" ref="ruleForm" :class="{'dataForm_view': formType == 'view'}" label-width="100px">
       <el-row :gutter="15">
         <form-1 :dataForm="dataForm" :formType="formType"></form-1>
-        <div>
+        <el-collapse v-model="activeName" accordion>
+          <el-collapse-item title="MT账户信息" name="1">
+            <span><small class="title_s" v-if="formType=='edit'">注：已绑定账户只能做修改密码操作！修改密码后请联系管理员重新启动监听！</small></span>
+            <form-2 :dataForm="dataForm" :formType="formType" :tableData="tableData1"></form-2>
+          </el-collapse-item>
+          <el-collapse-item title="银行卡信息" name="2">
+            <form-4 :dataForm="dataForm" :formType="formType" :tableData="tableData2"></form-4>
+          </el-collapse-item>
+          <el-collapse-item title="证件信息" name="3">
+            <span><small class="title_s" v-if="formType=='edit'">注：上传单个文件不能大于2M，文件名称为：用户ID + 昵称，上传文件后需按保存按钮！</small></span>
+            <form-3 title="头像" :images="images.avatarUrl" :dataForm="dataForm" :showType="formType"></form-3>
+            <form-3 title="身份证正面" :images="images.idFront" :dataForm="dataForm" :showType="formType"></form-3>
+            <form-3 title="身份证反面" :images="images.idObverse" :dataForm="dataForm" :showType="formType"></form-3>
+          </el-collapse-item>
+        </el-collapse>
+        <!--<div>
           <h3>MT账户信息</h3>
           <span><small class="title_s" v-if="formType=='edit'">注：已绑定账户只能做修改密码操作！修改密码后请联系管理员重新启动监听！</small></span>
           <form-2 :dataForm="dataForm" :formType="formType" :tableData="tableData1"></form-2>
@@ -25,7 +40,7 @@
           <form-3 title="头像" :images="images.avatarUrl" :dataForm="dataForm" :showType="formType"></form-3>
           <form-3 title="身份证正面" :images="images.idFront" :dataForm="dataForm" :showType="formType"></form-3>
           <form-3 title="身份证反面" :images="images.idObverse" :dataForm="dataForm" :showType="formType"></form-3>
-        </div>
+        </div>-->
       </el-row>
     </el-form>
   </div>
@@ -34,11 +49,14 @@
   import form1 from './formUserInfo.vue'
   import form2 from './formUserAcc.vue'
   import form3 from './formUserImages.vue'
+  import form4 from './formUserBank.vue'
+
   export default {
     components: {
       'form-1': form1,
       'form-2': form2,
-      'form-3': form3
+      'form-3': form3,
+      'form-4': form4
     },
     props: {
     },
@@ -149,15 +167,12 @@
         this.dataForm.wname = this.$store.state.tab.uid.wname
         let params = {
           id: this.dataForm.wid,
+          userId: this.dataForm.wid,
           username: this.dataForm.wname
         }
         this.$api.getUserByIdOrName(params, (res) => {
           let _dataForm = res.content
           this.dataForm = _dataForm
-          // this.images.idFront = [{name: '123', url: 'D:\\test\\2019\\12\\f703738da97739120aeff204f5198618377ae28e.png'}]
-          // this.images.idObverse = [{name: '123', url: 'D:\\test\\2019\\12\\c8ea15ce36d3d539881d35e23787e950352ab0ea.png'}]
-          // this.images.idFront = _dataForm.idFront.split(',')
-          // this.images.idObverse = _dataForm.idObverse.split(',')
           if (_dataForm.avatarUrl !== '') {
             this.setFileNames(1, _dataForm.avatarUrl)
           }
@@ -173,10 +188,21 @@
             if (res.content.data.length > 0) {
               this.tableData1 = res.content.data
             } else {
-              this.initTable()
+              this.initTable1()
             }
           } else {
             this.tableData1 = [{}]
+          }
+        })
+        params.id = ''
+        let data = {
+          params
+        }
+        this.$api.getUserBank(data, (res) => {
+          if (res.content !== null) {
+            this.tableData2[0] = res.content
+          } else {
+            this.initTable2()
           }
         })
       },
@@ -200,10 +226,11 @@
       },
       handleSave(formName) {
         this.$refs[formName].validate((valid) => {
-          if (valid) {
+            if (valid) {
             let params = JSON.parse(JSON.stringify(this.dataForm))
             params.userId = this.dataForm.id
             this.tableData1[0].userId = this.dataForm.id
+            this.tableData2[0].userId = this.dataForm.id
             params.mtAccInfo = this.tableData1[0]
             // params.idFront = this.images.IDCard1
             // params.idObverse = this.images.IDCard2
@@ -222,13 +249,24 @@
               }
               this.$message('操作成功！')
             })
+            params = this.tableData2[0]
+            let data = {
+              params
+            }
+            this.$api.saveOrUpdateUserBank(data, (res) => {
+              if (res.status !== 0) {
+                window.alert(res.message)
+                return
+              }
+              this.$message('操作成功！')
+            })
           } else {
             this.$message('请书写完整')
             return false
           }
         })
       },
-      initTable() {
+      initTable1() {
         this.tableData1 = [
           {
             'accountType': '',
@@ -241,8 +279,14 @@
           }
         ]
       },
-      handleCheck1() {
-        this.$router.go(0)
+      initTable2() {
+        this.tableData2 = [
+          {
+            'bankName': '',
+            'hostName': '',
+            'code': ''
+          }
+        ]
       },
       handleCheck(formName) {
         this.$refs[formName].validate((valid) => {

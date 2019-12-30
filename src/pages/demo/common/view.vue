@@ -1,9 +1,7 @@
 <template>
   <div>
     <el-dialog class="osDialog" :title="title" width="80%" top="5vh" :visible="visible" @close="handleButton('close')" :close-on-click-modal="false">
-
       <el-form :model="dataSource" class="dataForm" label-width="240px">
-
         <el-row :gutter="20" v-for="r in dataSource.formItem" class="osForm">
           <h3 class="dataForm_title">{{r.label}}</h3>
           <el-col :span="8" v-for="rc in r.children">
@@ -12,9 +10,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-
       </el-form>
-
       <div slot="footer" class="dialog-footer">
         <template v-if="!disabled">
           <el-button @click="handleButton('cancel')">取 消</el-button>

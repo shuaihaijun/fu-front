@@ -88,7 +88,7 @@
 <style>
   .main_top {
     height: 54px;
-    background: #575556;
+    background: #333;
     color: #fff;
     padding: 0 15px;
   }
