@@ -151,7 +151,6 @@
     created() {
       if (window.localStorage.getItem('nice_user')) {
         let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-        console.log(userInfo)
         if (userInfo.userType < 8 || userInfo.userType > 10) {
           // 管理者
           this.queryData.formItem[0].value = userInfo.userId

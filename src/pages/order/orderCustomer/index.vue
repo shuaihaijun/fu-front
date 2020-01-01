@@ -205,8 +205,10 @@
       } else {
         this.$message('获取用户信息失败！')
       }
-      this.getQuery()
       this.queryData.formItem[3].option = this.orderType
+      setTimeout(() => {
+        this.getQuery()
+      }, 100)
     },
     methods: {
       getQuery() { // 搜索获取表格数据

@@ -14,7 +14,7 @@
         columnOperate: [
           {
             label: '个人详情',
-            width: '110px',
+            width: '120px',
             fixed: 'left',
             isBtn: true,
             children: [{
@@ -37,19 +37,19 @@
           {
             prop: 'id',
             label: '用户ID',
-            width: '90',
+            width: '',
             align: 'center'
           },
           {
             prop: 'username',
             label: '用户账号',
-            width: '150',
+            width: '',
             align: 'center'
           },
           {
             prop: 'userType',
             label: '用户类型',
-            width: '80',
+            width: '',
             formatter: true,
             columnKey: 'user.userType',
             align: 'center'
@@ -57,7 +57,7 @@
           {
             prop: 'userState',
             label: '用户状态',
-            width: '80',
+            width: '',
             formatter: true,
             columnKey: 'user.userState',
             align: 'center'
@@ -65,19 +65,19 @@
           {
             prop: 'refName',
             label: '用户昵称',
-            width: '100',
+            width: '',
             align: 'center'
           },
           {
             prop: 'mobile',
             label: '手机号',
-            width: '100',
+            width: '',
             align: 'center'
           },
           {
             prop: 'isVerified',
             label: '是否已验证身份',
-            width: '100',
+            width: '',
             formatter: true,
             columnKey: 'com.yes',
             align: 'center'
@@ -85,7 +85,7 @@
           {
             prop: 'isAccount',
             label: '是否已绑定MT',
-            width: '100',
+            width: '',
             formatter: true,
             columnKey: 'com.yes',
             align: 'center'
@@ -93,13 +93,13 @@
           {
             prop: 'introducer',
             label: '推荐码',
-            width: '80',
+            width: '',
             align: 'center'
           },
           {
             prop: 'recommend',
             label: '推荐人数',
-            width: '80',
+            width: '',
             align: 'center'
           },
           {

@@ -61,14 +61,14 @@
             {
               key: 'userId',
               label: '申请人ID',
-              value: '',
-              placeholder: '自动获取',
-              readonly: true
+              required: true,
+              value: ''
             },
             {
               key: 'mtAccountInfo',
               label: 'MT账户信息',
               value: '',
+              required: true,
               type: 'select',
               option: [{}]
             },
@@ -97,12 +97,14 @@
               key: 'mtPasswordWatch',
               label: '观摩密码',
               value: '',
+              required: true,
               placeholder: '自动获取',
               readonly: true
             },
             {
               key: 'signalName',
               label: '信号源名称',
+              required: true,
               value: ''
             },
             {
@@ -128,11 +130,13 @@
             {
               key: 'email',
               label: '电子邮件',
+              required: true,
               value: ''
             },
             {
               key: 'phone',
               label: '电话号码',
+              required: true,
               value: ''
             },
             {
@@ -144,11 +148,13 @@
               key: 'signalTem',
               label: '团队描述',
               value: '',
+              required: true,
               type: 'textarea'
             },
             {
               key: 'signalDesc',
               label: '信号源描述',
+              required: true,
               value: '',
               type: 'textarea'
             }

@@ -22,14 +22,15 @@
         formTitle: '',
         roleLevel: this.$api.getDicValues('role.roleLevel'),
         roleSign: this.$api.getDicValues('role.roleSign'),
+        permissionProject: this.$api.getDicValues('permission.project'),
         formData: {
           formData: {},
           formItem: [{
-            key: 'id',
-            label: 'ID',
-            placeholder: '自动填充',
-            value: '',
-            readonly: true
+              key: 'id',
+              label: 'ID',
+              placeholder: '自动填充',
+              value: '',
+              readonly: true
             },
             {
               key: 'roleCode',
@@ -39,6 +40,13 @@
             {
               key: 'roleName',
               label: '角色名称',
+              value: ''
+            },
+            {
+              key: 'projKey',
+              label: '所属团队',
+              type: 'select',
+              option: this.permissionProject,
               value: ''
             },
             {
@@ -146,8 +154,9 @@
           }
         })
       }
-      this.formData.formItem[3].option = this.roleLevel
-      this.formData.formItem[4].option = this.roleSign
+      this.formData.formItem[3].option = this.permissionProject
+      this.formData.formItem[4].option = this.roleLevel
+      this.formData.formItem[5].option = this.roleSign
     }
   }
 </script>

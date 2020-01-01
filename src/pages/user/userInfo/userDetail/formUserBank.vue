@@ -5,17 +5,17 @@
         <el-table :data="tableData" style="width: 100%;">
           <el-table-column prop="bankName" label="银行名称" width="250" align="center">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.bankName" :min="0" :controls="false" :disabled="disabled">></el-input>
+              <el-input v-model="scope.row.bankName"   :disabled="disabled">></el-input>
             </template>
           </el-table-column>
           <el-table-column prop="hostName" label="户主名称" width="150" align="center">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.hostName" :min="0" :controls="false" :disabled="disabled">></el-input>
+              <el-input v-model="scope.row.hostName"  :disabled="disabled">></el-input>
             </template>
           </el-table-column>
           <el-table-column prop="code" label="银行卡号" width="250" align="center">
             <template slot-scope="scope">
-              <el-input v-model.number="scope.row.code" :min="0" :controls="false" :disabled="disabled">></el-input>
+              <el-input v-model.number="scope.row.code" :disabled="disabled">></el-input>
             </template>
           </el-table-column>
           <!--<el-table-column prop="code" label="操作" width="250" align="center">

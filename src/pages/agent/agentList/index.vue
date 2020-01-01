@@ -131,12 +131,6 @@
             align: 'center'
           },
           {
-            prop: 'applyReason',
-            label: '申请原由',
-            width: '',
-            align: 'center'
-          },
-          {
             prop: 'applyDesc',
             label: '代理描述',
             width: '',

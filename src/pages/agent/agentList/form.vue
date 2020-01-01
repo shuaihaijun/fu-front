@@ -31,7 +31,6 @@
           let params = {
             id: this.pwid.id // 申请id
           }
-          console.log(params)
           api.getAgentApplyById(params, (res) => {
             console.log(res)
             if (res.status === 0 && res.content !== null) {
@@ -59,8 +58,7 @@
             {
               key: 'userId',
               label: '申请人ID',
-              value: '',
-              readonly: true
+              value: ''
             },
             {
               key: 'agentName',

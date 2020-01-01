@@ -126,10 +126,10 @@
             { required: true, message: '必填项', trigger: 'blur' }
           ],
           mobile: [
-            { required: true, message: validPhone, trigger: 'blur' }
+            { required: true, validator: validPhone, trigger: 'blur' }
           ],
           email: [
-            { required: true, message: validEmail, trigger: 'blur' }
+            { required: true, validator: validEmail, trigger: 'blur' }
           ]
         }
       }
@@ -180,7 +180,7 @@
                 window.alert('保存成功！')
                 this.$router.push({path: '/'})
               } else {
-                window.alert('保存失败！请检查数据')
+                window.alert(res.message)
               }
             })
           } else {

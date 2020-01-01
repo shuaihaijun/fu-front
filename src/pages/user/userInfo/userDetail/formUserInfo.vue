@@ -120,12 +120,18 @@
         }
       }
     },
+    watch: {
+      dataForm: function(v1) {
+        this.introducerUrl = this.$api.getIntroducerloadUrl(v1.id)
+      }
+    },
     data() {
       return {
         tableDataLog: [],
         dialogVisible: false,
         formTitle: '更新日志',
         disabled: true,
+        userId: this.dataForm.id,
         introducerUrl: '',
         userSex: this.$api.getDicValues('user.sex'),
         userType: this.$api.getDicValues('user.userType'),

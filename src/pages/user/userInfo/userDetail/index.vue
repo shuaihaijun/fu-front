@@ -65,6 +65,9 @@
         if (!value) {
           callback(new Error('请输入电话号码'))
         } else {
+          if (value.length !== 11) {
+            callback()
+          }
           var reg = /^1[3|4|5|7|6|8][0-9]\d{8}$/
           var reg2 = /^((0\d{2,3})-)?(\d{7,8})(-(\d{3,}))?$/
           if (reg2.test(value) || reg.test(value)) {
@@ -84,17 +87,6 @@
             }
           }
           callback()
-        }
-      }
-      var nonempty = (rule, value, callback) => { // 非空数字验证
-        if (!value) {
-          callback(new Error('必填项'))
-        } else {
-          var reg = /(^[1-9]\d*$)/
-          if (reg.test(value)) {
-            callback()
-          }
-          callback(new Error('请正确输入'))
         }
       }
       return {
@@ -122,7 +114,7 @@
             { required: true, message: '必填项', trigger: 'blur' }
           ],
           sex: [
-            { required: true, validator: nonempty, trigger: 'blur' }
+            { required: true, message: '必填项', trigger: 'blur' }
           ],
           province: [
             { required: true, message: '必填项', trigger: 'blur' }
@@ -134,7 +126,7 @@
             { required: true, message: '必填项', trigger: 'blur' }
           ],
           mobile: [
-            { required: true, trigger: 'blur', validator: validPhone }
+            { required: true, validator: validPhone, trigger: 'blur' }
           ],
           email: [
             { required: true, validator: validEmail, trigger: 'blur' }

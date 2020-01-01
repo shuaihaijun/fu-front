@@ -59,17 +59,19 @@
             {
               key: 'userId',
               label: '申请人ID',
-              value: '',
-              readonly: true
+              required: true,
+              value: ''
             },
             {
               key: 'agentName',
               label: '代理名称',
+              required: true,
               value: ''
             },
             {
               key: 'applyType',
               label: '申请类型',
+              required: true,
               value: '',
               type: 'select',
               option: this.applyType
@@ -78,12 +80,14 @@
               key: 'applyDesc',
               label: '代理描述',
               value: '',
+              required: true,
               type: 'textarea'
             },
             {
               key: 'applyReason',
               label: '申请原由',
               value: '',
+              required: true,
               type: 'textarea'
             }
           ]
@@ -97,8 +101,8 @@
       affirm(v, obj) {
         if (window.localStorage.getItem('nice_user')) {
           // 添加默认用户
-          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-          obj['userId'] = userInfo.userId
+          // let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          // obj['userId'] = userInfo.userId
         }
         console.log(obj)
         // 校验数据

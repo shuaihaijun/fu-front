@@ -35,6 +35,7 @@
         formTitle: '',
         dialogTitle: '权限资源',
         dialogWidth: '',
+        permissionProject: this.$api.getDicValues('permission.project'),
         dialogTop: '5%',
         disabled: true,
         selectionRows: '',
@@ -57,7 +58,17 @@
             placeholder: '角色名称',
             width: 200,
             type: ''
-          }]
+          },
+          {
+            key: 'projKey',
+            label: '',
+            value: null,
+            placeholder: '所属团队',
+            width: 200,
+            type: 'select',
+            option: this.permissionProject
+          }
+          ]
         },
         // 表格操作按钮
         columnOperate: [
@@ -110,6 +121,14 @@
             align: 'center'
           },
           {
+            prop: 'projKey',
+            label: '所属团队',
+            formatter: true,
+            columnKey: 'permission.project',
+            value: '',
+            align: 'center'
+          },
+          {
             prop: 'roleSign',
             label: '角色标识',
             formatter: true,
@@ -154,6 +173,7 @@
           }
         })
       })
+      this.formData.formItem[2].option = this.permissionProject
       this.getQuery()
     },
     methods: {

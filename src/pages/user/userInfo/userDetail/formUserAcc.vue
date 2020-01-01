@@ -78,7 +78,7 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column prop="connectState" label="MT账户链接状态"  width="120"  align="center">
+          <el-table-column prop="connectState" label="MT账户链接状态"  width="150"  align="center">
             <template slot-scope="scope">
               <el-select v-model="scope.row.connectState" placeholder="未连接" disabled>
                 <el-option
@@ -172,7 +172,7 @@
               // 重组数据
               for (let index = 0; index < res.content.data.length; index++) {
                 let object1 = {}
-                object1.dicValue = res.content.data[index].comment
+                object1.dicValue = res.content.data[index].brokerName
                 object1.dicKey = res.content.data[index].brokerName
                 object[index] = object1
               }
