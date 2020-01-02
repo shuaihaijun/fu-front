@@ -136,7 +136,7 @@
         columnOperate: [
           {
             label: '操作',
-            width: '110px',
+            width: '120px',
             fixed: 'left',
             isBtn: true,
             children: [{

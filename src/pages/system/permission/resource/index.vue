@@ -81,7 +81,7 @@
         columnOperate: [
           {
             label: '操作',
-            width: '110px',
+            width: '120px',
             fixed: 'left',
             isBtn: true,
             children: [{
@@ -218,7 +218,6 @@
             params,
             pageInfoHelper
           }
-          console.log(data)
           api.queryPermissionResource(data, (res) => {
             this.tableData = res.content.data
             this.pageDataTotal = res.content.data.length

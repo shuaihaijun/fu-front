@@ -22,12 +22,12 @@
 			},
 			pageSizes: {
 				default () {
-					return [20, 50, 100, 200]
+					return [30, 50, 100, 200]
 				}
 			},
 			pageSize: {
 				default () {
-					return 20
+					return 30
 				}
 			},
 			pageTotal: {

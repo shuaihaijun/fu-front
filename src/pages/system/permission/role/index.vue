@@ -74,7 +74,7 @@
         columnOperate: [
           {
             label: '操作',
-            width: '110px',
+            width: '120px',
             fixed: 'left',
             isBtn: true,
             children: [{
@@ -132,7 +132,7 @@
             prop: 'roleSign',
             label: '角色标识',
             formatter: true,
-            columnKey: 'role.roleSign',
+            columnKey: 'user.userType',
             value: '',
             align: 'center'
           },
@@ -173,7 +173,7 @@
           }
         })
       })
-      this.formData.formItem[2].option = this.permissionProject
+      this.queryData.formItem[2].option = this.permissionProject
       this.getQuery()
     },
     methods: {

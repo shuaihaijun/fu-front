@@ -86,7 +86,7 @@
         columnOperate: [
           {
             label: '操作',
-            width: '80px',
+            width: '120px',
             fixed: 'left',
             isBtn: true,
             children: [{
@@ -252,11 +252,10 @@
         let _data = {
           id: 'm1_view',
           name: '查看基础信息',
-          url: 'userDetail',
+          url: 'accountMtInfo',
           uid: {
             formType: 'view',
-            id: row.id,
-            wname: row.username
+            userId: row.userId
           }
         }
         setTimeout(() => {

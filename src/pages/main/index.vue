@@ -6,10 +6,12 @@
 			:osName="osName"
 			:roleList="roleList">
 		</os-header>
-		<div class="main_box" :style="{height: height}">
-			<os-left menuType="B" @collapse="collapse" :leftWidth="leftWidth" :collapse="onoff"></os-left>
-			<os-right :marginLeft="marginLeft"></os-right>
-		</div>
+    <div class="main_center" >
+      <div class="main_box" :style="{height: height}">
+        <os-left menuType="B" @collapse="collapse" :leftWidth="leftWidth" :collapse="onoff"></os-left>
+        <os-right :marginLeft="marginLeft"></os-right>
+      </div>
+    </div>
 	</div>
 </template>
 <script>
@@ -126,9 +128,14 @@
 	}
 </script>
 <style>
-	.main_box {
+	/*.main_box {
 		overflow: hidden;
+    width: 90%;
+    margin-left: 5%;
 	}
+  .home .main_center {
+    background-color: #e7e7e7;
+  }*/
 	.main_left {
 		height: 100%;
 		width: 180px;

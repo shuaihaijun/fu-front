@@ -5,23 +5,17 @@
         <!-- <input type="text"> -->
       </os-search>
     </div>
-
     <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="viewAddTabUser">
       <div slot="r">
       </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
-
-    <forms :_visible="formVisible" v-if="show" :pwid="LogWid" :disabled="disabled" :title="formTitle"></forms>
   </div>
 </template>
 <script>
   import api from '../../../api/'
-  import forms from './form'
-
   export default {
     components: {
-      'forms': forms
     },
     data() {
       return {
@@ -29,11 +23,6 @@
         LogWid: '',
         dialogVisible: false,
         formVisible: false,
-        formTitle: '',
-        dialogTitle: '更新日志',
-        dialogWidth: '',
-        dialogTop: '5%',
-        disabled: true,
         userType: this.$api.getDicValues('user.userType'),
         isVerified: this.$api.getDicValues('com.yes'),
         isAccount: this.$api.getDicValues('com.yes'),
@@ -84,21 +73,13 @@
             width: 120,
             type: 'select',
             option: this.isAccount
-          },
-          {
-            key: 'introducer',
-            label: '',
-            value: null,
-            placeholder: '推荐码',
-            width: 100,
-            type: ''
           }]
         },
         // 表格操作按钮
         columnOperate: [
           {
             label: '操作',
-            width: '80px',
+            width: '120px',
             fixed: 'left',
             isBtn: true,
             children: [{
@@ -155,7 +136,7 @@
           {
             prop: 'isVerified',
             label: '是否已验证身份',
-            width: '100',
+            width: '120',
             formatter: true,
             columnKey: 'com.yes',
             align: 'center'
@@ -163,7 +144,7 @@
           {
             prop: 'isAccount',
             label: '是否已绑定MT',
-            width: '100',
+            width: '120',
             formatter: true,
             columnKey: 'com.yes',
             align: 'center'
@@ -221,19 +202,24 @@
           let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           // 判断用户权限
           let params = {
-            operUserId: userInfo.userId, // 操作用户id
-            userId: this.queryData.formData.userId, // 用户ID
+            introducer: userInfo.userId, // 操作用户id
+            id: this.queryData.formData.userId, // 用户ID
             username: this.queryData.formData.username, // 名称
             userType: this.queryData.formData.userType, // 类型
             isVerified: this.queryData.formData.isVerified, // 是否已校验身份
-            isAccount: this.queryData.formData.isAccount, // 是否已校验账户
-            introducer: this.queryData.formData.introducer, // 推荐码
-            pageSize: this.pageDataSize,
-            pageNum: this.pageDataNum
+            isAccount: this.queryData.formData.isAccount // 是否已校验账户
           }
-          api.queryUserList(params, (res) => {
-            this.tableData = res.content.records
-            this.pageDataTotal = res.content.total
+          let pageInfoHelper = {
+            pageSize: this.pageDataSize,
+            pageNo: this.pageDataNum
+          }
+          let data = {
+            params,
+            pageInfoHelper
+          }
+          api.queryAgentUserList(data, (res) => {
+            this.tableData = res.content.data
+            this.pageDataTotal = res.content.data.length
           })
         } else {
           this.$message('获取用户信息失败！')
@@ -265,7 +251,7 @@
         let _data = {
           id: 'm1_view',
           name: '查看基础信息',
-          url: 'userDetail',
+          url: 'agentUserDetail',
           uid: {
             formType: 'view',
             id: row.id,

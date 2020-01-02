@@ -65,16 +65,7 @@
               option: this.commissionType
             },
             {
-              key: 'commissionUserType',
-              label: '',
-              value: null,
-              placeholder: '用户类型',
-              width: 200,
-              type: 'select',
-              option: this.commissionUserType
-            },
-            {
-              key: 'commissionUserLevel',
+              key: 'commissionLevel',
               label: '',
               value: null,
               placeholder: '返佣用户等级',

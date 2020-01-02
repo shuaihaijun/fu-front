@@ -20,27 +20,15 @@
             <form-2 :dataForm="dataForm" :formType="formType" :tableData="tableData1"></form-2>
           </el-collapse-item>
           <el-collapse-item title="银行卡信息" name="2">
-            <form-4 :dataForm="dataForm" :formType="formType" :tableData="tableData2"></form-4>
+            <form-4 :dataForm="tableData2" :formType="formType" ></form-4>
           </el-collapse-item>
-          <el-collapse-item title="证件信息" name="3">
+          <el-collapse-item title="照片信息" name="3">
             <span><small class="title_s" v-if="formType=='edit'">注：上传单个文件不能大于2M，文件名称为：用户ID + 昵称，上传文件后需按保存按钮！</small></span>
             <form-3 title="头像" :images="images.avatarUrl" :dataForm="dataForm" :showType="formType"></form-3>
             <form-3 title="身份证正面" :images="images.idFront" :dataForm="dataForm" :showType="formType"></form-3>
             <form-3 title="身份证反面" :images="images.idObverse" :dataForm="dataForm" :showType="formType"></form-3>
           </el-collapse-item>
         </el-collapse>
-        <!--<div>
-          <h3>MT账户信息</h3>
-          <span><small class="title_s" v-if="formType=='edit'">注：已绑定账户只能做修改密码操作！修改密码后请联系管理员重新启动监听！</small></span>
-          <form-2 :dataForm="dataForm" :formType="formType" :tableData="tableData1"></form-2>
-        </div>
-        <div>
-          <h3>证件信息</h3>
-          <span><small class="title_s" v-if="formType=='edit'">注：上传单个文件不能大于2M，文件名称为：用户ID + 昵称，上传文件后需按保存按钮！</small></span>
-          <form-3 title="头像" :images="images.avatarUrl" :dataForm="dataForm" :showType="formType"></form-3>
-          <form-3 title="身份证正面" :images="images.idFront" :dataForm="dataForm" :showType="formType"></form-3>
-          <form-3 title="身份证反面" :images="images.idObverse" :dataForm="dataForm" :showType="formType"></form-3>
-        </div>-->
       </el-row>
     </el-form>
   </div>
@@ -97,7 +85,7 @@
           wname: ''
         },
         tableData1: [{}],
-        tableData2: [{}],
+        tableData2: {},
         disabled: false,
         images: {
           avatarUrl: [
@@ -111,6 +99,9 @@
         },
         rules: {
           realName: [
+            { required: true, message: '必填项', trigger: 'blur' }
+          ],
+          refName: [
             { required: true, message: '必填项', trigger: 'blur' }
           ],
           sex: [
@@ -192,7 +183,7 @@
         }
         this.$api.getUserBank(data, (res) => {
           if (res.content !== null) {
-            this.tableData2[0] = res.content
+            this.tableData2 = res.content
           } else {
             this.initTable2()
           }
@@ -222,7 +213,7 @@
             let params = JSON.parse(JSON.stringify(this.dataForm))
             params.userId = this.dataForm.id
             this.tableData1[0].userId = this.dataForm.id
-            this.tableData2[0].userId = this.dataForm.id
+            this.tableData2.userId = this.dataForm.id
             params.mtAccInfo = this.tableData1[0]
             // params.idFront = this.images.IDCard1
             // params.idObverse = this.images.IDCard2
@@ -241,7 +232,7 @@
               }
               this.$message('操作成功！')
             })
-            params = this.tableData2[0]
+            params = this.tableData2
             let data = {
               params
             }

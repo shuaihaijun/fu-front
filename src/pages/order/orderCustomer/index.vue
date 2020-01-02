@@ -5,11 +5,8 @@
         <!-- <input type="text"> -->
       </os-search>
     </div>
-
     <os-table :showIndex="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :tableData="tableData" @click-operate="handleOperate">
-      <div slot="l">本次共查询出订单总数：{{tableDataTitle.orderCount}} 单 ，整货件数： {{tableDataTitle.wholeCount}}  件，散货件数： {{tableDataTitle.scatteredCount}} 件</div>
     </os-table>
-    
     <os-pag :pageTotal="pageDataTotal"></os-pag>
 
     <os-dialog :visible="dialogVisible" :title="dialogTitle" :visibleButton="false" :width="dialogWidth +'px'" :top="dialogTop">
@@ -44,6 +41,7 @@
             value: null,
             placeholder: '用户ID',
             width: 180,
+            readonly: true,
             type: ''
           },
             {
@@ -146,12 +144,6 @@
             align: 'center'
           },
           {
-            prop: 'orderMagic',
-            label: '魔法数字',
-            width: '80',
-            align: 'center'
-          },
-          {
             prop: 'orderStoploss',
             label: '止损',
             width: '80',
@@ -196,25 +188,25 @@
       this.getWList()
       if (window.localStorage.getItem('nice_user')) {
         let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-        console.log(userInfo)
-        if (userInfo.userType < 8 || userInfo.userType > 10) {
+        this.queryData.formItem[0].value = userInfo.userId
+        if (userInfo.userType < 5 && userInfo.userType > 10) {
           // 管理者
-          this.queryData.formItem[0].value = userInfo.userId
-          this.queryData.formItem[0].readonly = true
+          this.queryData.formItem[0].readonly = false
+          this.queryData.formData.userId = userInfo.userId
         }
       } else {
         this.$message('获取用户信息失败！')
       }
       this.queryData.formItem[3].option = this.orderType
-      setTimeout(() => {
-        this.getQuery()
-      }, 100)
+      this.getQuery()
     },
     methods: {
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
+          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           let params = {
-            userId: this.queryData.formData.userId, // 订单id
+            operUserId: userInfo.userId, // 操作者userId
+            userId: this.queryData.formData.userId, // 用户ID
             orderId: this.queryData.formData.orderId, // 订单id
             orderType: this.queryData.formData.orderType, // 交易类型
             orderSymbol: this.queryData.formData.orderSymbol, // 外汇产品

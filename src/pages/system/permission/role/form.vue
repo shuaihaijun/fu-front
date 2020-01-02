@@ -21,7 +21,7 @@
         visible: false,
         formTitle: '',
         roleLevel: this.$api.getDicValues('role.roleLevel'),
-        roleSign: this.$api.getDicValues('role.roleSign'),
+        roleSign: this.$api.getDicValues('user.userType'),
         permissionProject: this.$api.getDicValues('permission.project'),
         formData: {
           formData: {},
@@ -114,7 +114,6 @@
       },
       affirm(v, obj) {
         let params = obj
-        params.projKey = 0
         let data = {
           params
         }

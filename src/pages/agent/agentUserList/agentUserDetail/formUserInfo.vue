@@ -7,11 +7,6 @@
         </el-form-item>
       </el-col>
       <el-col :span="5">
-        <el-form-item label="登录账号:" prop="username">
-          <el-input v-model="dataForm.username" :disabled="true"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="5">
         <el-form-item label="昵称:" prop="refName">
           <el-input v-model="dataForm.refName" :disabled="disabled"></el-input>
         </el-form-item>
@@ -65,42 +60,6 @@
               :value="item.dicKey">
             </el-option>
           </el-select>
-        </el-form-item>
-      </el-col>
-      <el-col :span="5">
-        <el-form-item label="联系电话:" prop="mobile">
-          <el-input v-model="dataForm.mobile" :disabled="disabled"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="10">
-        <el-form-item label="电子邮件:" prop="email">
-          <el-input v-model="dataForm.email" :disabled="disabled"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="5">
-        <el-form-item label="省份:" prop="province">
-          <el-input v-model="dataForm.province" :disabled="disabled"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="5">
-        <el-form-item label="城市:" prop="city">
-          <el-input v-model="dataForm.city" :disabled="disabled"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="10">
-        <el-form-item label="地址:" prop="address">
-          <el-input v-model="dataForm.address" :disabled="disabled"></el-input>
-        </el-form-item>
-      </el-col>
-    <h3>推广信息</h3>
-      <el-col :span="5">
-        <el-form-item label="邀请码:" prop="userIdCode">
-          <el-input v-model="dataForm.id" readonly></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="10">
-        <el-form-item label="邀请链接:" prop="introducerUrl">
-          <el-input v-model="introducerUrl" readonly></el-input>
         </el-form-item>
       </el-col>
   </div>
