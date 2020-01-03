@@ -11,7 +11,11 @@
         <form-1 :dataForm="dataForm"></form-1>
       </el-row>
     </el-form>
-    <os-table :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :tableData="tableData" @change-selection="selectionChange" @click-operate="viewAddTabUser">
+    <os-table :loading="loading" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :tableData="tableData" @change-selection="selectionChange" @click-operate="viewAddTabUser">
+      <div slot="r">
+        <el-button @click="accConnectStart()"><i class="el-icon-check"></i> 启动监听</el-button>
+        <el-button @click="accConnectClose()"><i class="el-icon-close"></i> 关闭监听</el-button>
+      </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
 
@@ -19,6 +23,7 @@
 </template>
 <script>
   import form1 from './formMTInfo.vue'
+  import { MessageBox } from 'element-ui'
 
   export default {
     components: {
@@ -28,6 +33,7 @@
       return {
         show: false,
         LogWid: '',
+        loading: false,
         currentUserId: 0,
         dataForm: {
           wname: ''
@@ -162,6 +168,69 @@
           this.$store.dispatch('addTab', _data)
           this.$store.dispatch('m1_form_state', this.$store.state.m1.m1_form_state + 1)
         }, 10)
+      },
+      accConnectStart() {
+        // 判断数据
+        MessageBox.confirm('确定启动吗？', '提示', {
+          cancelButtonText: '取消',
+          confirmButtonText: '确认',
+          type: 'warning'
+        }).then(() => {
+          this.loading = true
+          let param = {
+            userId: this.dataForm.userId, // 用户ID
+            username: this.dataForm.username, // 名称
+            mtAccId: this.dataForm.mtAccId, // 类型
+            serverName: this.dataForm.serverName // 服务器
+          }
+          // 审核流程
+          this.$api.connectUserMTAccount(param, (res) => {
+            if (res.status === 0 && res.content === true) {
+              // 保存成功
+              window.alert('操作成功！')
+              this.$options.methods.getQuery.bind(this)()
+            } else {
+              window.alert('操作失败！')
+            }
+            this.loading = false
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消操作'
+          })
+        })
+      },
+      accConnectClose() {
+        MessageBox.confirm('确定断开连接吗？', '提示', {
+          cancelButtonText: '取消',
+          confirmButtonText: '确认',
+          type: 'warning'
+        }).then(() => {
+          this.loading = true
+          let param = {
+            userId: this.dataForm.userId, // 用户ID
+            username: this.dataForm.username, // 名称
+            mtAccId: this.dataForm.mtAccId, // 类型
+            serverName: this.dataForm.serverName // 服务器
+          }
+          // 审核流程
+          this.$api.disConnectUserMTAccount(param, (res) => {
+            if (res.status === 0 && res.content === true) {
+              this.$options.methods.getQuery.bind(this)()
+              // 保存成功
+              window.alert('操作成功！')
+            } else {
+              window.alert('操作失败！')
+            }
+          })
+          this.loading = false
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消操作'
+          })
+        })
       },
       selectionChange(rows) {
         this.selectionRows = rows

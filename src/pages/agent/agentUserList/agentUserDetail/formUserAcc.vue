@@ -32,7 +32,7 @@
               <el-input v-model="scope.row.mtAccId" :min="0" :controls="false" :disabled="disabled"></el-input>
             </template>
           </el-table-column>
-          <el-table-column prop="mtPasswordWatch" label="MT账户观摩密码" width="150" align="center">
+          <!--<el-table-column prop="mtPasswordWatch" label="MT账户观摩密码" width="150" align="center">
             <template slot-scope="scope">
               <el-input v-model="scope.row.mtPasswordWatch" :min="0" :controls="false" show-password ></el-input>
             </template>
@@ -41,7 +41,7 @@
             <template slot-scope="scope">
               <el-input  v-model="scope.row.mtPasswordTrade" :min="0" :controls="false"  show-password ></el-input>
             </template>
-          </el-table-column>
+          </el-table-column>-->
           <el-table-column prop="accountType" label="MT账户类型"  width="120"  align="center">
             <template slot-scope="scope">
               <el-select v-model="scope.row.accountType" placeholder="请选择" :disabled="disabled">

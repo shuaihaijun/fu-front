@@ -6,12 +6,11 @@
           <el-input v-model="dataForm.userId" :disabled="true"></el-input>
         </el-form-item>
       </el-col>
-      <el-col :span="5">
+     <!-- <el-col :span="5">
         <el-form-item label="社区账号ID:" prop="accountId">
           <el-input v-model="dataForm.accountId" :disabled="true"></el-input>
         </el-form-item>
-      </el-col>
-
+      </el-col>-->
       <el-col :span="5">
         <el-form-item label="佣金余额:" prop="commissionMoney">
           <el-input v-model="dataForm.commissionMoney" :disabled="true"></el-input>
@@ -28,16 +27,16 @@
           </el-form-item>
       </el-col>
       <el-col :span="5">
-        <el-form-item label="源发生金额:" prop="commissionSourceMoney">
+        <el-form-item label="团队交易金额:" prop="commissionSourceMoney">
           <el-input v-model="dataForm.commissionSourceMoney" :disabled="true"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="5">
-        <el-form-item label="源发生手数:" prop="commissionSourceLots">
+        <el-form-item label="团队交易手数:" prop="commissionSourceLots">
           <el-input v-model="dataForm.commissionSourceLots" :disabled="disabled"></el-input>
         </el-form-item>
       </el-col>
-    <el-col :span="5">
+    <!--<el-col :span="5">
       <el-form-item label="账户状态:" prop="accountState">
         <el-select v-model="dataForm.accountState" placeholder="请选择" :disabled="disabled">
           <el-option
@@ -48,7 +47,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-    </el-col>
+    </el-col>-->
   </div>
 </template>
 <script>

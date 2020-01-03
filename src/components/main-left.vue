@@ -185,6 +185,7 @@
   .main_menu {
     background: #e7e7e7;
     height: 100%;
+    border-right: 1px solid #909399;
   }
   
   .menu_list {
@@ -316,7 +317,7 @@
     font-size: 14px;
     background: url('../assets/images/tab_bg.png') repeat-x;
     border-bottom: 1px solid #cccccc;
-    border: 1px solid #cccccc;
+    border: 1px solid #909399;
     background-color: #666666;
     border-right-width: 0;
     position: relative;
@@ -504,7 +505,8 @@
    background: #fff;
  }
  .main_left .el-submenu{
-   border-bottom: 1px solid #f2f2f2;
+   /*border-bottom: 1px solid #f2f2f2;*/
+   border-bottom: 1px solid #909399;
  }
  .main_left .el-submenu .el-submenu{
    border-bottom: none;

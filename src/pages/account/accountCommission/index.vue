@@ -198,9 +198,8 @@
       }
       this.createdCom()
       this.queryData.formItem[0].option = this.commissionType
-      this.queryData.formItem[1].option = this.commissionUserType
-      this.queryData.formItem[2].option = this.commissionUserLevel
-      this.queryData.formItem[3].option = this.rateType
+      this.queryData.formItem[1].option = this.commissionUserLevel
+      this.queryData.formItem[2].option = this.rateType
     },
     methods: {
       createdCom() {

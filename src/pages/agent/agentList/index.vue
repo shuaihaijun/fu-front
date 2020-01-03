@@ -8,9 +8,6 @@
 
     <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
       <div slot="r">
-        <el-button @click="agentApplyEdit()"><i class="el-icon-edit-outline"></i> 编辑</el-button>
-        <!--<el-button @click="agentApplyNew()"><i class="el-icon-circle-plus-outline"></i> 新增</el-button>
-        <el-button @click="agentApplyDelete()"><i class="el-icon-delete-solid"></i> 删除</el-button>-->
       </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
@@ -372,7 +369,6 @@
       },
       // 查看or编辑
       handleOperate(row, index, name) {
-        console.log(row)
         this.LogWid = row
         if (name === '详情') {
           setTimeout(() => {

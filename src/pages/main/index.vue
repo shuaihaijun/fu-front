@@ -65,6 +65,7 @@
         }
         api.getLogout(params, (res) => {
         })
+        this.$store.dispatch('delAllTab')
         window.localStorage.removeItem('nice_user')
         this.$router.push({path: '/'})
 			}
@@ -128,14 +129,15 @@
 	}
 </script>
 <style>
-	/*.main_box {
+	.main_box {
 		overflow: hidden;
-    width: 90%;
-    margin-left: 5%;
+    /*width: 90%;*/
+    /*margin-left: 5%;*/
 	}
   .home .main_center {
     background-color: #e7e7e7;
-  }*/
+    background: #333;
+  }
 	.main_left {
 		height: 100%;
 		width: 180px;

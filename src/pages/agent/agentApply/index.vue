@@ -99,6 +99,12 @@
         // 表头
         columnData: [
           {
+            prop: 'userId',
+            label: '申请人',
+            width: '80',
+            align: 'center'
+          },
+          {
             prop: 'id',
             label: '代理ID',
             width: '90',
@@ -124,12 +130,6 @@
             width: '80',
             formatter: true,
             columnKey: 'agent.applyType',
-            align: 'center'
-          },
-          {
-            prop: 'userId',
-            label: '申请人',
-            width: '80',
             align: 'center'
           },
           {

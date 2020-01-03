@@ -6,11 +6,6 @@
           <el-input v-model="dataForm.userId" :disabled="true"></el-input>
         </el-form-item>
       </el-col>
-      <!--<el-col :span="5">
-        <el-form-item label="登录账号:" prop="username">
-          <el-input v-model="dataForm.username" :disabled="true"></el-input>
-        </el-form-item>
-      </el-col>-->
       <el-col :span="5">
         <el-form-item label="昵称:" prop="refName">
           <el-input v-model="dataForm.refName" :disabled="disabled"></el-input>

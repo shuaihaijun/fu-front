@@ -31,7 +31,7 @@
           let params = {
             id: this.pwid.id // 申请id
           }
-          api.getAgentApplyById(params, (res) => {
+          api.getAgentById(params, (res) => {
             console.log(res)
             if (res.status === 0 && res.content !== null) {
               this.formData.formData = res.content
@@ -120,8 +120,7 @@
         let params = {
           id: this.pwid.id // 申请id
         }
-        console.log(params)
-        api.getAgentApplyById(params, (res) => {
+        api.getAgentById(params, (res) => {
           console.log(res)
           if (res.status === 0 && res.content !== null) {
             this.formData.formData = res.content

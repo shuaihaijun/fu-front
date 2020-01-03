@@ -4,13 +4,12 @@ import store from '../store/index'
 let xmlhttp = new window.XMLHttpRequest()
 xmlhttp.open('GET', '/static/env.json', false)
 xmlhttp.send()
-let xmlDoc = JSON.parse(xmlhttp.response)
 
-let _host = 'http://127.0.0.1:8088'
-let _front = 'http://127.0.0.1:8081'
 // let _host = 'http://47.96.165.40:8088'
 // let _front = 'http://47.96.165.40'
-
+let xmlDoc = JSON.parse(xmlhttp.response)
+let _host = 'http://127.0.0.1:8088'
+let _front = 'http://127.0.0.1:8081'
 switch (xmlDoc.env) {
   case 'alpha':
     _host = 'http://127.0.0.1:8088'
@@ -123,6 +122,10 @@ module.exports = {
   // 用户银行卡获取
   updateUserBank(params, callback) {
     proxy.call(this, 'post', _host + '/userBank/modify', params, callback)
+  },
+  // 代理用户获取
+  queryAgentUserList(params, callback) {
+    proxy.call(this, 'post', _host + '/admin/queryAgentUserList', params, callback)
   },
   // /*---------------------账户信息 MT账户---------------------*/
   // 获取MT账户信息
@@ -307,9 +310,8 @@ module.exports = {
   reviewAgentApply(params, callback) {
     proxy.call(this, 'post', _host + '/agent/reviewAgentApply', params, callback)
   },
-  // 代理用户获取
-  queryAgentUserList(params, callback) {
-    proxy.call(this, 'post', _host + '/admin/queryAgentUserList', params, callback)
+  getAgentById(params, callback) {
+    proxy.call(this, 'post', _host + '/agent/getAgentById', params, callback)
   },
   // /*---------------------权限信息----资源-----------------*/
   //  获取菜单
