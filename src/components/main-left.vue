@@ -65,10 +65,26 @@
                 <span>{{r.name}}</span>
               </template>
               <el-submenu :key="rc.id" :index="rc.id" v-if="rc.children.length" v-for="rc in r.children">
+                <template slot="title">
+                  <i :class="rc.ico"></i>
+                  <span>{{rc.name}}</span>
+                </template>
+                <!--<span :key="rcc.id" class="s" @click="handleNodeClick(rcc)" v-for="rcc in rc.children">
+                  <el-menu-item :index="rcc.id"><i :class="rcc.ico"></i>{{rcc.name}}</el-menu-item>
+                </span>-->
+              </el-submenu>
+              <!--<el-submenu :key="rc.id" :index="rc.id" v-if="rc.children.length" v-for="rc in r.children">
                 <template slot="title"><i class="sub_ico">⊙</i>{{rc.name}}</template>
                 <span :key="rcc.id" class="s" @click="handleNodeClick(rcc)" v-for="rcc in rc.children"><el-menu-item :index="rcc.id">{{rcc.name}}</el-menu-item></span>
-              </el-submenu>
-              <span class="t" @click="handleNodeClick(rc)" v-else><el-menu-item :index="rc.id">{{rc.name}}</el-menu-item></span>
+              </el-submenu>-->
+              <span @click="handleNodeClick(rc)" v-else :key="rc.id" >
+                <el-menu-item :index="rc.id">
+                 <template slot="title">
+                   <i :class="rc.ico"></i>
+                  <span>{{rc.name}}</span>
+                  </template>
+                </el-menu-item>
+              </span>
             </el-submenu>
             <span @click="handleNodeClick(r)" v-else :key="r.id" >
               <el-menu-item :index="r.id">
@@ -95,7 +111,7 @@
       },
       leftWidth: {
         default() {
-          return '190px'
+          return '200px'
         }
       },
       menuType: {
@@ -183,15 +199,13 @@
 
 <style>
   .main_menu {
-    background: #e7e7e7;
+    background: #ffffff;
     height: 100%;
-    border-right: 1px solid #909399;
+    border-right: 1px solid #ffffff;
   }
-  
   .menu_list {
     list-style: none;
   }
-  
   .menu_list li {
     height: 30px;
     line-height: 30px;
@@ -214,7 +228,6 @@
   .menu_tit:hover {
     background: #fff;
   }
-  
   .menu_tit:hover:after {
     content: "";
     position: absolute;
@@ -227,7 +240,6 @@
     border-bottom: 10px solid transparent;
     z-index: 100;
   }
-  
   .menu_tit:hover:before {
     content: "";
     position: absolute;
@@ -240,7 +252,6 @@
     border-bottom: 12px solid transparent;
     z-index: 100;
   }
-  
   .menu_children {
     content: ".";
     position: absolute;
@@ -281,19 +292,16 @@
     margin: 0 10px;
     color: #333;
   }
-  
-  .menu_children_children {
+  .menu_list li:hover {
+    background: #ccc;
+  }
+/*  .menu_children_children {
     float: left;
   }
-  
-  .menu_list li:hover {
-    background: #fff;
-  }
-  
   .menu_list li:hover .menu_children {
     display: block;
-  }
-  
+  }*/
+
   .menu_children_td:nth-child(2) {
     border-left: 1px dashed #ccc;
   }
@@ -317,7 +325,7 @@
     font-size: 14px;
     background: url('../assets/images/tab_bg.png') repeat-x;
     border-bottom: 1px solid #cccccc;
-    border: 1px solid #909399;
+    border: 1px solid #e7e7e7;
     background-color: #666666;
     border-right-width: 0;
     position: relative;
@@ -490,13 +498,21 @@
     background: #ccc;
     border-radius: 5px;
   }
-  
+
   /*C*/
  .main_left .el-submenu .el-menu-item{
    border-bottom: none;
    min-width: auto;
    margin-left: -5px;
+   background: #666666;
  }
+  .main_left .el-submenu .el-menu-item:hover{
+    border-bottom: none;
+    min-width: auto;
+    margin-left: -5px;
+    /*background: #c0c0c0;*/
+    background: #404040;
+  }
  .main_left .el-menu{
    border: none;
    background: none;
@@ -517,6 +533,7 @@
  }
  .main_left .el-menu-item{
    border-bottom: 1px solid #f2f2f2;
+   /*background-color: #666666;*/
  }
  .main_left .is-opened{
    background: #f2f2f2;
@@ -528,9 +545,17 @@
    height: 42px;
    line-height: 42px;
    margin-left: -10px;
+   color: #ffffff;
+   background-color: #333;
  }
+  .main_left .el-menu-item, .main_left .el-submenu__title:hover{
+    height: 42px;
+    line-height: 42px;
+    margin-left: -10px;
+    color: #ffffff;
+    background-color: #800000;
+  }
  .main_left .el-menu--inline .el-menu-item:after{
-   content: '\E603';
    font-family: element-icons!important;
    transform: rotateZ(-90deg);
    font-size: 12px;
@@ -545,7 +570,7 @@
  .main_left .el-menu--inline .t .el-menu-item:after{
    left: 10px;
  }
- .el-submenu__title i.sub_ico{
+ .sub_ico{
     display: inline-block;
     float: left;
     color: #ccc;

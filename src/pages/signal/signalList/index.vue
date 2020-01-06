@@ -147,6 +147,7 @@
             prop: 'applyDate',
             label: '申请时间',
             width: '150',
+            dateFormat: true,
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           }

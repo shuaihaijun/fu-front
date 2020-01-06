@@ -73,7 +73,6 @@
 				var addOnOff
 				var reader = new window.FileReader()
 				var file = this.$refs.file.files[0]
-				console.log(file)
 				if (file !== undefined) {
 					if (file.size / 1024 / 1024 > 10) {
 						this.$message.error('上传的图片不能大于10M')
@@ -95,7 +94,6 @@
               break
             }
           }
-          console.log(isnext)
 					if (isnext) {
 						addOnOff = true
 					} else {

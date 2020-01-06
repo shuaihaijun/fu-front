@@ -116,6 +116,7 @@
             prop: 'commissionDate',
             label: '返佣日期',
             width: '',
+            dateFormat: true,
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           },

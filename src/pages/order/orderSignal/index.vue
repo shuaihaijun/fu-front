@@ -168,6 +168,7 @@
             prop: 'orderOpenDate',
             label: '开仓时间',
             width: '',
+            dateFormat: true,
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           },
@@ -191,7 +192,6 @@
       this.getWList()
       if (window.localStorage.getItem('nice_user')) {
         let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-        console.log(userInfo)
         if (userInfo.userType < 8 || userInfo.userType > 10) {
           // 管理者
           this.queryData.formItem[0].value = userInfo.userId
@@ -234,7 +234,6 @@
         let params = {
           branchId: branchIdParams
         }
-        console.log(params, 'params')
         branchIdParams = ''
         this.$api.xsrwd.getinsert(params, (res) => {
           let _arr = {}
@@ -256,7 +255,6 @@
           let _arr = {}
           _arr.wT = res.result.list.map(item => { return { label: item.wnameTarget, value: item.widTarget } })
           this.queryData.formItem[2].option = _arr.wT
-        //   console.log(res, 'getinsert')
         })
       },
       // 分页
@@ -266,7 +264,6 @@
       },
       // 查看or编辑
       handleOperate(row, index, name) {
-        console.log(row)
         this.LogWid = row
         if (name === '详情') {
           this.dialogVisible = true

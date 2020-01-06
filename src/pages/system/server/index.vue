@@ -54,7 +54,7 @@
             key: 'brokerName',
             label: '',
             value: null,
-            placeholder: '代理名称',
+            placeholder: '经纪商名称',
             width: 200,
             type: ''
           },
@@ -107,7 +107,7 @@
           },
           {
             prop: 'brokerName',
-            label: '代理名称',
+            label: '经纪商名称',
             value: '',
             align: 'center'
           },
@@ -237,7 +237,6 @@
       },
       // 查看or编辑
       handleOperate(row, index, name) {
-        console.log(row)
         this.LogWid = row
         if (name === '详情') {
           setTimeout(() => {

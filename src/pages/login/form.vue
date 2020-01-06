@@ -122,7 +122,6 @@
     },
     methods: {
       handleSave() {
-        console.log(this.dataForm)
       },
       affirm(v, obj) {
         // 校验数据
@@ -146,7 +145,6 @@
           applyId: this.pwid.id // 申请id
         }
         api.getSignalApplyById(params, (res) => {
-          console.log(res)
           if (res.status === 0 && res.content !== null) {
             this.formData.formData = res.content
           } else {

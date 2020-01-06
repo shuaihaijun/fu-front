@@ -80,7 +80,6 @@
             id: this.pwid.id // 申请id
           }
           api.findServerById(params, (res) => {
-            console.log(res)
             if (res.status === 0 && res.content !== null) {
               this.formData.formData = res.content
             } else {
@@ -92,7 +91,6 @@
     },
     methods: {
       handleSave() {
-        console.log(this.dataForm)
       },
       getBrokerInfo() {
         if (window.localStorage.getItem('nice_user')) {
@@ -110,7 +108,7 @@
               // 重组数据
               for (let index = 0; index < res.content.data.length; index++) {
                 let object1 = {}
-                object1.dicValue = res.content.data[index].comment
+                object1.dicValue = res.content.data[index].brokerName
                 object1.dicKey = res.content.data[index].brokerName
                 object[index] = object1
               }
@@ -123,10 +121,8 @@
         }
       },
       affirm(v, obj) {
-        console.log(obj)
         // 校验数据
         api.saveServer(obj, (res) => {
-          console.log(res)
           if (res.status === 0 && res.content.data !== '') {
             // 保存成功
             window.alert('操作成功！')
@@ -146,7 +142,6 @@
           id: this.pwid.id // 申请id
         }
         api.findServerById(params, (res) => {
-          console.log(res)
           if (res.status === 0 && res.content !== null) {
             this.formData.formData = res.content
           } else {

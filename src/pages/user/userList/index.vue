@@ -8,6 +8,7 @@
 
     <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="viewAddTabUser">
       <div slot="r">
+        <el-button @click="changeIntroducer()"><i class="el-icon-edit-outline"></i>修改推荐码</el-button>
       </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
@@ -143,7 +144,13 @@
           {
             prop: 'refName',
             label: '用户昵称',
-            width: '100',
+            width: '120',
+            align: 'center'
+          },
+          {
+            prop: 'realName',
+            label: '用户姓名',
+            width: '120',
             align: 'center'
           },
           {
@@ -155,7 +162,7 @@
           {
             prop: 'isVerified',
             label: '是否已验证身份',
-            width: '100',
+            width: '120',
             formatter: true,
             columnKey: 'com.yes',
             align: 'center'
@@ -163,7 +170,7 @@
           {
             prop: 'isAccount',
             label: '是否已绑定MT',
-            width: '100',
+            width: '120',
             formatter: true,
             columnKey: 'com.yes',
             align: 'center'
@@ -184,6 +191,7 @@
             prop: 'createDate',
             label: '创建时间',
             width: '',
+            dateFormat: true,
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           }
@@ -276,6 +284,28 @@
           this.$store.dispatch('addTab', _data)
           this.$store.dispatch('m1_form_state', this.$store.state.m1.m1_form_state + 1)
         }, 10)
+      },
+      changeIntroducer() {
+        // 判断数据
+        if (this.selectionRows === '' || this.selectionRows.length === 0) {
+          window.alert('请选择需要操作的数据！')
+          return
+        }
+        if (this.selectionRows.length > 1) {
+          window.alert('只能选择一条数据操作！')
+          return
+        }
+        if (this.selectionRows[0].introducer > 0) {
+          window.alert('只能修改推荐码为空的数据！')
+          return
+        }
+        this.LogWid = this.selectionRows[0]
+        setTimeout(() => {
+          this.formVisible = true
+        }, 0)
+        this.formTitle = '修改用户推荐码信息'
+        this.show = 'forms'
+        this.disabled = false
       },
       selectionChange(rows) {
         this.selectionRows = rows

@@ -32,7 +32,7 @@
       </el-col>
       <el-col :span="7">
         <el-form-item label="银行卡号:" prop="code">
-          <el-input v-model.number="dataForm.code" :disabled="disabled"></el-input>
+          <el-input v-model="dataForm.code" :disabled="disabled"></el-input>
         </el-form-item>
       </el-col>
     </div>

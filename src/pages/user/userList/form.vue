@@ -1,6 +1,6 @@
 <template>
   <div>
-    <os-form :visible="visible" :disabled="disabled" :dataSource="formData" :title="formTitle" v-on:handle-button="affirm"></os-form>
+    <os-form :visible="visible" :disabled="disabled" :height="'15%'" :dataSource="formData" :title="formTitle" v-on:handle-button="affirm"></os-form>
   </div>
 </template>
 <script>
@@ -9,6 +9,7 @@
     props: {
       pwid: '',
       disabled: true,
+      height: '15%',
       formType: {
         default() {
           return 'edit'
@@ -29,7 +30,7 @@
         } else {
           // 校验数据
           let params = {
-            id: this.pwid.id // 申请id
+            id: this.pwid.id // 用户
           }
           api.getUserByIdOrName(params, (res) => {
             if (res.status === 0 && res.content !== null) {
@@ -51,52 +52,23 @@
               key: 'id',
               label: '用户ID',
               value: '',
-              readonly: true
-            },
-            {
-              key: 'username',
-              label: '用户账号',
-              value: '',
-              readonly: true
+              disabled: true
             },
             {
               key: 'refName',
               label: '用户昵称',
-              value: ''
+              value: '',
+              disabled: true
             },
             {
-              key: 'userType',
-              label: '用户类型',
-              value: ''
-            },
-            {
-              key: 'email',
-              label: '用户邮件',
-              value: ''
-            },
-            {
-              key: 'mobile',
-              label: '手机号',
-              value: ''
-            },
-            {
-              key: 'isVerified',
-              label: '是否已验证身份',
-              value: ''
-            },
-            {
-              key: 'isAccount',
-              label: '是否已绑定MT账号',
-              value: ''
+              key: 'realName',
+              label: '用户姓名',
+              value: '',
+              disabled: true
             },
             {
               key: 'introducer',
               label: '推荐码',
-              value: ''
-            },
-            {
-              key: 'recommend',
-              label: '推荐人数',
               value: ''
             }
           ]
@@ -105,24 +77,20 @@
     },
     methods: {
       handleSave() {
-        console.log(this.dataForm)
       },
       affirm(v, obj) {
-        if (window.localStorage.getItem('nice_user')) {
-          // 添加默认用户
-          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-          obj['userId'] = userInfo.userId
-        }
-        console.log(obj)
         // 校验数据
-        api.getUserByIdOrName(obj, (res) => {
-          console.log(res)
-          if (res.status === 0 && res.content.data !== '') {
+        let params = obj
+        let data = {
+          params
+        }
+        api.updateUserIntroducer(data, (res) => {
+          if (res.status === 0 && res.content !== null) {
             // 保存成功
-            window.alert('保存成功！')
+            window.alert('修改成功！')
             this.visible = false
           } else {
-            window.alert('保存失败！请检查数据')
+            window.alert(res.message)
           }
         })
       }
@@ -135,9 +103,7 @@
         let params = {
           id: this.pwid.id // 申请id
         }
-        console.log(params)
         api.getUserByIdOrName(params, (res) => {
-          console.log(res)
           if (res.status === 0 && res.content !== null) {
             this.formData.formData = res.content
           } else {

@@ -269,7 +269,6 @@
     },
     created() {
       this.getList()
-      console.log(this.pwid, 'this.pwid')
       if (this.formType === 'view') {
         this.disabled = true
       }
@@ -279,9 +278,7 @@
         let params = {
           id: this.pwid.id
         }
-        console.log(params)
         this.$api.xsrwd.getFindOrderById(params, (res) => {
-          console.log(res, '详情')
           this.dataForm = res.result
           this.handerSwitch(0)
         })
@@ -292,7 +289,6 @@
           wtcOrderCode: this.dataForm.wtcOrderCode
         }
         this.$api.xsrwd.getShopList(params, (res) => {
-          console.log(res, '商品详情')
           this.tableData1 = res.result
         })
         let params2 = {
@@ -300,7 +296,6 @@
           codeType: v
         }
         this.$api.xsrwd.getByWtcCode(params2, (res) => {
-          console.log(res, '子单编号111111111111')
           this.codeType = res.result
           this.handerSwitch1(0)
         })
@@ -311,20 +306,16 @@
           wtcOrderCode: this.dataForm.wtcOrderCode,
           code: this.codeType[v]
         }
-        console.log(params, '子单详情params')
         this.$api.xsrwd.getDistributions(params, (res) => {
-          console.log(res, '子单详情')
           this.dataForm1 = res.result
         })
         this.getfindWms(v)
       },
       getfindWms(v) {
-        // console.log(params)
         let params = {
           wmsOrderCode: this.codeType[v]
         }
         this.$api.xsrwd.getfindWms(params, (res) => {
-          console.log(res, 'WMS日志信息')
           this.tableData = res.result
         })
       }

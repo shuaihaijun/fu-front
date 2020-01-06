@@ -263,13 +263,11 @@
         ]
       },
       initTable2() {
-        this.tableData2 = [
-          {
+        this.tableData2 = {
             'bankName': '',
             'hostName': '',
             'code': ''
           }
-        ]
       },
       handleCheck(formName) {
         this.$refs[formName].validate((valid) => {

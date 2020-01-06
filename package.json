@@ -10,9 +10,13 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
-    "element-ui": "^2.1.0",
+    "element-ui": "^2.13.0",
+    "moment": "^2.24.0",
+    "v-loading-plugin": "^1.0.7",
     "vue": "^2.5.2",
     "vue-axios": "^1.2.2",
+    "vue-element-loading": "^1.1.5",
+    "vue-resource": "^1.5.1",
     "vuex": "^2.1.2"
   },
   "devDependencies": {

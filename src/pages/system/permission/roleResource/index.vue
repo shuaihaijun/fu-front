@@ -125,6 +125,7 @@
             label: '创建时间',
             value: '',
             width: '150',
+            dateFormat: true,
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           }

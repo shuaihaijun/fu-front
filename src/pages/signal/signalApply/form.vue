@@ -164,10 +164,8 @@
     },
     methods: {
       handleSave() {
-        console.log(this.dataForm)
       },
       handleChange(change, value) {
-        console.log(value)
         for (let index = 0; index < this.mtAccountInfo.length; index++) {
           if (value === this.mtAccountInfo[index].accountId) {
             this.formData.formItem[3].value = this.mtAccountInfo[index].brokerName

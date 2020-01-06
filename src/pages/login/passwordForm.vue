@@ -78,7 +78,6 @@
         console.log(this.dataForm)
       },
       affirm(v, obj) {
-        console.log(obj)
         if (window.localStorage.getItem('nice_user')) {
           let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           if (obj.passwordNew !== obj.passwordNew2) {
@@ -110,9 +109,7 @@
         let params = {
           applyId: this.pwid.id // 申请id
         }
-        console.log(params)
         api.getSignalApplyById(params, (res) => {
-          console.log(res)
           if (res.status === 0 && res.content !== null) {
             this.formData.formData = res.content
           } else {

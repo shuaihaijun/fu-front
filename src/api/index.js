@@ -127,6 +127,10 @@ module.exports = {
   queryAgentUserList(params, callback) {
     proxy.call(this, 'post', _host + '/admin/queryAgentUserList', params, callback)
   },
+  // 修改用户
+  updateUserIntroducer(params, callback) {
+    proxy.call(this, 'post', _host + '/admin/updateUserIntroducer', params, callback)
+  },
   // /*---------------------账户信息 MT账户---------------------*/
   // 获取MT账户信息
   queryUsersMtAccount(params, callback) {

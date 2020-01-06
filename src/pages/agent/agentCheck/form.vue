@@ -31,9 +31,7 @@
           let params = {
             id: this.pwid.id // 申请id
           }
-          console.log(params)
           api.getAgentApplyById(params, (res) => {
-            console.log(res)
             if (res.status === 0 && res.content !== null) {
               this.formData.formData = res.content
             } else {
@@ -92,7 +90,6 @@
     },
     methods: {
       handleSave() {
-        console.log(this.dataForm)
       },
       affirm(v, obj) {
         if (window.localStorage.getItem('nice_user')) {
@@ -100,10 +97,8 @@
           let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           obj['userId'] = userInfo.userId
         }
-        console.log(obj)
         // 校验数据
         api.saveAgentApply(obj, (res) => {
-          console.log(res)
           if (res.status === 0 && res.content.data !== '') {
             // 保存成功
             window.alert('保存成功！')
@@ -123,7 +118,6 @@
           id: this.pwid.id // 申请id
         }
         api.getAgentApplyById(params, (res) => {
-          console.log(res)
           if (res.status === 0 && res.content !== null) {
             this.formData.formData = res.content
           } else {

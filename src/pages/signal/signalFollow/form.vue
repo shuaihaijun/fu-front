@@ -75,7 +75,6 @@
     },
     methods: {
       handleSave() {
-        console.log(this.dataForm)
       },
       affirm(v, obj) {
         if (window.localStorage.getItem('nice_user')) {

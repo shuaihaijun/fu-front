@@ -32,7 +32,8 @@
             },
             {
               key: 'brokerName',
-              label: '经纪商代码',
+              label: '经纪商名称',
+              placeholder: '填写经纪商名称代码',
               value: '',
               required: true
             },
@@ -47,6 +48,7 @@
             {
               key: 'comment',
               label: '经纪商说明',
+              placeholder: '填写经纪商说明',
               value: '',
               required: true
             }

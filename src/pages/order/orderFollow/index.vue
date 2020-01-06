@@ -181,6 +181,7 @@
             prop: 'orderOpenDate',
             label: '开仓时间',
             width: '',
+            dateFormat: true,
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           },
@@ -245,7 +246,6 @@
         let params = {
           branchId: branchIdParams
         }
-        console.log(params, 'params')
         branchIdParams = ''
         this.$api.xsrwd.getinsert(params, (res) => {
           let _arr = {}
@@ -264,7 +264,6 @@
       },
       // 查看or编辑
       handleOperate(row, index, name) {
-        console.log(row)
         this.LogWid = row
         if (name === '详情') {
           this.dialogVisible = true

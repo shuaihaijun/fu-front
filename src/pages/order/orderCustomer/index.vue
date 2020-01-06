@@ -41,7 +41,7 @@
             value: null,
             placeholder: '用户ID',
             width: 180,
-            readonly: true,
+            readonly: false,
             type: ''
           },
             {
@@ -165,6 +165,7 @@
             prop: 'orderOpenDate',
             label: '开仓时间',
             width: '',
+            dateFormat: true,
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           },
@@ -188,11 +189,10 @@
       this.getWList()
       if (window.localStorage.getItem('nice_user')) {
         let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-        this.queryData.formItem[0].value = userInfo.userId
-        if (userInfo.userType < 5 && userInfo.userType > 10) {
+        if (userInfo.userType < 8 || userInfo.userType > 10) {
           // 管理者
-          this.queryData.formItem[0].readonly = false
-          this.queryData.formData.userId = userInfo.userId
+          this.queryData.formItem[0].value = userInfo.userId
+          this.queryData.formItem[0].readonly = true
         }
       } else {
         this.$message('获取用户信息失败！')

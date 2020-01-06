@@ -145,6 +145,7 @@
             prop: 'createDate',
             label: '创建时间',
             width: '150',
+            dateFormat: true,
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           }
@@ -245,7 +246,6 @@
       },
       // 查看or编辑
       handleOperate(row, index, name) {
-        console.log(row)
         this.LogWid = row
         if (name === '详情') {
           setTimeout(() => {

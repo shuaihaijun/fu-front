@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog class="osDialog" :title="title" :width="width" :height="'50%'" :top="top" :visible="visible" @close="handleClose('close')" :close-on-click-modal="false">
+    <el-dialog class="osDialog" :title="title" :width="width" :height="height" :top="top" :visible="visible" @close="handleClose('close')" :close-on-click-modal="false">
       <el-form :model="dataSource" class="dataForm" label-width="130px">
         <el-row :gutter="20">
           <!--<el-col :span="11" v-for="item in dataSource.formItem" class="osForm">
@@ -43,7 +43,7 @@
                     <el-input v-model="item.value" @change="handleChange(item.value)" :placeholder="item.placeholder"  type="textarea" :style="{ width: item.width + 'px'}"></el-input>
                 </template>
                 <template v-else>
-                  <el-input v-model="item.value" @change="handleChange(item.value)" :placeholder="item.placeholder"  :style="{ width: item.width + 'px'}" :readonly="item.readonly" :show-password="item.showPassword"></el-input>
+                  <el-input v-model="item.value" @change="handleChange(item.value)" :placeholder="item.placeholder"  :style="{ width: item.width + 'px'}" :readonly="item.readonly" :disabled="item.disabled" :show-password="item.showPassword"></el-input>
                 </template>
               </el-form-item>
             </div>
@@ -78,6 +78,11 @@
         }
       },
       width: {
+        default() {
+          return '50%'
+        }
+      },
+      height: {
         default() {
           return '50%'
         }

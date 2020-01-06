@@ -207,8 +207,6 @@
         this.formTitle = '增加区域'
       },
       affirm(v, obj) {
-        console.log(v)
-        console.log(obj)
       },
       // 导入
       importData() {},
@@ -218,15 +216,12 @@
       },
       // 搜索获取表格数据
       getQuery() {
-        console.log(this.queryData.formData)
       },
       // 分页
       handlePage() {
-        console.log('分页')
       },
       // 查看or编辑
       handleOperate(row, index, name) {
-        console.log(row, index, name)
       },
       // 新建页签
       newAddTab() {

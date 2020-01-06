@@ -65,7 +65,6 @@
         this.$emit('handle-button', v, obj)
       },
       handleChange(v) {
-        console.log(v)
         this.change = true
         this.$emit('handle-change', this.change)
       }

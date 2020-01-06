@@ -19,7 +19,6 @@ export default {
       //   return state.dictionaryData.sign
       // }
       getDicValue: state => {
-        console.log('23424')
         return state.dictionaryData
       }
     },

@@ -21,6 +21,8 @@
       </el-table-column>
       <el-table-column :showOverflowTooltip="showTip"  v-for="r in columnData" v-if="r.formatter" :column-key="r.columnKey" :prop="r.prop" :label="r.label" :width="r.width" :align="r.align" :fixed="r.fixed" :formatter="dicFormatter">
       </el-table-column>
+      <el-table-column :showOverflowTooltip="showTip"  v-else-if="r.dateFormat" :column-key="r.format" :prop="r.prop" :label="r.label" :width="r.width" :align="r.align" :fixed="r.fixed" :formatter="dateFormatter">
+      </el-table-column>
       <el-table-column :showOverflowTooltip="showTip" v-else :prop="r.prop" :label="r.label" :width="r.width" :align="r.align" :fixed="r.fixed">
         <el-table-column :showOverflowTooltip="showTip" v-if="r.children" v-for="rc in r.children" :prop="rc.prop" :label="rc.label" :width="rc.width" :fixed="rc.fixed" :align="rc.align">
         </el-table-column>
@@ -49,6 +51,8 @@
 </template>
 
 <script>
+  import moment from 'moment'
+
   export default {
     name: 'os-table',
     props: {
@@ -132,6 +136,13 @@
       },
       dicFormatter(row, column) {
         return this.$api.getDicValue(column.columnKey, row[column.property])
+      },
+      dateFormatter(row, column) {
+        var date = row[column.property]
+        if (date === undefined) {
+          return '0'
+        }
+        return moment(date).format('YYYY-MM-DD HH:mm:ss')
       },
       setThisRefs(refs) {
         this.$emit('this-refs', refs)

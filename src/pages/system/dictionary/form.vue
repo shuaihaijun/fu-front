@@ -31,9 +31,7 @@
           let params = {
             id: this.pwid.id // 申请id
           }
-          console.log(params)
           api.getDictionaryById(params, (res) => {
-            console.log(res)
             if (res.status === 0 && res.content !== null) {
               this.formData.formData = res.content
             } else {
@@ -81,13 +79,10 @@
     },
     methods: {
       handleSave() {
-        console.log(this.dataForm)
       },
       affirm(v, obj) {
-        console.log(obj)
         // 校验数据
         api.saveDictionary(obj, (res) => {
-          console.log(res)
           if (res.status === 0 && res.content.data !== '') {
             // 保存成功
             window.alert('操作成功！')
@@ -106,9 +101,7 @@
         let params = {
           id: this.pwid.id // 申请id
         }
-        console.log(this.pwid)
         api.getDictionaryById(params, (res) => {
-          console.log(res)
           if (res.status === 0 && res.content !== null) {
             this.formData.formData = res.content
           } else {

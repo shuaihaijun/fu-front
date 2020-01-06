@@ -34,7 +34,7 @@ export default {
 				}
 			}
 			if (!tabs) {
-				if (state.listData.length === 10) {
+				if (state.listData.length === 15) {
           MessageBox.confirm('您打开的页签太多了，请节约资源关闭不用的页签？', '友情提示', {
             type: 'warning'
           })

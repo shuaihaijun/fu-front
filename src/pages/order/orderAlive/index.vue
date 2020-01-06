@@ -135,6 +135,7 @@
             prop: 'orderOpenDate',
             label: '开仓时间',
             width: '',
+            dateFormat: true,
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           }
@@ -181,7 +182,6 @@
             pageNum: this.pageDataNum
           }
           api.getOrderAlive(params, (res) => {
-            console.log(res)
             if (res.status === 0 && res.content !== null && res.content.data !== '') {
               this.tableData = res.content.data
               // 保存成功

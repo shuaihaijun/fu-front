@@ -129,6 +129,7 @@
             prop: 'createDate',
             label: '创建时间',
             width: '',
+            dateFormat: true,
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           },
@@ -136,6 +137,7 @@
             prop: 'modifyDate',
             label: '修改时间',
             width: '',
+            dateFormat: true,
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           }

@@ -266,7 +266,6 @@
     },
     methods: {
       delRow(v, index) {
-        console.log(v, index)
         this.tableData.splice(index, 1)
       },
       addRow(v, index) {

@@ -98,7 +98,6 @@
             params
           }
           api.queryDetailPermissionRole(data, (res) => {
-            console.log(res)
             if (res.status === 0 && res.content !== null) {
               this.formData.formData = res.content
             } else {
@@ -110,7 +109,6 @@
     },
     methods: {
       handleSave() {
-        console.log(this.dataForm)
       },
       affirm(v, obj) {
         let params = obj
@@ -145,7 +143,6 @@
           params
         }
         api.queryDetailPermissionRole(data, (res) => {
-          console.log(res)
           if (res.status === 0 && res.content !== null) {
             this.formData.formData = res.content
           } else {

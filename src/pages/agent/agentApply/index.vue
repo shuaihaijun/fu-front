@@ -154,6 +154,7 @@
             prop: 'createDate',
             label: '创建时间',
             width: '150',
+            dateFormat: true,
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           }

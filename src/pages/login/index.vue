@@ -1,19 +1,20 @@
 <template>
 	<div :style="backgroundDiv" class="fu_login_beijing">
-		<os-header osName="壹道守十 精诚所至！" :login="false"> </os-header>
+		<os-header osName="点誠 精诚所至！" :login="false"> </os-header>
     <li></li>
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="erp_ruleForm">
 			<el-form-item label="用户名:" prop="userName">
 			  <el-input v-model.number="ruleForm.username" placeholder="请输入您的用户名" size="large"></el-input>
 			</el-form-item>
 			<el-form-item label="密码:" prop="pass">
-			  <el-input type="password" v-model="ruleForm.password" placeholder="请输入您的密码" auto-complete="off" size="large"></el-input>
+			  <el-input type="password" v-model="ruleForm.password" placeholder="请输入您的密码"
+                  @keyup.enter.native="submitForm()" auto-complete="off" size="large"></el-input>
 			</el-form-item>
 
 			<el-form-item class="erp_ruleForm_btn">
         <li>
           <el-checkbox v-model="checked">
-            <label>我已阅读并接受<a @click="infoAffirm()" style="color:#0066cc" class="mzsmm">《壹道守十用户协议》</a></label>
+            <label>我已阅读并接受<a @click="infoAffirm()" style="color:#0066cc" class="mzsmm">《点誠用户协议》</a></label>
           </el-checkbox>
         </li>
 			  <el-button @click="submitForm()" size="large">登  录</el-button>
@@ -101,7 +102,7 @@
         setTimeout(() => {
           this.dialogVisible = true
         }, 0)
-        this.dialogTitle = '壹道守十 免责申明'
+        this.dialogTitle = '点誠 免责申明'
         this.show = 'dialogs'
         this.dialogWidth = 350
         this.dialogTop = '5%'

@@ -68,7 +68,6 @@
         this.$api.CKXX.getLog(params, (res) => {
           this.tableData = res.result.list
           this.pageDataTotal = res.result.total
-          console.log(this.tableData)
         })
       },
       // 分页

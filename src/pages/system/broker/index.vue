@@ -76,13 +76,13 @@
           },
           {
             prop: 'brokerName',
-            label: '经纪商代码',
+            label: '经纪商名称',
             value: '',
             align: 'center'
           },
           {
             prop: 'comment',
-            label: '经纪商名称',
+            label: '经纪商说明',
             value: '',
             align: 'center'
           },
@@ -210,7 +210,6 @@
       },
       // 查看or编辑
       handleOperate(row, index, name) {
-        console.log(row)
         this.LogWid = row
         if (name === '详情') {
           setTimeout(() => {

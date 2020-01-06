@@ -110,7 +110,6 @@
             params
           }
           api.getPermissionResource(data, (res) => {
-            console.log(res)
             if (res.status === 0 && res.content !== null) {
               this.formData.formData = res.content
             } else {

@@ -20,19 +20,18 @@
 		data() {
 			return {
         onoff: false,
-        leftWidth: '180px',
-        marginLeft: '180px',
+        leftWidth: '200px',
+        marginLeft: '200px',
 				userInfo: {
 					adminName: '用户名'
 				},
 				roleList: '',
-				osName: '壹道守十',
+				osName: '点誠 去伪存真',
 				height: ''
 			}
 		},
 		methods: {
       collapse () {
-        console.log('展开')
         if (this.leftWidth === '180px') {
           this.onoff = true
           this.leftWidth = '60px'
@@ -53,7 +52,6 @@
 			},
 			// 切换岗位
 			handleRole (aId) {
-				console.log(aId)
 			},
 			// 退出
 			handleLogOut () {
@@ -140,7 +138,7 @@
   }
 	.main_left {
 		height: 100%;
-		width: 180px;
+		width: 200px;
 		float: left;
 		z-index: 5;
 		position: relative;

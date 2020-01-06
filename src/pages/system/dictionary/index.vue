@@ -119,6 +119,7 @@
             prop: 'createDate',
             label: '创建时间',
             width: '150',
+            dateFormat: true,
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           },
@@ -126,6 +127,7 @@
             prop: 'modifyDate',
             label: '修改时间',
             width: '150',
+            dateFormat: true,
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           }
@@ -172,8 +174,6 @@
           this.$message('获取用户信息失败！')
         }
         this.$store.dispatch('getDictionary')
-        let dicValue = api.getDicValue('user.sex', '1')
-        console.log(dicValue)
       },
       // 修改数据
       dictionaryEdit() {

@@ -1,6 +1,6 @@
 <template>
 	<div :style="backgroundDiv" class="fu_login_beijing">
-		<os-header osName="壹道守十 精诚所至！" :login="false"> </os-header>
+		<os-header osName="点誠 精诚所至！" :login="false"> </os-header>
     <li></li>
 
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="fu_ruleForm">
@@ -31,7 +31,7 @@
       </el-form-item>
       <li>
         <el-checkbox v-model="checked">
-          <label>我已阅读并接受<a @click="infoAffirm()" style="color:#0066cc" class="mzsmm">《壹道守十用户协议》</a></label>
+          <label>我已阅读并接受<a @click="infoAffirm()" style="color:#0066cc" class="mzsmm">《点誠用户协议》</a></label>
         </el-checkbox>
       </li>
 			<el-form-item class="erp_ruleForm_btn">
@@ -161,7 +161,7 @@
         setTimeout(() => {
           this.dialogVisible = true
         }, 0)
-        this.dialogTitle = '壹道守十 免责申明'
+        this.dialogTitle = '点誠 免责申明'
         this.show = 'dialogs'
         this.dialogWidth = 350
         this.dialogTop = '5%'
