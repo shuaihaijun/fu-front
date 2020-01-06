@@ -20,8 +20,10 @@
 		data() {
 			return {
         onoff: false,
-        leftWidth: '200px',
-        marginLeft: '200px',
+        leftWidth: '12%',
+        marginLeft: '12%',
+        // leftWidth: '180px',
+        // marginLeft: '180px',
 				userInfo: {
 					adminName: '用户名'
 				},
@@ -129,12 +131,12 @@
 <style>
 	.main_box {
 		overflow: hidden;
-    /*width: 90%;*/
-    /*margin-left: 5%;*/
+    width: 94%;
+    margin-left: 3%;
 	}
   .home .main_center {
     background-color: #e7e7e7;
-    background: #333;
+    background: #e7e7e7;
   }
 	.main_left {
 		height: 100%;

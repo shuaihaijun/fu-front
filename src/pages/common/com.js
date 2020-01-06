@@ -45,8 +45,9 @@ Vue.mixin({
     }
   },
 	mounted () {
-    let _w = document.body.clientWidth
-    this.topWidth = _w - 221 + 'px'
+    // let _w = document.body.clientWidth
+    // this.topWidth = _w - 221 + 'px'
+    this.topWidth = '80%'
   },
 	methods: {
 	},

@@ -11,7 +11,8 @@
     </div>
     <!--表格-->
     <el-table v-loading="loading" ref="table" stripe @row-click="handleRowClick" :data="tableData" :height="tableHeight ? tableHeight : countHeight" :highlight-current-row="highlight" border style="width: 100%"
-              row-key="id" default-expand-all :tree-props="{children: 'children', hasChildren: 'hasChildren'}" @selection-change="handleSelectionChange">
+              row-key="id" default-expand-all :tree-props="{children: 'children', hasChildren: 'hasChildren'}" @selection-change="handleSelectionChange"
+              :header-cell-style="{background:'#800000',color:'#ffffff',fontWeight:'250'}">
       <el-table-column
         type="selection"
         width="40"
@@ -161,7 +162,7 @@
   }
   .el-table__header-wrapper{
     border-bottom: 1px solid #ccc;
-    
+
   }
   .table_topbar .el-button+.el-button{
     margin-left: 5px;

@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div class="form_topBar" :style="{'width': topWidth}">
+    <div class="form_topBar" style="width: 80%;">
       <div class="form_topBar_l">
         <b>用户MT账户信息</b>
       </div>

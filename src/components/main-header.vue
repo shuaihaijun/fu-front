@@ -88,20 +88,18 @@
 <style>
   .main_top {
     height: 54px;
-    background: #333;
+    background: #710000;
     color: #fff;
     padding: 0 15px;
   }
-  
   .main_top .logo_text {
     font-size: 24px;
     line-height: 38px;
     margin-left: 55px;
     font-family: "Microsoft YaHei";
     float: left;
-    font-weight: 100;
+    font-weight: 200;
   }
-  
   .main_top .logo em {
     border: 1px solid #fff;
     border-radius: 3px;

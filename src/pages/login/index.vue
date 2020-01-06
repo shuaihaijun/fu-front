@@ -1,7 +1,6 @@
 <template>
 	<div :style="backgroundDiv" class="fu_login_beijing">
 		<os-header osName="点誠 精诚所至！" :login="false"> </os-header>
-    <li></li>
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="erp_ruleForm">
 			<el-form-item label="用户名:" prop="userName">
 			  <el-input v-model.number="ruleForm.username" placeholder="请输入您的用户名" size="large"></el-input>
@@ -12,13 +11,12 @@
 			</el-form-item>
 
 			<el-form-item class="erp_ruleForm_btn">
-        <li>
           <el-checkbox v-model="checked">
             <label>我已阅读并接受<a @click="infoAffirm()" style="color:#0066cc" class="mzsmm">《点誠用户协议》</a></label>
           </el-checkbox>
-        </li>
 			  <el-button @click="submitForm()" size="large">登  录</el-button>
-        <li class="login_zhuce"><a @click="userNew()">用户注册</a> &nbsp;&nbsp;&nbsp; <a onclick="alert('请联系管理员找回！')">密码找回</a></li>
+          <a class="login_zhuce" href="/register">用户注册</a> &nbsp;&nbsp;&nbsp;
+          <a onclick="alert('请联系管理员找回！')">密码找回</a>
 			</el-form-item>
 		</el-form>
 		<div class="erp_login_bottom">© Copyright © 2020</div>
@@ -147,6 +145,7 @@
 	.erp_ruleForm{
 		width: 420px;
     margin-left: 60%;
+    margin-top: 10%;
     padding: 4% 4% 1% 0;
     border-radius: 5px;
     background-color: #f5f7fa;
@@ -184,8 +183,9 @@
   }
 	.erp_ruleForm_btn .el-button{
 	 width: 100%;
-	 background: #d93220;
+	 background: #b22222;
 	 color: #fff;
+   font-weight: bold;
 	}
   .fu_login_beijing{
     height: 100%;

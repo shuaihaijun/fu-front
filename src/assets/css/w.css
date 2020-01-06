@@ -392,7 +392,7 @@ input[type="number"] {
   .form_topBar {
     position: fixed;
     top: 100px;
-    left: 192px;
+    left: 15%;
     background: #eee;
     padding: 5px 10px;
     line-height: 30px;

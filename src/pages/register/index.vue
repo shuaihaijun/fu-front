@@ -1,8 +1,6 @@
 <template>
 	<div :style="backgroundDiv" class="fu_login_beijing">
 		<os-header osName="点誠 精诚所至！" :login="false"> </os-header>
-    <li></li>
-
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="fu_ruleForm">
       <h2>
         <span class="fu_login_acc">注册账户</span>
@@ -29,11 +27,9 @@
       <el-form-item label="电子邮件:" prop="email" :required="required">
         <el-input v-model="ruleForm.email" placeholder="请输入电子邮件" size="large"></el-input>
       </el-form-item>
-      <li>
         <el-checkbox v-model="checked">
           <label>我已阅读并接受<a @click="infoAffirm()" style="color:#0066cc" class="mzsmm">《点誠用户协议》</a></label>
         </el-checkbox>
-      </li>
 			<el-form-item class="erp_ruleForm_btn">
 			  <el-button @click="submitForm('ruleForm')" size="large">注  册</el-button>
 			</el-form-item>
@@ -201,6 +197,7 @@
 	.fu_ruleForm{
 		width: 420px;
     margin-left: 60%;
+    margin-top: 3%;
     padding: 1% 3% 1% 0;
     border-radius: 3px;
     padding-bottom: 35px;
@@ -239,8 +236,9 @@
   }
 	.erp_ruleForm_btn .el-button{
 	 width: 100%;
-	 background: #d93220;
+	 background: #b22222;
 	 color: #fff;
+   font-weight: bold;
 	}
   .fu_login_beijing{
     height: 100%;
