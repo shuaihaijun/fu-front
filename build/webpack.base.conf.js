@@ -24,6 +24,7 @@ module.exports = {
     extensions: ['', '.js', '.vue', '.json'],
     fallback: [path.join(__dirname, '../node_modules')],
     alias: {
+      '@': path.resolve(__dirname, '../src'),
       'vue$': 'vue/dist/vue.common.js',
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
@@ -57,6 +58,23 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue'
       },
+      {
+        test: /\.svg$/,
+        loader: 'svg-sprite-loader',
+        include: [path.resolve('../src/icons')],
+        options: {
+          symbolId: 'icon-[name]'
+        }
+      },
+     /* {
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        loader: 'url-loader',
+        exclude: [path.resolve('../src/icons')],
+        options: {
+          limit: 10000,
+          name: utils.assetsPath('img/[name].[hash:7].[ext]')
+        }
+      },*/
       {
         test: /\.js$/,
         loader: 'babel',

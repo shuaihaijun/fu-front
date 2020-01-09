@@ -138,7 +138,7 @@
           {
             prop: 'isVerified',
             label: '是否已验证身份',
-            width: '100',
+            width: '120',
             formatter: true,
             columnKey: 'com.yes',
             align: 'center'
@@ -146,7 +146,7 @@
           {
             prop: 'isAccount',
             label: '是否已绑定MT',
-            width: '100',
+            width: '120',
             formatter: true,
             columnKey: 'com.yes',
             align: 'center'

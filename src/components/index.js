@@ -9,7 +9,7 @@ import tree from './tree'
 import form from './form'
 import importData from './import'
 import upload from './upload'
-
+// import SvgIcon from './SvgIcon/index'// svg component
 const components = [
   header,
   left,

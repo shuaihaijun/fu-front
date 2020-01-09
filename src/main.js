@@ -9,6 +9,7 @@ import './assets/css/ui.css'
 import './assets/css/w.css'
 import components from './components/'
 import com from './pages/common/com.js'
+import './icons'
 import api from './api/'
 import {tableToExcel, exportExcelApi} from './components/exportExcel.js'
 

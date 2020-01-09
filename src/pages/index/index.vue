@@ -1,29 +1,117 @@
 <template>
-  <div style="height: 100%;" align="center">
-    <!--<el-image v-for="url in urls1" :key="url" :src="url" lazy align=""></el-image>-->
-    <el-image :key="src" :src="src" lazy></el-image>
+  <div class="dashboard-editor-container">
+
+    <panel-group @handleSetLineChartData="handleSetLineChartData" />
+
+    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
+      <line-chart :chart-data="lineChartData" />
+    </el-row>
+
+    <el-row :gutter="32">
+      <el-col :xs="24" :sm="24" :lg="8">
+        <div class="chart-wrapper">
+          <raddar-chart />
+        </div>
+      </el-col>
+      <el-col :xs="24" :sm="24" :lg="8">
+        <div class="chart-wrapper">
+          <pie-chart />
+        </div>
+      </el-col>
+      <el-col :xs="24" :sm="24" :lg="8">
+        <div class="chart-wrapper">
+          <bar-chart />
+        </div>
+      </el-col>
+    </el-row>
+    <!--<el-row :gutter="8">
+      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
+      </el-col>
+      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
+        <todo-list />
+      </el-col>
+      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
+        <box-card />
+      </el-col>
+    </el-row>-->
   </div>
 </template>
-
 <script>
+import PanelGroup from './deatails/PanelGroup'
+import LineChart from './deatails/LineChart'
+import RaddarChart from './deatails/RaddarChart'
+import PieChart from './deatails/PieChart'
+import BarChart from './deatails/BarChart'
+import TodoList from './deatails/TodoList'
+import BoxCard from './deatails/BoxCard'
+
+const lineChartData = {
+  newVisitis: {
+    expectedData: [100, 120, 161, 134, 105, 160, 165],
+    actualData: [120, 82, 91, 154, 162, 140, 145]
+  },
+  messages: {
+    expectedData: [200, 192, 120, 144, 160, 130, 140],
+    actualData: [180, 160, 151, 106, 145, 150, 130]
+  },
+  purchases: {
+    expectedData: [80, 100, 121, 104, 105, 90, 100],
+    actualData: [120, 90, 100, 138, 142, 130, 130]
+  },
+  shoppings: {
+    expectedData: [130, 140, 141, 142, 145, 150, 160],
+    actualData: [120, 82, 91, 154, 162, 140, 130]
+  }
+}
+
 export default {
+  name: 'DashboardAdmin',
+  components: {
+    PanelGroup,
+    LineChart,
+    RaddarChart,
+    PieChart,
+    BarChart,
+    TodoList,
+    BoxCard
+  },
   data() {
     return {
-      // src: 'http://pic.51yuansu.com/pic3/cover/00/71/75/58b05be054ba8_610.jpg'
-      // 'http://img95.699pic.com/photo/40151/9219.gif_wh860.gif'
-      src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1577014589521&di=9cc9a8ccfd5f06c4d8059f260336fc06&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2Ff%2F541164c5790af.jpg'
-      // src: 'http://static1.anquan.org/static/user_upload/zorro/20151020/china2.png',
-      // urls1: [
-      //   'http://pic.51yuansu.com/pic3/cover/01/77/79/59665a565ed0f_610.jpg',
-      //   'http://pic.51yuansu.com/pic3/cover/00/71/75/58b05be054ba8_610.jpg'
-      // ],
-      // urls2: [
-      //   'http://static1.anquan.org/static/user_upload/zorro/20151020/china2.png',
-      //   'http://pic.51yuansu.com/pic3/cover/03/23/04/5b6e14dfe58b4_610.jpg'
-      // ]
+      lineChartData: lineChartData.newVisitis
     }
   },
-  created() {
+  methods: {
+    handleSetLineChartData(type) {
+      this.lineChartData = lineChartData[type]
+    }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.dashboard-editor-container {
+  padding: 32px;
+  background-color: rgb(240, 242, 245);
+  /*background-color: #e7e7e7;*/
+  position: relative;
+
+  .github-corner {
+    position: absolute;
+    top: 0px;
+    border: 0;
+    right: 0;
+  }
+
+  .chart-wrapper {
+    background: #fff;
+    padding: 16px 16px 0;
+    margin-bottom: 32px;
+  }
+}
+
+@media (max-width:1024px) {
+  .chart-wrapper {
+    padding: 8px;
+  }
+}
+</style>
