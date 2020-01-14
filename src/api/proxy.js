@@ -28,7 +28,7 @@ const proxy = (type, url, params, callback, version) => {
       }],
       data: JSON.stringify(params)
     }
-    console.log(datas)
+    // console.log(datas)
   }
 
   if (type === 'get') {
@@ -55,7 +55,7 @@ const proxy = (type, url, params, callback, version) => {
     if (res.data.code !== 200) {
       // Message('code：' + res.data.code + '，' + res.data.message)
     }
-    console.log(res.data)
+    // console.log(res.data)
     callback(res.data)
   }).catch((error) => {
     console.log(error)

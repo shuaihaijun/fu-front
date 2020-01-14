@@ -4,6 +4,7 @@
 			@handleRole="handleRole"
 			@handleExit="handleLogOut"
 			:osName="osName"
+      :osTitle="osTitle"
 			:roleList="roleList">
 		</os-header>
     <div class="main_center" >
@@ -28,7 +29,8 @@
 					adminName: '用户名'
 				},
 				roleList: '',
-				osName: '点誠 去伪存真',
+        osName: '点誠',
+        osTitle: '去伪存真',
 				height: ''
 			}
 		},

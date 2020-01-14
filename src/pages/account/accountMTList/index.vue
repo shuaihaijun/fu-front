@@ -7,8 +7,8 @@
     </div>
     <os-table  :loading="loading" :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="viewAddTabUser">
       <div slot="r">
-        <el-button @click="accConnectStart()"><i class="el-icon-check"></i> 启动监听</el-button>
-        <el-button @click="accConnectClose()"><i class="el-icon-close"></i> 关闭监听</el-button>
+        <!--<el-button @click="accConnectStart()"><i class="el-icon-check"></i> 启动监听</el-button>
+        <el-button @click="accConnectClose()"><i class="el-icon-close"></i> 关闭监听</el-button>-->
       </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
@@ -100,14 +100,14 @@
         ],
         // 表头
         columnData: [
-          {
-            prop: 'connectState',
-            label: '连接状态',
-            width: '90',
-            formatter: true,
-            columnKey: 'com.connectState',
-            align: 'center'
-          },
+          // {
+          //   prop: 'connectState',
+          //   label: '连接状态',
+          //   width: '90',
+          //   formatter: true,
+          //   columnKey: 'com.connectState',
+          //   align: 'center'
+          // },
           {
             prop: 'userId',
             label: '用户ID',
@@ -167,12 +167,6 @@
           {
             prop: 'introducer',
             label: '推荐码',
-            width: '80',
-            align: 'center'
-          },
-          {
-            prop: 'recommend',
-            label: '推荐人数',
             width: '80',
             align: 'center'
           }

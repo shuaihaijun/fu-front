@@ -136,13 +136,22 @@
       getQuery() {
         let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
         let params = {
+          operUserId: userInfo.userId, // 操作用户id
           userId: userInfo.userId, // 操作用户id
           pageSize: this.pageDataSize,
           pageNum: this.pageDataNum
         }
-        this.$api.queryUserList(params, (res) => {
-          this.tableData = res.content.records
-          this.pageDataTotal = res.content.total
+        let pageInfoHelper = {
+          pageSize: this.pageDataSize,
+          pageNo: this.pageDataNum
+        }
+        let data = {
+          params,
+          pageInfoHelper
+        }
+        this.$api.queryUserList(data, (res) => {
+          this.tableData = res.content.data
+          this.pageDataTotal = res.page.total
         })
       },
 

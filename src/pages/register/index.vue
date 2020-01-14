@@ -1,6 +1,6 @@
 <template>
 	<div :style="backgroundDiv" class="fu_login_beijing">
-		<os-header osName="点誠 去伪从真" :login="false"> </os-header>
+		<os-header osName="点誠" osTitle="去伪存真" :login="false"> </os-header>
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="fu_ruleForm">
       <h2>
         <span class="fu_login_acc">注册账户</span>

@@ -3,6 +3,9 @@
     <div class="logo">
       <b class="logo_text">{{osName}}</b>
     </div>
+    <div class="title">
+      <b class="title_text">{{osTitle}}</b>
+    </div>
     <div class="login_user" v-if="login">
       <b>{{UsInfo.refName}}</b>欢迎您！
       <el-dropdown @command="handleCommand" v-if="roleList">
@@ -35,6 +38,11 @@
       osName: {
         default() {
           return '系统名称'
+        }
+      },
+      osTitle: {
+        default() {
+          return '点石成金'
         }
       },
       userInfo: {
@@ -95,10 +103,24 @@
   .main_top .logo_text {
     font-size: 24px;
     line-height: 38px;
-    margin-left: 55px;
+    margin-left: 50px;
     font-family: "Microsoft YaHei";
     float: left;
     font-weight: 200;
+  }
+
+  .main_top .title {
+    height: 50px;
+    min-width: 50px;
+    float: left;
+    margin-left: 45%;
+  }
+  .main_top .title_text {
+    font-size: 30px;
+    line-height: 50px;
+    font-family: "Microsoft YaHei";
+    font-weight: 500;
+    padding: 5px 0 0 0;
   }
   .main_top .logo em {
     border: 1px solid #fff;
@@ -132,7 +154,6 @@
     height: 21px;
     line-height: 20px;
   }
-  
   .el-dropdown {
     color: #fff;
   }

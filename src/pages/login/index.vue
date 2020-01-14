@@ -1,9 +1,9 @@
 <template>
 	<div :style="backgroundDiv" class="fu_login_beijing">
-		<os-header osName="点誠 去伪从真" :login="false"> </os-header>
+		<os-header osName="点誠" osTitle="去伪存真" :login="false"> </os-header>
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="erp_ruleForm">
 			<el-form-item label="用户名:" prop="userName">
-			  <el-input v-model.number="ruleForm.username" placeholder="请输入您的用户名" size="large"></el-input>
+			  <el-input v-model="ruleForm.username" placeholder="请输入您的用户名" size="large"></el-input>
 			</el-form-item>
 			<el-form-item label="密码:" prop="pass">
 			  <el-input type="password" v-model="ruleForm.password" placeholder="请输入您的密码"

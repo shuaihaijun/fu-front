@@ -13,8 +13,8 @@
     </el-form>
     <os-table :loading="loading" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :tableData="tableData" @change-selection="selectionChange" @click-operate="viewAddTabUser">
       <div slot="r">
-        <el-button @click="accConnectStart()"><i class="el-icon-check"></i> 启动监听</el-button>
-        <el-button @click="accConnectClose()"><i class="el-icon-close"></i> 关闭监听</el-button>
+       <!-- <el-button @click="accConnectStart()"><i class="el-icon-check"></i> 启动监听</el-button>
+        <el-button @click="accConnectClose()"><i class="el-icon-close"></i> 关闭监听</el-button>-->
       </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
