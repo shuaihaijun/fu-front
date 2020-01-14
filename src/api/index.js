@@ -5,23 +5,25 @@ let xmlhttp = new window.XMLHttpRequest()
 xmlhttp.open('GET', '/static/env.json', false)
 xmlhttp.send()
 
+// let _host = 'http://127.0.0.1:8188'
+// let _front = 'http://127.0.0.1:8081'
 // let _host = 'http://47.96.165.40:8188'
 // let _front = 'http://47.96.165.40'
 // let _host = 'http://47.96.165.40:8088'
 // let _front = 'http://47.96.165.40'
-let xmlDoc = JSON.parse(xmlhttp.response)
+// let xmlDoc = JSON.parse(xmlhttp.response)
 let _host = 'http://127.0.0.1:8088'
 let _front = 'http://127.0.0.1:8081'
-switch (xmlDoc.env) {
-  case 'alpha':
-    _host = 'http://127.0.0.1:8088'
-    break
-  case 'pre':
-    _host = ''
-    break
-  case 'prod':
-    _host = 'http://172.16.207.145:8088'
-}
+// switch (xmlDoc.env) {
+//   case 'alpha':
+//     _host = 'http://127.0.0.1:8088'
+//     break
+//   case 'pre':
+//     _host = ''
+//     break
+//   case 'prod':
+//     _host = 'http://172.16.207.145:8088'
+// }
 
 module.exports = {
   // /*---------------------公共接口---------------------*/

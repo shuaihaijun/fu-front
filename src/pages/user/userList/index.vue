@@ -239,9 +239,21 @@
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }
-          api.queryUserList(params, (res) => {
-            this.tableData = res.content.records
-            this.pageDataTotal = res.content.total
+          let pageInfoHelper = {
+            pageSize: this.pageDataSize,
+            pageNo: this.pageDataNum
+          }
+          let data = {
+            params,
+            pageInfoHelper
+          }
+          api.queryUserList(data, (res) => {
+            if (res.status === 0 && res.content !== null) {
+              this.tableData = res.content.data
+              this.pageDataTotal = res.page.total
+            } else {
+              window.alert(res.message)
+            }
           })
         } else {
           this.$message('获取用户信息失败！')

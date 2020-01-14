@@ -202,7 +202,8 @@
         if (window.localStorage.getItem('nice_user')) {
           let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           let params = {
-            userId: userInfo.userId, // 用户id
+            operUserId: userInfo.userId, // 用户id
+            userId: this.queryData.formData.userId, // 用户id
             applyId: this.queryData.formData.applyId, // 申请id
             signalName: this.queryData.formData.signalName, // 信号源名称
             mtAccId: this.queryData.formData.mtAccId, // MT账户

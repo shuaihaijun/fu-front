@@ -9,7 +9,7 @@ Vue.mixin({
       queryFormHeight: '',
       pageDataTotal: 0,
       pageDataNum: 1,
-      pageDataSize: 20,
+      pageDataSize: 30,
       UsInfo: JSON.parse(window.localStorage.getItem('nice_user')) || {},
       IsBtn1: false,
       IsBtn2: false,

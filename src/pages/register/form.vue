@@ -21,7 +21,7 @@
       },
       pwid: function (v2) {
         if (this.pwid === '' || this.pwid.id === '') {
-          this.formData.formData = ''
+          this.formData.formData = {}
         } else {
           // 校验数据
           let params = {
@@ -125,10 +125,10 @@
         api.registered(obj, (res) => {
           if (res.status === 0 && res.content.data !== '') {
             // 保存成功
-            window.alert('保存成功！')
+            window.alert('注册成功！')
             this.visible = false
           } else {
-            window.alert('保存失败！请检查数据')
+            window.alert('注册失败！请检查数据')
           }
         })
       }

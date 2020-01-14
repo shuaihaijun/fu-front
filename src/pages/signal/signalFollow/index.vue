@@ -104,25 +104,25 @@
             align: 'center'
           },
           {
-            key: 'limitUpperAmount',
+            prop: 'limitUpperAmount',
             label: '单笔金额上限',
             width: '120',
             align: 'center'
           },
           {
-            key: 'accountEquityAmount',
+            prop: 'accountEquityAmount',
             label: '账户最低安全净值',
             width: '120',
             align: 'center'
           },
           {
-            key: 'accountEquityPercentage',
+            prop: 'accountEquityPercentage',
             label: '安全净值百分比',
             width: '120',
             align: 'center'
           },
           {
-            key: 'followAlarmAmount',
+            prop: 'followAlarmAmount',
             label: '预警金额',
             width: '120',
             align: 'center'

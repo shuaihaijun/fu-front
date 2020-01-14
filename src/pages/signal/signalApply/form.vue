@@ -28,7 +28,7 @@
       },
       pwid: function (v2) {
         if (this.pwid === '' || this.pwid.id === '') {
-          this.formData.formData = ''
+          this.formData.formData = {}
         } else {
           // 校验数据
           let params = {
@@ -41,6 +41,7 @@
               window.alert('查詢失败！')
             }
           })
+          this.getMTAccount(this.pwid.userId)
         }
       }
     },
@@ -165,20 +166,29 @@
     methods: {
       handleSave() {
       },
-      handleChange(change, value) {
-        for (let index = 0; index < this.mtAccountInfo.length; index++) {
-          if (value === this.mtAccountInfo[index].accountId) {
-            this.formData.formItem[3].value = this.mtAccountInfo[index].brokerName
-            this.formData.formItem[4].value = this.mtAccountInfo[index].serverName
-            this.formData.formItem[5].value = this.mtAccountInfo[index].mtAccId
-            this.formData.formItem[6].value = this.mtAccountInfo[index].mtPasswordWatch
+      handleChange(change, key, value) {
+        if (key === 'userId') {
+          this.getMTAccount(value)
+          this.formData.formItem[3].value = ''
+          this.formData.formItem[4].value = ''
+          this.formData.formItem[5].value = ''
+          this.formData.formItem[6].value = ''
+        }
+        if (key === 'mtAccountInfo') {
+          for (let index = 0; index < this.mtAccountInfo.length; index++) {
+            if (value === this.mtAccountInfo[index].accountId) {
+              this.formData.formItem[3].value = this.mtAccountInfo[index].brokerName
+              this.formData.formItem[4].value = this.mtAccountInfo[index].serverName
+              this.formData.formItem[5].value = this.mtAccountInfo[index].mtAccId
+              this.formData.formItem[6].value = this.mtAccountInfo[index].mtPasswordWatch
+            }
           }
         }
       },
       affirm(v, obj) {
         if (window.localStorage.getItem('nice_user')) {
-          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-          obj.userId = userInfo.userId // 用户id
+          // let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          // obj.userId = userInfo.userId // 用户id
           // 校验数据
           api.signalApplySaveOrUpdate(obj, (res) => {
             if (res.status === 0 && res.content !== null && res.content.data !== '') {
@@ -191,6 +201,35 @@
           })
         } else {
           this.$message('获取用户信息失败！')
+        }
+      },
+      getMTAccount(userId) {
+        if (window.localStorage.getItem('nice_user')) {
+          let params = {
+            userId: userId, // 用户id
+            pageSize: this.pageDataSize,
+            pageNum: this.pageDataNum
+          }
+          // 初始化账号
+          api.getUsersMtAccountByCondition(params, (res) => {
+            if (res.content !== null && res.content.data !== null) {
+              if (res.content.data.length === 0) {
+                this.$message('获取用户账户信息失败！')
+              }
+              let object = []
+              // 重组数据
+              for (let index = 0; index < res.content.data.length; index++) {
+                let object1 = {}
+                object1.dicValue = res.content.data[index].mtAccId
+                object1.dicKey = res.content.data[index].accountId
+                object[index] = object1
+              }
+              this.mtAccountInfo = res.content.data
+              this.formData.formItem[2].option = object
+            } else {
+              this.$message('获取用户账户信息失败！')
+            }
+          })
         }
       }
     },
@@ -209,35 +248,7 @@
             window.alert('查詢失败！')
           }
         })
-      }
-      if (window.localStorage.getItem('nice_user')) {
-        let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-        this.formData.formItem[1].value = userInfo.userId
-        let params = {
-          userId: userInfo.userId, // 用户id
-          pageSize: this.pageDataSize,
-          pageNum: this.pageDataNum
-        }
-        // 初始化账号
-        api.getUsersMtAccountByCondition(params, (res) => {
-          if (res.content !== null && res.content.data !== null) {
-            if (res.content.data.length === 0) {
-              this.$message('获取用户账户信息失败！')
-            }
-            let object = []
-            // 重组数据
-            for (let index = 0; index < res.content.data.length; index++) {
-              let object1 = {}
-              object1.dicValue = res.content.data[index].mtAccId
-              object1.dicKey = res.content.data[index].accountId
-              object[index] = object1
-            }
-            this.mtAccountInfo = res.content.data
-            this.formData.formItem[2].option = object
-          } else {
-            this.$message('获取用户账户信息失败！')
-          }
-        })
+        this.getMTAccount(this.pwid.userId)
       }
     }
   }

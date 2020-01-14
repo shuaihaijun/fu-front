@@ -33,6 +33,11 @@
           formData: {},
           formItem: [
             {
+              key: 'userId',
+              label: '用户ID',
+              value: ''
+            },
+            {
               key: 'signalId',
               label: '跟随信号源ID',
               value: ''
@@ -78,16 +83,16 @@
       },
       affirm(v, obj) {
         if (window.localStorage.getItem('nice_user')) {
-          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-          obj.userId = userInfo.userId // 用户id
+          // let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          // obj.userId = userInfo.userId // 用户id
           // 校验数据
           api.signalFollowsSaveOrUpdate(obj, (res) => {
-            if (res.status === 0 && res.content !== null && res.content.data !== '') {
+            if (res.status === 0 && res.content !== null) {
               // 保存成功
               window.alert('保存成功！')
               this.visible = false
             } else {
-              window.alert('保存失败！请检查数据')
+              window.alert(res.message)
             }
           })
         } else {
@@ -100,7 +105,7 @@
       }
     },
     created() {
-      this.formData.formItem[1].option = this.ruleType
+      this.formData.formItem[2].option = this.ruleType
     }
   }
 </script>

@@ -186,9 +186,9 @@
     methods: {
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
-          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          // let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           let params = {
-            userId: userInfo.userId, // 用户id
+            userId: this.queryData.formData.userId, // 用户id
             applyId: this.queryData.formData.applyId, // 申请id
             signalName: this.queryData.formData.signalName, // 信号源名称
             mtAccId: this.queryData.formData.mtAccId, // MT账户
@@ -228,12 +228,12 @@
           }
           // 审核流程
           api.reviewProductSignal(param, (res) => {
-            if (res.status === 0 && res.content !== null && res.content.data !== '') {
+            if (res.status === 0 && res.content !== null) {
               this.$options.methods.getQuery.bind(this)()
               // 保存成功
               window.alert('操作成功！')
             } else {
-              window.alert('操作失败！')
+              window.alert(res.message)
             }
           })
         }).catch(() => {

@@ -26,7 +26,7 @@
       },
       pwid: function (v2) {
         if (this.pwid === '' || this.pwid.id === '') {
-          this.formData.formData = ''
+          this.formData.formData = {}
         } else {
           // 校验数据
           let params = {

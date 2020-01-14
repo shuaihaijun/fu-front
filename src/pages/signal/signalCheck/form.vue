@@ -22,6 +22,23 @@
       },
       visible(v) {
         this.$parent.formVisible = v
+      },
+      pwid: function (v2) {
+        if (this.pwid === '' || this.pwid.id === '') {
+          this.formData.formData = {}
+        } else {
+          // 校验数据
+          let params = {
+            applyId: this.pwid.id // 申请id
+          }
+          api.getSignalApplyById(params, (res) => {
+            if (res.status === 0 && res.content !== null) {
+              this.formData.formData = res.content
+            } else {
+              window.alert('查詢失败！')
+            }
+          })
+        }
       }
     },
     data() {
@@ -127,22 +144,23 @@
         // this.visible = true
         this.formTitle = '信号源信息'
       }
-
     },
     created() {
-      console.log(this.pwid.id)
-      // 校验数据
-      let params = {
-        applyId: this.pwid.id // 申请id
-      }
-      api.getSignalApplyById(params, (res) => {
-        console.log(res)
-        if (res.status === 0 && res.content !== null) {
-          this.formData.formData = res.content
-        } else {
-          window.alert('查詢失败！')
+      if (this.pwid === '' || this.pwid.id === '') {
+        this.formData.formData = ''
+      } else {
+        // 校验数据
+        let params = {
+          applyId: this.pwid.id // 申请id
         }
-      })
+        api.getSignalApplyById(params, (res) => {
+          if (res.status === 0 && res.content !== null) {
+            this.formData.formData = res.content
+          } else {
+            window.alert('查詢失败！')
+          }
+        })
+      }
     }
   }
 </script>
