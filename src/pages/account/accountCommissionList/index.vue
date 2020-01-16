@@ -169,8 +169,9 @@
     methods: {
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
-          // 判断用户权限
+          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           let params = {
+            operUserId: userInfo.userId, // 操作用户id
             userId: this.queryData.formData.userId, // 用户ID
             accountId: this.queryData.formData.accountId
           }
@@ -184,7 +185,7 @@
           }
           api.getPageAccountCommisson(data, (res) => {
             this.tableData = res.content.data
-            this.pageDataTotal = res.content.total
+            this.pageDataTotal = res.page.total
           })
         } else {
           this.$message('获取用户信息失败！')

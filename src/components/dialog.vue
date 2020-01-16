@@ -56,7 +56,7 @@
 <style>
   .el-dialog__body {
     border-top: 1px solid #dcdfe6;
-    max-height:80% ;
+    max-height:100% ;
     overflow-y: auto;
   }
 </style>

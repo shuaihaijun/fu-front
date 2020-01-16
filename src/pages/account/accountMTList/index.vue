@@ -5,8 +5,8 @@
         <!-- <input type="text"> -->
       </os-search>
     </div>
-    <os-table  :loading="loading" :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="viewAddTabUser">
-      <div slot="r">
+    <os-table :loading="loading" :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="viewAddTabUser">
+      <div>
         <!--<el-button @click="accConnectStart()"><i class="el-icon-check"></i> 启动监听</el-button>
         <el-button @click="accConnectClose()"><i class="el-icon-close"></i> 关闭监听</el-button>-->
       </div>
@@ -211,9 +211,17 @@
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }
-          api.queryUsersMtAccount(params, (res) => {
+          let pageInfoHelper = {
+            pageSize: this.pageDataSize,
+            pageNo: this.pageDataNum
+          }
+          let data = {
+            params,
+            pageInfoHelper
+          }
+          api.queryUsersMtAccount(data, (res) => {
             this.tableData = res.content.data
-            this.pageDataTotal = res.content.total
+            this.pageDataTotal = res.page.total
           })
           this.loading = false
         } else {

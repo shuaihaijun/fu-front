@@ -6,8 +6,8 @@
         <span class="fu_login_acc">注册账户</span>
         <a class="fu_login_goLogin" href="/">已有账号，去登录<i class="el-icon-right"></i></a>
       </h2>
-      <el-form-item label="推荐码:" prop="introducer">
-        <el-input v-model.number="ruleForm.introducer" placeholder="请输入推荐码" size="large" :disabled="readonly"></el-input>
+      <el-form-item label="推荐码:" prop="introducer" :required="required">
+        <el-input v-model.number="ruleForm.introducer" placeholder="请输入推荐码（后期不能修改）" size="large" :disabled="readonly"></el-input>
       </el-form-item>
       <el-form-item label="用户名:" prop="username" :required="required">
         <el-input v-model="ruleForm.username" placeholder="请输入用户名（后期不能修改）" auto-complete="off" size="large"></el-input>
@@ -112,6 +112,9 @@
           username: [
             { required: true, message: '用户名不能为空', trigger: 'blur' }
 					],
+          introducer: [
+            { required: true, message: '推荐码不能为空', trigger: 'blur' }
+          ],
           password: [
             { required: true, message: '密码不能为空', trigger: 'blur' }
           ],

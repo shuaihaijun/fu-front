@@ -1,6 +1,6 @@
 <template>
   <div>
-    <os-table :showTip="false" :showIndex="true" :topbar="false" :tableHeight="500" :columnData="columnData" :tableData="tableData"
+    <os-table :showTip="false" :showIndex="true" :topbar="false" :tableHeight="600" :columnData="columnData" :tableData="tableData"
        :operate="true">
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
@@ -151,7 +151,7 @@
         }
         this.$api.findCommissionCustomerByCondition(data, (res) => {
           this.tableData = res.content.data
-          this.pageDataTotal = res.page.size
+          this.pageDataTotal = res.page.total
         })
       },
       // 分页

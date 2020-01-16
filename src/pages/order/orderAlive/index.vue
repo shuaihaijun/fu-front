@@ -173,7 +173,9 @@
           return
         }
         if (window.localStorage.getItem('nice_user')) {
+          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           let params = {
+            operUserId: userInfo.userId, // 操作者userId
             userId: this.queryData.formData.userId, // 用户id
             orderId: this.queryData.formData.orderId, // 订单id
             orderSymbol: this.queryData.formData.orderSymbol, // 外汇产品
@@ -181,11 +183,18 @@
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }
-          api.getOrderAlive(params, (res) => {
-            if (res.status === 0 && res.content !== null && res.content.data !== '') {
+          let pageInfoHelper = {
+            pageSize: this.pageDataSize,
+            pageNo: this.pageDataNum
+          }
+          let data = {
+            params,
+            pageInfoHelper
+          }
+          api.getOrderAlive(data, (res) => {
+            if (res.status === 0 && res.content !== null) {
               this.tableData = res.content.data
-              // 保存成功
-              window.alert('操作成功！')
+              this.pageDataTotal = res.page.total
             } else {
               if (res.message) {
                 window.alert(res.message)

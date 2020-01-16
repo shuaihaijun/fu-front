@@ -187,7 +187,7 @@ module.exports = {
   },
   // 获取社区订单
   getOrderAlive(params, callback) {
-    proxy.call(this, 'post', _host + '/orderFollowInfo/getMTAliveOrders', params, callback)
+    proxy.call(this, 'post', _host + '/orderCustomer/getMTAliveOrders', params, callback)
   },
   // 获取社区订单
   getOrderFollows(params, callback) {
