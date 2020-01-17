@@ -100,19 +100,19 @@
       affirm(v, obj) {
         if (window.localStorage.getItem('nice_user')) {
           // 添加默认用户
-          // let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-          // obj['userId'] = userInfo.userId
+          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          obj.operUserId = userInfo.userId
+          // 校验数据
+          api.saveAgentApply(obj, (res) => {
+            if (res.status === 0 && res.content.data !== '') {
+              // 保存成功
+              window.alert('保存成功！')
+              this.visible = false
+            } else {
+              window.alert(res.message)
+            }
+          })
         }
-        // 校验数据
-        api.saveAgentApply(obj, (res) => {
-          if (res.status === 0 && res.content.data !== '') {
-            // 保存成功
-            window.alert('保存成功！')
-            this.visible = false
-          } else {
-            window.alert('保存失败！请检查数据')
-          }
-        })
       }
     },
     created() {

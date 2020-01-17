@@ -1,5 +1,5 @@
 <template>
-  <div class="os_pag">
+  <div class="os_pag" v-if="pageshow">
     <el-pagination
       @size-change="handleSizeChage"
       @current-change="handleCurrentChange"

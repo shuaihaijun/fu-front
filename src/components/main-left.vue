@@ -521,7 +521,7 @@
  }
  .main_left .el-submenu{
    /*border-bottom: 1px solid #f2f2f2;*/
-   border-bottom: 5px solid #cecece;
+   border-bottom: 5px solid #e7e7e7;
  }
  .main_left .el-submenu .el-submenu{
    border-bottom: none;

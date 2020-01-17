@@ -173,6 +173,8 @@
             prop: 'orderCloseDate',
             label: '平仓时间',
             width: '',
+            dateFormat: true,
+            format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           }
         ],
@@ -270,6 +272,11 @@
       handlePage() {
         this.tableData = []
         this.getQuery()
+        this.pageDataNum = 1 // cur_page 当前页
+        this.pageshow = false // 让分页隐藏
+        this.$nextTick(() => { // 重新渲染分页
+          this.pageshow = true
+        })
       },
       // 查看or编辑
       handleOperate(row, index, name) {

@@ -181,7 +181,18 @@
           }
         })
       })
+      if (window.localStorage.getItem('nice_user')) {
+        let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+        if (userInfo.userType < 8 || userInfo.userType > 10) {
+          // 管理者
+          this.queryData.formItem[3].value = userInfo.userId
+          this.queryData.formItem[3].readonly = true
+        }
+      } else {
+        this.$message('获取用户信息失败！')
+      }
       this.queryData.formItem[2].option = this.applyType
+      this.getQuery
     },
     methods: {
       getQuery() { // 搜索获取表格数据
@@ -378,6 +389,11 @@
       handlePage() {
         this.tableData = []
         this.getQuery()
+        this.pageDataNum = 1 // cur_page 当前页
+        this.pageshow = false // 让分页隐藏
+        this.$nextTick(() => { // 重新渲染分页
+          this.pageshow = true
+        })
       },
       // 查看or编辑
       handleOperate(row, index, name) {

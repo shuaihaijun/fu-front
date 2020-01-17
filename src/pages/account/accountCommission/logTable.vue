@@ -132,10 +132,10 @@
       }
     },
     created() {
-      this.getList()
+      this.getQuery()
     },
     methods: {
-      getList() {
+      getQuery() {
         let params = {
           commissionUserId: this.wid.userId,
           commissionAccountId: this.wid.accountId,
@@ -157,7 +157,12 @@
       // 分页
       handlePage() {
         this.tableData = []
-        this.getList()
+        this.getQuery()
+        this.pageDataNum = 1 // cur_page 当前页
+        this.pageshow = false // 让分页隐藏
+        this.$nextTick(() => { // 重新渲染分页
+          this.pageshow = true
+        })
       }
     },
     computed: {
@@ -167,7 +172,7 @@
     },
     watch: {
       wid(v) {
-        this.getList()
+        this.getQuery()
       }
     }
   }
