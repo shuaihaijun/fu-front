@@ -176,6 +176,12 @@
             dateFormat: true,
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
+          },
+          {
+            prop: 'comment',
+            label: '备注',
+            width: '100',
+            align: 'center'
           }
         ],
         // 表格

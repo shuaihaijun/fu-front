@@ -192,7 +192,7 @@
         this.$message('获取用户信息失败！')
       }
       this.queryData.formItem[2].option = this.applyType
-      this.getQuery
+      this.getQuery()
     },
     methods: {
       getQuery() { // 搜索获取表格数据

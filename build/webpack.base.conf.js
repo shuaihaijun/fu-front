@@ -66,7 +66,7 @@ module.exports = {
           symbolId: 'icon-[name]'
         }
       },
-     /* {
+      /*{
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         exclude: [path.resolve('../src/icons')],
