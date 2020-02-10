@@ -6,33 +6,25 @@
     </div>
     <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="viewAddTabUser">
       <div slot="r">
-        <el-button @click="commissionWithDraw()"><i class="el-icon-check"></i> 佣金全额提取</el-button>
+        <el-button @click="checkPass(1)"><i class="el-icon-check"></i> 审核通过</el-button>
+        <el-button @click="checkPass(0)"><i class="el-icon-close"></i> 审核驳回</el-button>
       </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
-
-    <forms :_visible="formVisible" v-if="show" :pwid="LogWid" :disabled="disabled" :title="formTitle"></forms>
   </div>
 </template>
 <script>
   import api from '../../../api/'
-  import forms from './form'
   import { MessageBox } from 'element-ui'
 
   export default {
-    components: {
-      'forms': forms
-    },
     data() {
       return {
         show: false,
         LogWid: '',
         dialogVisible: false,
-        formVisible: false,
         formTitle: '',
-        dialogTitle: '更新日志',
-        dialogWidth: '',
-        dialogTop: '5%',
+        applyState: this.$api.getDicValues('com.applyState'),
         disabled: true,
         selectionRows: '',
         // 搜索条
@@ -46,15 +38,39 @@
             placeholder: '用户ID',
             width: 180,
             type: ''
-          },
-          {
-            key: 'accountId',
-            label: '',
-            value: null,
-            placeholder: '社区账户ID',
-            width: 200,
-            type: ''
-          }]
+            },
+            {
+              key: 'applyUserId',
+              label: '',
+              value: null,
+              placeholder: '申请人ID',
+              width: 180
+            },
+            {
+              key: 'applyState',
+              label: '',
+              value: null,
+              placeholder: '申请状态',
+              width: 180,
+              type: 'select',
+              option: this.applyState
+            },
+            {
+              key: 'applyDate',
+              label: '',
+              value: null,
+              placeholder: '申请时间',
+              width: 200,
+              type: 'datetimerange'
+            },
+            {
+              key: 'checkDate',
+              label: '',
+              value: null,
+              placeholder: '审核时间',
+              width: 200,
+              type: 'datetimerange'
+            }]
         },
         // 表格操作按钮
         columnOperate: [
@@ -77,67 +93,85 @@
           {
             prop: 'userId',
             label: '用户ID',
-            width: '',
+            width: '90',
+            align: 'center'
+          },
+          {
+            prop: 'applyUserId',
+            label: '申请人ID',
+            width: '90',
+            align: 'center'
+          },
+          {
+            prop: 'username',
+            label: '用户账号',
+            width: '90',
+            align: 'center'
+          },
+          {
+            prop: 'refName',
+            label: '用户昵称',
+            width: '90',
             align: 'center'
           },
           {
             prop: 'accountId',
-            label: '社区账户ID',
+            label: '账户ID',
             width: '150',
             align: 'center'
           },
           {
-            prop: 'commissionMoney',
-            label: '佣金余额',
-            width: '',
-            align: 'center'
-          },
-          {
-            prop: 'commissionPaid',
-            label: '已提取佣金',
-            width: '',
-            align: 'center'
-          },
-          {
-            prop: 'commissionTotal',
-            label: '总佣金额',
-            width: '',
-            align: 'center'
-          },
-          {
-            prop: 'commissionSourceMoney',
-            label: '源发生金额',
-            width: '100',
-            align: 'center'
-          },
-          {
-            prop: 'commissionSourceLots',
-            label: '源发生手数',
-            width: '100',
-            align: 'center'
-          },
-          {
-            prop: 'accountState',
-            label: '佣金账户状态',
+            prop: 'applyState',
+            label: '申请状态',
             width: '100',
             formatter: true,
-            columnKey: 'account.accountState',
+            columnKey: 'com.applyState',
             align: 'center'
           },
           {
-            prop: 'createDate',
-            label: '创建时间',
+            prop: 'withdrawAmount',
+            label: '提取金额',
+            width: '100',
+            align: 'center'
+          },
+          {
+            prop: 'applyDate',
+            label: '申请日期',
             width: '',
             dateFormat: true,
             format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           },
           {
-            prop: 'modifyDate',
-            label: '修改时间',
-            width: '',
+            prop: 'checkDate',
+            label: '审核日期',
+            width: '100',
             dateFormat: true,
             format: 'yyyy-MM-dd HH:mm:ss',
+            align: 'center'
+          },
+          {
+            prop: 'bankName',
+            label: '银行名称',
+            width: '100',
+            align: 'center'
+          },
+          {
+            prop: 'bankCode',
+            label: '银行卡号',
+            width: '100',
+            align: 'center'
+          },
+          {
+            prop: 'hostName',
+            label: '户主',
+            width: '100',
+            align: 'center'
+          },
+          {
+            prop: 'checkDesc',
+            label: '审核说明',
+            width: '100',
             align: 'center'
           }
         ],
@@ -164,15 +198,19 @@
         })
       })
       this.getQuery()
+      this.queryData.formItem[2].option = this.applyState
     },
     methods: {
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
-          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          // 判断用户权限
           let params = {
-            operUserId: userInfo.userId, // 操作用户id
-            userId: this.queryData.formData.userId, // 用户ID
-            accountId: this.queryData.formData.accountId
+            operUserId: this.UsInfo.userId,
+            applyUserId: this.queryData.formData.applyUserId,
+            userId: this.queryData.formData.userId, // 操作用户id
+            applyState: this.queryData.formData.applyState, //
+            applyDate: this.queryData.formData.applyDate, //
+            checkDate: this.queryData.formData.checkDate //
           }
           let pageInfoHelper = {
             pageSize: this.pageDataSize,
@@ -182,7 +220,7 @@
             params,
             pageInfoHelper
           }
-          api.getPageAccountCommisson(data, (res) => {
+          this.$api.commissonWithdrawApplyQuery(data, (res) => {
             this.tableData = res.content.data
             this.pageDataTotal = res.page.total
           })
@@ -200,27 +238,12 @@
           this.pageshow = true
         })
       },
-      // 查看or编辑
-      handleOperate(row, index, name) {
-        this.LogWid = row
-        if (name === '详情') {
-          setTimeout(() => {
-            this.formVisible = true
-          }, 0)
-          this.dialogTitle = '信号源：' + row.signalName + ' 详情 '
-          // this.show = 'forms'
-          this.show = true
-          this.disabled = true
-          this.dialogWidth = 1000
-          this.dialogTop = '10%'
-        }
-      },
       // 查看
       viewAddTabUser(row, index, name) {
         this.$store.dispatch('delTab', {id: 'm1_view'})
         let _data = {
           id: 'commission_view',
-          name: '佣金基础信息',
+          name: '佣金详情信息',
           url: 'accountCommission',
           uid: {
             formType: 'view',
@@ -233,11 +256,10 @@
           this.$store.dispatch('m1_form_state', this.$store.state.m1.m1_form_state + 1)
         }, 10)
       },
-      commissionWithDraw() {
+      checkPass(oper) {
         if (!window.localStorage.getItem('nice_user')) {
           this.$message('获取用户信息失败！')
         }
-        let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
         // 判断数据
         if (this.selectionRows === '' || this.selectionRows.length === 0) {
           window.alert('请选择需要操作的数据！')
@@ -247,19 +269,21 @@
           window.alert('只能选择一条数据操作！')
           return
         }
-        MessageBox.confirm('确定提取该账户所有佣金吗？', '审核提示', {
+        MessageBox.confirm('确定提交吗？', '审核提示', {
           cancelButtonText: '取消',
           confirmButtonText: '确认',
           type: 'warning'
         }).then(() => {
-          let param = {
-            operId: userInfo.userId,
-            userId: this.selectionRows[0].userId,
-            accountId: this.selectionRows[0].accountId,
-            commissionMoney: this.selectionRows[0].commissionMoney
+          let params = {
+            operUserId: this.UsInfo.userId,
+            id: this.selectionRows[0].id,
+            oper: oper
+          }
+          let data = {
+            params
           }
           // 审核流程
-          api.commissonWithdrawTake(param, (res) => {
+          api.commissonWithdrawApplyCheck(data, (res) => {
             if (res.status === 0 && res.content !== null) {
               this.$options.methods.getQuery.bind(this)()
               // 保存成功

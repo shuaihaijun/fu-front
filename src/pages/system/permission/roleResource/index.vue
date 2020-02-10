@@ -229,7 +229,7 @@
         this.$store.dispatch('delTab', {id: 'm1_view'})
         let _data = {
           id: 'm1_view',
-          name: '查看基础信息',
+          name: '角色基础信息',
           url: 'roleResourceDetail',
           uid: {
             formType: 'view',

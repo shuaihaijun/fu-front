@@ -51,6 +51,8 @@
             prop: 'commissionDate',
             label: '发生佣金时间',
             width: '120',
+            dateFormat: true,
+            format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           },
           {

@@ -5,13 +5,13 @@ let xmlhttp = new window.XMLHttpRequest()
 xmlhttp.open('GET', '/static/env.json', false)
 xmlhttp.send()
 
-let _host = 'http://47.99.240.111:8088'
-let _front = 'http://47.99.240.111'
+// let _host = 'http://47.99.240.111:8088'
+// let _front = 'http://www.aitoptrade.com'
 // let _host = 'http://47.96.165.40:8088'
 // let _front = 'http://47.96.165.40'
 // let xmlDoc = JSON.parse(xmlhttp.response)
-// let _host = 'http://127.0.0.1:8088'
-// let _front = 'http://127.0.0.1:8081'
+let _host = 'http://127.0.0.1:8088'
+let _front = 'http://127.0.0.1:8081'
 // switch (xmlDoc.env) {
 //   case 'alpha':
 //     _host = 'http://127.0.0.1:8088'
@@ -171,8 +171,41 @@ module.exports = {
   findCommissionCustomerByCondition(params, callback) {
     proxy.call(this, 'post', _host + '/commission/commissionCustomer/findCommissionByCondition', params, callback)
   },
-  accountCommissonWithdraw(params, callback) {
-    proxy.call(this, 'post', _host + '/account/CommissionInfo/accountCommissonWithdraw', params, callback)
+  // 管理员执行佣金提取
+  commissonWithdrawTake(params, callback) {
+    proxy.call(this, 'post', _host + '/account/Withdraw/commissonWithdraw', params, callback)
+  },
+  // 佣金提取流水查询
+  commissonWithdrawQuery(params, callback) {
+    proxy.call(this, 'post', _host + '/account/Withdraw/commissonWithdrawQuery', params, callback)
+  },
+  // 佣金提取申请保存
+  commissonWithdrawApplySave(params, callback) {
+    proxy.call(this, 'post', _host + '/account/Withdraw/commissonWithdrawApplySave', params, callback)
+  },
+  // 佣金提取申请提交
+  commissonWithdrawApplySubmit(params, callback) {
+    proxy.call(this, 'post', _host + '/account/Withdraw/commissonWithdrawApplySubmit', params, callback)
+  },
+  // 佣金提取申请审核
+  commissonWithdrawApplyCheck(params, callback) {
+    proxy.call(this, 'post', _host + '/account/Withdraw/commissonWithdrawApplyCheck', params, callback)
+  },
+  // 佣金提取申请查询
+  commissonWithdrawApplyQuery(params, callback) {
+    proxy.call(this, 'post', _host + '/account/Withdraw/commissonWithdrawApplyQuery', params, callback)
+  },
+  // 佣金提取申请查询
+  findCommissonWithdrawApplyById(params, callback) {
+    proxy.call(this, 'post', _host + '/account/Withdraw/findCommissonWithdrawApplyById', params, callback)
+  },
+  // 佣金提取申请修改
+  commissonWithdrawApplyUpdate(params, callback) {
+    proxy.call(this, 'post', _host + '/account/Withdraw/commissonWithdrawApplyUpdate', params, callback)
+  },
+  // 佣金提取申请删除
+  commissonWithdrawApplyDelete(params, callback) {
+    proxy.call(this, 'post', _host + '/account/Withdraw/commissonWithdrawApplyDelete', params, callback)
   },
   // /*--------------------订单接口--------------------*/
   // 获取客户交易订单

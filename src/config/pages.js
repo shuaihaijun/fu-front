@@ -28,6 +28,7 @@ const pages = {
   accountMtInfo: r => require.ensure([], () => r(require('../pages/account/accountMtInfo/'))),
   accountCommission: r => require.ensure([], () => r(require('../pages/account/accountCommission/'))),
   accountCommissionList: r => require.ensure([], () => r(require('../pages/account/accountCommissionList/'))),
+  accountCommissionCheck: r => require.ensure([], () => r(require('../pages/account/accountCommissionCheck/'))),
   serverList: r => require.ensure([], () => r(require('../pages/system/server/'))),
   brokerList: r => require.ensure([], () => r(require('../pages/system/broker/'))),
   commissionLevelList: r => require.ensure([], () => r(require('../pages/system/commissionLevel/'))),
