@@ -69,7 +69,7 @@
         columnOperate: [
           {
             label: '操作',
-            width: '120px',
+            width: '100px',
             fixed: 'left',
             isBtn: true,
             children: [{
@@ -82,7 +82,14 @@
           }
         ],
         // 表头
-        columnData: [
+        columnData: [{
+            prop: 'connectState',
+            label: '监听状态',
+            width: '80',
+            formatter: true,
+            columnKey: 'com.yes',
+            align: 'center'
+          },
           {
             prop: 'id',
             label: '信号源ID',
@@ -93,6 +100,14 @@
             prop: 'signalName',
             label: '信号源名称',
             width: '90',
+            align: 'center'
+          },
+          {
+            prop: 'signalState',
+            label: '信号源状态',
+            width: '90',
+            formatter: true,
+            columnKey: 'signal.signalState',
             align: 'center'
           },
           {
@@ -185,13 +200,18 @@
             // userId: userInfo.userId, // 用户id
             signalId: this.queryData.formData.signalId, // 申请id
             signalName: this.queryData.formData.signalName, // 信号源名称
-            mtAccId: this.queryData.formData.mtAccId, // MT账户
-            signalState: 0, // 正常状态
-            pageSize: this.pageDataSize,
-            pageNum: this.pageDataNum
+            mtAccId: this.queryData.formData.mtAccId // MT账户
           }
-          api.getSignalInfos(params, (res) => {
-            this.tableData = res.content.records
+          let pageInfoHelper = {
+            pageSize: this.pageDataSize,
+            pageNo: this.pageDataNum
+          }
+          let data = {
+            params,
+            pageInfoHelper
+          }
+          api.querySignalInfos(data, (res) => {
+            this.tableData = res.content.data
             this.pageDataTotal = res.content.total
           })
           this.loading = false

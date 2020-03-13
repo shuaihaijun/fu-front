@@ -220,9 +220,13 @@ module.exports = {
   getOrderAlive(params, callback) {
     proxy.call(this, 'post', _host + '/orderCustomer/getMTAliveOrders', params, callback)
   },
-  // 获取社区订单
-  getOrderFollows(params, callback) {
-    proxy.call(this, 'post', _host + '/orderFollowInfo/getOrderFollows', params, callback)
+  // 获取社区跟单关系
+  getOrderFollowInfo(params, callback) {
+    proxy.call(this, 'post', _host + '/orderFollowInfo/getOrderFollowInfo', params, callback)
+  },
+  // 获取社区跟单错误信息
+  queryOrderFollowError(params, callback) {
+    proxy.call(this, 'post', _host + '/orderFollowInfo/queryOrderFollowError', params, callback)
   },
   // /*---------------------信号源---------------------*/
   // 保存信号源信息
@@ -250,8 +254,8 @@ module.exports = {
     proxy.call(this, 'post', _host + '/signalApply/saveOrUpdate', params, callback)
   },
   // 查询信号源信息
-  getSignalInfos(params, callback) {
-    proxy.call(this, 'post', _host + '/signal/getSignalInfos', params, callback)
+  querySignalInfos(params, callback) {
+    proxy.call(this, 'post', _host + '/signal/querySignalInfos', params, callback)
   },
   // 根据信号源ID查询
   findSignalById(params, callback) {
@@ -268,6 +272,14 @@ module.exports = {
   // 根据ID 修改信号源信息
   signalFollowsSaveOrUpdate(params, callback) {
     proxy.call(this, 'post', _host + '/signal/signalFollowsSaveOrUpdate', params, callback)
+  },
+  // 查询跟随状态
+  querySignalFollowState(params, callback) {
+    proxy.call(this, 'post', _host + '/signal/querySignalFollowState', params, callback)
+  },
+  // 查询跟随信息
+  getSignalFollowByCondition(params, callback) {
+    proxy.call(this, 'post', _host + '/signal/getSignalFollowByCondition', params, callback)
   },
   // 连接MT账户信息
   connectSignalMTAccount(params, callback) {

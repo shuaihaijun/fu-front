@@ -47,14 +47,6 @@
               type: ''
             },
             {
-            key: 'orderId',
-            label: '',
-            value: null,
-            placeholder: '跟随订单号',
-            width: 180,
-            type: ''
-          },
-            {
               key: 'signalOrderId',
               label: '',
               value: null,
@@ -62,36 +54,19 @@
               width: 180,
               type: ''
             },
-          {
-            key: 'orderSymbol',
-            label: '',
-            value: null,
-            placeholder: '交易产品',
-            width: 160,
-            type: ''
-          },
             {
-              key: 'orderType',
+              key: 'orderSymbol',
               label: '',
               value: null,
-              placeholder: '订单交易类型',
+              placeholder: '交易产品',
               width: 160,
-              type: 'select',
-              option: this.orderType
+              type: ''
             },
           {
             key: 'orderOpenDate',
             label: '',
             value: null,
             placeholder: '建仓时间',
-            width: 200,
-            type: 'datetimerange'
-          },
-          {
-            key: 'orderCloseDate',
-            label: '',
-            value: null,
-            placeholder: '平仓时间',
             width: 200,
             type: 'datetimerange'
           }]
@@ -104,21 +79,33 @@
             align: 'center'
           },
           {
+            prop: 'userServerName',
+            label: '用户服务器',
+            width: '80',
+            align: 'center'
+          },
+          {
+            prop: 'userMtAccId',
+            label: '用户账号',
+            width: '80',
+            align: 'center'
+          },
+          {
             prop: 'signalId',
             label: '信号源ID',
             width: '80',
             align: 'center'
           },
           {
-            prop: 'orderId',
-            label: '跟随订单号',
-            width: '120',
+            prop: 'signalServerName',
+            label: '信号源服务器',
+            width: '80',
             align: 'center'
           },
           {
-            prop: 'signalOrderId',
-            label: '信号源订单号',
-            width: '120',
+            prop: 'signalMtAccId',
+            label: '信号源账号',
+            width: '80',
             align: 'center'
           },
           {
@@ -141,6 +128,18 @@
             prop: 'followAmount',
             label: '系数',
             width: '60',
+            align: 'center'
+          },
+          {
+            prop: 'errorMsg',
+            label: '错误提示',
+            width: '100',
+            align: 'center'
+          },
+          {
+            prop: 'signalOrderId',
+            label: '信号源订单号',
+            width: '120',
             align: 'center'
           },
           {
@@ -172,32 +171,8 @@
             align: 'center'
           },
           {
-            prop: 'orderProfit',
-            label: '收益',
-            width: '80',
-            align: 'center'
-          },
-          {
-            prop: 'orderSwap',
-            label: '库存费',
-            width: '80',
-            align: 'center'
-          },
-          {
-            prop: 'orderStoploss',
-            label: '止损',
-            width: '80',
-            align: 'center'
-          },
-          {
             prop: 'orderOpenPrice',
             label: '开仓价格',
-            width: '80',
-            align: 'center'
-          },
-          {
-            prop: 'orderClosePrice',
-            label: '平仓价格',
             width: '80',
             align: 'center'
           },
@@ -207,6 +182,12 @@
             width: '',
             dateFormat: true,
             format: 'yyyy-MM-dd HH:mm:ss',
+            align: 'center'
+          },
+          {
+            prop: 'orderClosePrice',
+            label: '平仓价格',
+            width: '80',
             align: 'center'
           },
           {
@@ -245,18 +226,24 @@
           let params = {
             userId: this.queryData.formData.userId, // 用户ID
             signalId: this.queryData.formData.signalId, // 信号源ID
-            orderId: this.queryData.formData.orderId, // 订单id
             signalOrderId: this.queryData.formData.orderId, // 信号源订单id
             orderType: this.queryData.formData.orderType, // 交易类型
             orderSymbol: this.queryData.formData.orderSymbol, // 外汇产品
             orderOpenDate: this.queryData.formData.orderOpenDate, // 订单开仓时间
-            orderCloseDate: this.queryData.formData.orderCloseDate, // 订单平仓时间
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }
-          api.getOrderFollowInfo(params, (res) => {
-            this.tableData = res.content.records
-            this.pageDataTotal = res.content.total
+          let pageInfoHelper = {
+            pageSize: this.pageDataSize,
+            pageNo: this.pageDataNum
+          }
+          let data = {
+            params,
+            pageInfoHelper
+          }
+          api.queryOrderFollowError(data, (res) => {
+            this.tableData = res.content.data
+            this.pageDataTotal = res.page.total
           })
         } else {
           this.$message('获取用户信息失败！')
