@@ -287,14 +287,14 @@
           api.getUsersMtAccountByCondition(params, (res) => {
             if (res.content !== null && res.content.data !== null) {
               if (res.content.data.length === 0) {
-                this.$message('获取用户账户信息失败！')
+                this.$message('获取用户账户信息失败 用户账户审核通过才能添加跟随关系！')
               }
               let object = []
               // 重组数据
               for (let index = 0; index < res.content.data.length; index++) {
                 let object1 = {}
                 object1.dicValue = res.content.data[index].mtAccId
-                object1.dicKey = res.content.data[index].accountId
+                object1.dicKey = res.content.data[index].mtAccId
                 object[index] = object1
               }
               this.formData.formItem[3].value = res.content.data[0].refName

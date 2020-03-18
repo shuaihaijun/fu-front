@@ -1,9 +1,8 @@
 <template>
   <div>
-
     <div class="form_topBar" style="width: 80%;">
       <div class="form_topBar_l">
-        <b>用户MT账户信息</b>
+        <b>项目工程信息</b>
       </div>
     </div>
     <el-form :model="dataForm" class="dataForm" label-width="100px">
@@ -11,30 +10,37 @@
         <form-1 :dataForm="dataForm"></form-1>
       </el-row>
     </el-form>
-    <os-table :loading="loading" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :tableData="tableData" @change-selection="selectionChange" @click-operate="viewAddTabUser">
+    <os-table :selection="true"  :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :tableData="tableData" @change-selection="selectionChange" @click-operate="viewAddTabUser">
       <div slot="r">
-       <!-- <el-button @click="accConnectStart()"><i class="el-icon-check"></i> 启动监听</el-button>
-        <el-button @click="accConnectClose()"><i class="el-icon-close"></i> 关闭监听</el-button>-->
+        <el-button @click="adminAdd()"><i class="el-icon-edit-outline"></i> 添加管理员</el-button>
+        <el-button @click="adminRemove()"><i class="el-icon-close"></i> 移除管理员</el-button>
       </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
 
+    <form2 :_visible="formVisible" v-if="show" :pwid="LogWid" :disabled="disabled" :title="formTitle"></form2>
   </div>
 </template>
 <script>
-  import form1 from './formMTInfo.vue'
+  import form1 from './formInfo.vue'
+  import form2 from './form.vue'
   import { MessageBox } from 'element-ui'
+  import api from '../../../../api/'
 
   export default {
     components: {
-      'form1': form1
+      'form1': form1,
+      'form2': form2
     },
     data() {
       return {
         show: false,
         LogWid: '',
         loading: false,
-        currentUserId: 0,
+        formVisible: false,
+        projKey: 0,
+        formTitle: '',
+        projectId: 0,
         dataForm: {
           wname: ''
         },
@@ -42,53 +48,37 @@
         // 表头
         columnData: [
           {
-            prop: 'brokerName',
-            label: '经纪商',
+            prop: 'projKey',
+            label: '项目KEY',
             width: '',
             align: 'center'
           },
           {
-            prop: 'serverName',
-            label: '服务器',
+            prop: 'userId',
+            label: '管理员ID',
             width: '',
             align: 'center'
           },
           {
-            prop: 'mtAccId',
-            label: 'MT账户ID',
-            width: '',
-            align: 'center'
-          },
-          {
-            prop: 'accountType',
-            label: 'MT账户类型',
-            width: '',
-            formatter: true,
-            columnKey: 'mt.accountType',
-            align: 'center'
-          },
-          {
-            prop: 'platType',
-            label: 'MT平台类型',
-            width: '',
-            formatter: true,
-            columnKey: 'mt.platType',
-            align: 'center'
-          },
-          {
-            prop: 'accountState',
-            label: 'MT账户状态',
-            width: '',
+            prop: 'adminState',
+            label: '状态',
             formatter: true,
             columnKey: 'account.accountState',
+            width: '',
             align: 'center'
           },
           {
-            prop: 'passwordWatchChecked',
-            label: '密码验证状态',
+            prop: 'email',
+            label: '电子邮件',
             width: '',
-            formatter: true,
-            columnKey: 'com.yes',
+            align: 'center'
+          },
+          {
+            prop: 'regTime',
+            label: '注册日期',
+            width: '',
+            dateFormat: true,
+            format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           }
         ],
@@ -102,27 +92,49 @@
       }
     },
     created() {
-      if (this.$store.state.tab.uid !== undefined && this.$store.state.tab.uid.userId !== undefined) {
-        this.currentUserId = this.$store.state.tab.uid.userId
-      } else {
-        let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-        this.currentUserId = userInfo.userId
+      if (this.$store.state.tab.uid !== undefined && this.$store.state.tab.uid.projectId !== undefined) {
+        this.projectId = this.$store.state.tab.uid.projectId
+        this.projKey = this.$store.state.tab.uid.projKey
+        this.getQuery()
       }
-      this.getQuery()
     },
     methods: {
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
           // 判断用户权限
           let params = {
-            userId: this.currentUserId
+            id: this.projectId,
+            projKey: this.projKey
           }
-          this.$api.getUsersMtAccountByCondition(params, (res) => {
+          let pageInfoHelper = {
+            pageSize: this.pageDataSize,
+            pageNo: this.pageDataNum
+          }
+          let data = {
+            params,
+            pageInfoHelper
+          }
+          this.$api.getPermissionProject(data, (res) => {
             if (res.content !== null) {
-              if (res.content.data.length > 0) {
-                this.dataForm = res.content.data[0]
-                this.tableData = res.content.data
-              }
+              this.dataForm = res.content
+            } else {
+              this.$message(res.message)
+            }
+          })
+          params = {
+            projKey: this.projKey
+          }
+          pageInfoHelper = {
+            pageSize: this.pageDataSize,
+            pageNo: this.pageDataNum
+          }
+          data = {
+            params,
+            pageInfoHelper
+          }
+          this.$api.queryPermissionAdmin(data, (res) => {
+            if (res.content !== null) {
+              this.tableData = res.content.data
             } else {
               this.$message(res.message)
             }
@@ -174,30 +186,37 @@
           this.$store.dispatch('m1_form_state', this.$store.state.m1.m1_form_state + 1)
         }, 10)
       },
-      accConnectStart() {
+      // 删除数据
+      adminRemove() {
         // 判断数据
-        MessageBox.confirm('确定启动吗？', '提示', {
+        if (this.selectionRows === '' || this.selectionRows.length === 0) {
+          window.alert('请选择需要操作的数据！')
+          return
+        }
+        if (this.selectionRows.length > 1) {
+          window.alert('只能选择一条数据操作！')
+          return
+        }
+        MessageBox.confirm('确定删除吗？', '提示', {
           cancelButtonText: '取消',
           confirmButtonText: '确认',
           type: 'warning'
         }).then(() => {
-          this.loading = true
-          let param = {
-            userId: this.dataForm.userId, // 用户ID
-            username: this.dataForm.username, // 名称
-            mtAccId: this.dataForm.mtAccId, // 类型
-            serverName: this.dataForm.serverName // 服务器
+          let params = {
+            id: this.selectionRows[0].id
           }
-          // 审核流程
-          this.$api.connectUserMTAccount(param, (res) => {
-            if (res.status === 0 && res.content === true) {
+          let data = {
+            params
+          }
+          // 删除流程
+          api.removePermissionAdmin(data, (res) => {
+            if (res.status === 0 && res.content !== null) {
               // 保存成功
               window.alert('操作成功！')
               this.$options.methods.getQuery.bind(this)()
             } else {
               window.alert('操作失败！')
             }
-            this.loading = false
           })
         }).catch(() => {
           this.$message({
@@ -206,36 +225,14 @@
           })
         })
       },
-      accConnectClose() {
-        MessageBox.confirm('确定断开连接吗？', '提示', {
-          cancelButtonText: '取消',
-          confirmButtonText: '确认',
-          type: 'warning'
-        }).then(() => {
-          this.loading = true
-          let param = {
-            userId: this.dataForm.userId, // 用户ID
-            username: this.dataForm.username, // 名称
-            mtAccId: this.dataForm.mtAccId, // 类型
-            serverName: this.dataForm.serverName // 服务器
-          }
-          // 审核流程
-          this.$api.disConnectUserMTAccount(param, (res) => {
-            if (res.status === 0 && res.content === true) {
-              this.$options.methods.getQuery.bind(this)()
-              // 保存成功
-              window.alert('操作成功！')
-            } else {
-              window.alert('操作失败！')
-            }
-          })
-          this.loading = false
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消操作'
-          })
-        })
+      adminAdd() {
+        this.LogWid = this.dataForm
+        setTimeout(() => {
+          this.formVisible = true
+        }, 0)
+        this.formTitle = '团队工程管理员信息'
+        this.show = 'forms'
+        this.disabled = false
       },
       selectionChange(rows) {
         this.selectionRows = rows

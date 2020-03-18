@@ -6,7 +6,7 @@
       </os-search>
     </div>
 
-    <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :tableData="tableData" @change-selection="selectionChange">
+    <os-table :loading="loading" :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :tableData="tableData" @change-selection="selectionChange">
       <div slot="r">
         <el-button @click="signalBook()"><i class="el-icon-circle-plus-outline"></i> 新增</el-button>
         <el-button @click="signalUpdate()"><i class="el-icon-circle-plus-outline"></i> 修改</el-button>
@@ -34,6 +34,7 @@
         show: false,
         LogWid: '',
         formVisible: false,
+        loading: false,
         dialogTitle: '更新日志',
         dialogWidth: '',
         dialogTop: '5%',
@@ -192,8 +193,7 @@
           let params = {
             operUserId: userInfo.userId,
             userId: this.queryData.formData.userId, // 用户id
-            signalId: this.queryData.formData.signalId, // 申请id
-            ruleState: 0 // 状态（0 正常，1  隐藏，2 废弃）
+            signalId: this.queryData.formData.signalId // 申请id
           }
           let pageInfoHelper = {
             pageSize: this.pageDataSize,
@@ -227,6 +227,7 @@
           confirmButtonText: '确认',
           type: 'warning'
         }).then(() => {
+          this.loading = true
           let param = {
             id: this.selectionRows[0].id,
             userId: this.selectionRows[0].userId,
@@ -245,6 +246,7 @@
               window.alert('操作失败！')
             }
           })
+          this.loading = false
         }).catch(() => {
           this.$message({
             type: 'info',

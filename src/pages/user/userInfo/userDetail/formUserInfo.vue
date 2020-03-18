@@ -46,7 +46,7 @@
           </el-form-item>
       </el-col>
       <el-col :span="5">
-          <el-form-item label="推荐码:" prop="introducer">
+          <el-form-item label="推荐人ID:" prop="introducer">
             <el-input v-model="dataForm.introducer" :disabled="true"></el-input>
           </el-form-item>
       </el-col>
@@ -94,8 +94,8 @@
       </el-col>
     <h3>推广信息</h3>
       <el-col :span="5">
-        <el-form-item label="邀请码:" prop="userIdCode">
-          <el-input v-model="dataForm.id" readonly></el-input>
+        <el-form-item label="邀请码:" prop="introducerCode">
+          <el-input v-model="introducerCode" readonly></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="10">
@@ -121,7 +121,9 @@
     },
     watch: {
       dataForm: function(v1) {
-        this.introducerUrl = this.$api.getIntroducerloadUrl(v1.id)
+        let theCode = this.introducerEncode(this.dataForm.id)
+        this.introducerCode = theCode
+        this.introducerUrl = this.$api.getIntroducerloadUrl(theCode)
       }
     },
     data() {
@@ -131,6 +133,7 @@
         formTitle: '更新日志',
         disabled: true,
         userId: this.dataForm.id,
+        introducerCode: '',
         introducerUrl: '',
         userSex: this.$api.getDicValues('user.sex'),
         userType: this.$api.getDicValues('user.userType'),
@@ -143,10 +146,20 @@
         this.disabled = false
       }
       setTimeout(() => {
-        this.introducerUrl = this.$api.getIntroducerloadUrl(this.dataForm.id)
+        let theCode = this.introducerEncode(this.dataForm.id)
+        this.introducerCode = theCode
+        this.introducerUrl = this.$api.getIntroducerloadUrl(theCode)
       }, 0)
     },
     methods: {
+      introducerEncode: function(value) {
+        let Base64 = require('js-base64').Base64
+        return Base64.encode(value)  // 5r2Y6auY
+      },
+      introducerDecode: function(value) {
+        let Base64 = require('js-base64').Base64
+        return Base64.decode(value)  // 潘高
+      },
       // 查看日志
       handleViewLog() {
         this.dialogVisible = true
@@ -161,14 +174,14 @@
     padding: 20px 0;
     border-bottom: #F7F7F7 solid 1px;
   }
-  
+
   .upload_zl_title {
     float: left;
     width: 120px;
     line-height: 145px;
     text-align: center;
   }
-  
+
   .upload_zl_list {
     margin-left: 120px;
   }

@@ -6,8 +6,8 @@
         <span class="fu_login_acc">注册账户</span>
         <a class="fu_login_goLogin" href="/">已有账号，去登录<i class="el-icon-right"></i></a>
       </h2>
-      <el-form-item label="推荐码:" prop="introducer" :required="required">
-        <el-input v-model.number="ruleForm.introducer" placeholder="请输入推荐码（后期不能修改）" size="large" :disabled="readonly"></el-input>
+      <el-form-item label="邀请码:" prop="introducer" :required="required">
+        <el-input v-model.number="ruleForm.introducer" placeholder="请输入邀请码（后期不能修改）" size="large" :disabled="readonly"></el-input>
       </el-form-item>
       <el-form-item label="用户名:" prop="username" :required="required">
         <el-input v-model="ruleForm.username" placeholder="请输入用户名（后期不能修改）" auto-complete="off" size="large"></el-input>
@@ -135,10 +135,17 @@
     },
     created () {
       this.isChrome()
-      if (this.$route.query.introducer > 0) {
+      if (this.$route.query.introducer !== null && this.$route.query.introducer !== undefined) {
         this.ruleForm.introducer = this.$route.query.introducer
         this.readonly = true
       }
+      setTimeout(() => {
+        let userId = 58
+        let introducerCode = this.introducerEncode(userId)
+        let decode = this.introducerDecode(introducerCode)
+        console.log(introducerCode)
+        console.log(decode)
+      }, 0)
     },
     methods: {
       isChrome() {
@@ -156,6 +163,14 @@
           })
         }
       },
+      introducerEncode: function(value) {
+        let Base64 = require('js-base64').Base64
+        return Base64.encode(value)  // 5r2Y6auY
+      },
+      introducerDecode: function(value) {
+        let Base64 = require('js-base64').Base64
+        return Base64.decode(value)  // 潘高
+      },
       infoAffirm() {
         setTimeout(() => {
           this.dialogVisible = true
@@ -172,7 +187,9 @@
         }
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            // 校验数据
+            // 介绍人编码解密
+            let introducer = this.ruleForm.introducer
+            this.ruleForm.introducer = this.introducerDecode(introducer)
             api.registered(this.ruleForm, (res) => {
               if (res.status === 0 && res.content.data !== '') {
                 // 保存成功

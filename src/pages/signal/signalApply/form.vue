@@ -174,6 +174,24 @@
           this.formData.formItem[5].value = ''
           this.formData.formItem[6].value = ''
         }
+        if (key === 'historyWithdraw') {
+          if (!this.checkDecimals(value)) {
+            window.alert('历史最大回撤为数字 保留两位小数！')
+            return
+          }
+        }
+        if (key === 'monthlyAverageIncome') {
+          if (!this.checkDecimals(value)) {
+            window.alert('月均收益为数字 保留两位小数！')
+            return
+          }
+        }
+        if (key === 'annualizedExpectedReturn') {
+          if (!this.checkDecimals(value)) {
+            window.alert('年化预期收益率为数字 保留两位小数！')
+            return
+          }
+        }
         if (key === 'mtAccountInfo') {
           for (let index = 0; index < this.mtAccountInfo.length; index++) {
             if (value === this.mtAccountInfo[index].accountId) {
@@ -230,6 +248,21 @@
               this.$message('获取用户账户信息失败！')
             }
           })
+        }
+      },
+      checkDecimals: function (value) { // 非空数字验证保留两位小数
+        if (!value) {
+          return false
+        } else {
+          if (value === 0 || value === '0') {
+            return false
+          } else {
+            var reg = /^\d+\.?\d{0,2}$/
+            if (reg.test(value)) {
+              return true
+            }
+          }
+          return false
         }
       }
     },

@@ -39,6 +39,8 @@ const pages = {
   permissionRole: r => require.ensure([], () => r(require('../pages/system/permission/role/'))),
   roleResource: r => require.ensure([], () => r(require('../pages/system/permission/roleResource/'))),
   roleResourceDetail: r => require.ensure([], () => r(require('../pages/system/permission/roleResource/roleResourceDetail/'))),
+  permissionProject: r => require.ensure([], () => r(require('../pages/system/permission/permissionProjectList/'))),
+  permissionProjectDetail: r => require.ensure([], () => r(require('../pages/system/permission/permissionProjectDetail/'))),
   permissionUserRole: r => require.ensure([], () => r(require('../pages/system/permission/userRole/')))
 }
 
