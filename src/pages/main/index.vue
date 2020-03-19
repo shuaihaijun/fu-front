@@ -5,6 +5,7 @@
 			@handleExit="handleLogOut"
 			:osName="osName"
       :osTitle="osTitle"
+      :osLogo="osLogo"
 			:roleList="roleList">
 		</os-header>
     <div class="main_center" >
@@ -29,8 +30,9 @@
 					adminName: '用户名'
 				},
 				roleList: '',
-        osName: '点誠',
-        osTitle: '去伪存真',
+        osName: '',
+        osTitle: '',
+        osLogo: '',
 				height: ''
 			}
 		},
@@ -57,6 +59,30 @@
 			// 切换岗位
 			handleRole (aId) {
 			},
+      // 设置项目工程内容
+      setProjectInfos () {
+        if (window.localStorage.getItem('nice_user')) {
+          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          let params = {
+            userId: userInfo.userId // 操作用户id
+          }
+          let data = {
+            params
+          }
+          api.getPermissionProjectByCondition(data, (res) => {
+            if (res.status === 0 && res.content !== null && res.content !== '') {
+              this.osName = res.content.projName
+              this.osTitle = res.content.projSlogan
+              this.osLogo = res.content.projLogo
+            } else {
+              window.alert('获取用户团队失败！')
+            }
+          })
+          this.osLogo = '/upload/image/dc.jpg'
+        } else {
+          this.$message('获取用户信息失败！')
+        }
+      },
 			// 退出
 			handleLogOut () {
         let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
@@ -95,15 +121,18 @@
 			}
 		},
 		created () {
-      // 初始化 menu
       // 初始化 dictionary
       this.$store.dispatch('getDictionary')
+      // 初始化 menu
       if (window.localStorage.getItem('nice_user')) {
         let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
         this.$store.dispatch('getMenu', {userId: userInfo.userId})
       } else {
         this.$message('获取用户信息失败！')
       }
+      // 初始化团队信息
+      this.setProjectInfos()
+
 //    // 获取url参数为token的值并且保存本地
 //    var url = window.location.search
 //    if (url.indexOf('?') !== -1) {

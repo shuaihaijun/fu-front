@@ -1,6 +1,6 @@
 <template>
 	<div :style="backgroundDiv" class="fu_login_beijing">
-		<os-header osName="点誠" osTitle="去伪存真" :login="false"> </os-header>
+		<os-header osName="" osTitle="" :login="false"> </os-header>
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="erp_ruleForm">
 			<el-form-item label="用户名:" prop="userName">
 			  <el-input v-model="ruleForm.username" placeholder="请输入您的用户名" size="large"></el-input>
@@ -100,7 +100,7 @@
         setTimeout(() => {
           this.dialogVisible = true
         }, 0)
-        this.dialogTitle = '点誠 免责申明'
+        this.dialogTitle = '社区 免责申明'
         this.show = 'dialogs'
         this.dialogWidth = 350
         this.dialogTop = '5%'

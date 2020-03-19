@@ -1,6 +1,6 @@
 <template>
 	<div :style="backgroundDiv" class="fu_login_beijing">
-		<os-header osName="点誠" osTitle="去伪存真" :login="false"> </os-header>
+		<os-header osName="" osTitle="" osLogo="" :login="false"> </os-header>
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="fu_ruleForm">
       <h2>
         <span class="fu_login_acc">注册账户</span>
@@ -89,6 +89,7 @@
       return {
         show: false,
         LogWid: '',
+        osLogo: '',
         checked: false,
         readonly: false,
         formTitle: '',
@@ -140,11 +141,7 @@
         this.readonly = true
       }
       setTimeout(() => {
-        let userId = 58
-        let introducerCode = this.introducerEncode(userId)
-        let decode = this.introducerDecode(introducerCode)
-        console.log(introducerCode)
-        console.log(decode)
+        this.osLogo = '/upload/image/dc.jpg'
       }, 0)
     },
     methods: {

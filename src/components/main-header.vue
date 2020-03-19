@@ -1,6 +1,7 @@
 <template>
   <div class="main_top">
-    <div class="logo">
+    <!--<div class="logo">-->
+    <div :style="logoStyle" >
       <b class="logo_text">{{osName}}</b>
     </div>
     <div class="title">
@@ -29,6 +30,8 @@
 </template>
 <script>
   import forms from './../pages/login/passwordForm'
+  import api from '../api'
+
   export default {
     components: {
       'forms': forms
@@ -38,6 +41,11 @@
       osName: {
         default() {
           return '系统名称'
+        }
+      },
+      osLogo: {
+        default() {
+          return 'http://127.0.0.1:8088/upload/image/dc.jpg'
         }
       },
       osTitle: {
@@ -66,9 +74,19 @@
         show: false,
         LogWid: '',
         formTitle: '',
+        logoString: 'margin:7px 0 0 0;height: 41px;min-width: 50px;float: left;background: url',
+        logoStyle: '',
         disabled: true,
         formVisible: false
       }
+    },
+    watch: {
+      osLogo(v) {
+        this.setLogoStyle()
+      }
+    },
+    created () {
+      this.setLogoStyle()
     },
     methods: {
       passwordChange() {
@@ -83,6 +101,13 @@
         } else {
           this.$message('获取用户信息失败！')
         }
+      },
+      setLogoStyle() {
+        if (this.osLogo === undefined || this.osLogo === '') {
+          return
+        }
+        let logoUrl = api.getPictureDownloadUrl(this.osLogo)
+        this.logoStyle = this.logoString + "('" + logoUrl + "') no-repeat;"
       },
       handleExit() {
         this.$emit('handleExit')
@@ -136,17 +161,17 @@
     float: left;
     cursor: pointer;
   }
-  
+
   .login_user {
     padding: 17px 10px 0 0;
     float: right;
   }
-  
+
   .login_user b {
     margin: 0 5px;
     cursor: pointer;
   }
-  
+
   .login_user .el-tag {
     background: #8391a5;
     color: #fff;
