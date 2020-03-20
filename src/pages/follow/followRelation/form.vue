@@ -159,6 +159,7 @@
           if (!this.checkConfirmData()) {
             return
           }
+          obj.operUserId = userInfo.userId
           // 提交请求
           api.signalFollowsSaveOrUpdate(obj, (res) => {
             if (res.status === 0 && res.content !== null) {

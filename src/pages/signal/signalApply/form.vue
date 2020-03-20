@@ -205,8 +205,8 @@
       },
       affirm(v, obj) {
         if (window.localStorage.getItem('nice_user')) {
-          // let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-          // obj.userId = userInfo.userId // 用户id
+          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          obj.operUserId = userInfo.userId // 用户id
           // 校验数据
           api.signalApplySaveOrUpdate(obj, (res) => {
             if (res.status === 0 && res.content !== null && res.content.data !== '') {

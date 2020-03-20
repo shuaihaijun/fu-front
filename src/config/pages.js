@@ -20,6 +20,7 @@ const pages = {
   signalApplyCheck: r => require.ensure([], () => r(require('../pages/signal/signalCheck/'))),
   signalFollow: r => require.ensure([], () => r(require('../pages/signal/signalFollow/'))),
   signalList: r => require.ensure([], () => r(require('../pages/signal/signalList/'))),
+  signalPermit: r => require.ensure([], () => r(require('../pages/signal/signalPermit/'))),
   followRelation: r => require.ensure([], () => r(require('../pages/follow/followRelation/'))),
   agentApply: r => require.ensure([], () => r(require('../pages/agent/agentApply/'))),
   agentCheck: r => require.ensure([], () => r(require('../pages/agent/agentCheck/'))),

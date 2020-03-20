@@ -2,19 +2,16 @@
   <div>
     <div ref="search">
       <os-search :dataSource='queryData' @click-submit='getQuery'>
-        <!-- <input type="text"> -->
       </os-search>
     </div>
 
     <os-table :loading="loading" :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
-      <div slot="r">
-        <el-button @click="accConnectStart()"><i class="el-icon-check"></i> 启动监听</el-button>
-        <el-button @click="accConnectClose()"><i class="el-icon-close"></i> 关闭监听</el-button>
-      </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
 
-    <forms :_visible="formVisible" v-if="show" :pwid="LogWid" :disabled="disabled"></forms>
+    <os-dialog :visible="dialogVisible" :title="formTitle" :visibleButton="false" width="880px" height="880px" top="4.5%">
+      <forms :_visible="formVisible" v-if="show" :pwid="LogWid" :disabled="disabled"></forms>
+    </os-dialog>
   </div>
 </template>
 <script>
@@ -30,8 +27,10 @@
       return {
         show: false,
         LogWid: '',
+        dialogVisible: false,
         formVisible: false,
         dialogTitle: '更新日志',
+        formTitle: '信号源权限设置',
         dialogWidth: '',
         dialogTop: '5%',
         loading: false,
@@ -74,7 +73,7 @@
             isBtn: true,
             children: [{
                 iconClass: 'el-icon-view',
-                name: '详情',
+                name: '设置权限',
                 show: 'IsBtn2',
                 isBtn: true
               }
@@ -278,95 +277,17 @@
       // 查看or编辑
       handleOperate(row, index, name) {
         this.LogWid = row
-        if (name === '详情') {
+        this.dialogVisible = true
+        if (name === '设置权限') {
           setTimeout(() => {
             this.formVisible = true
           }, 0)
-          this.dialogTitle = '信号源：' + row.signalName + ' 详情 '
           // this.show = 'forms'
           this.show = true
           this.disabled = true
           this.dialogWidth = 1000
           this.dialogTop = '10%'
         }
-      },
-      accConnectStart() {
-        // 判断数据
-        if (this.selectionRows === '' || this.selectionRows.length === 0) {
-          window.alert('请选择需要操作的数据！')
-          return
-        }
-        if (this.selectionRows.length > 1) {
-          window.alert('只能选择一条数据操作！')
-          return
-        }
-        MessageBox.confirm('确定启动吗？', '提示', {
-          cancelButtonText: '取消',
-          confirmButtonText: '确认',
-          type: 'warning'
-        }).then(() => {
-          this.loading = true
-          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-          let params = {
-            operUserId: userInfo.userId, // 操作用户id
-            signalId: this.selectionRows[0].id// 信号源ID
-          }
-          // 链接账号
-          api.connectSignalMTAccount(params, (res) => {
-            if (res.status === 0 && res.content === true) {
-              // 保存成功
-              window.alert('操作成功！')
-              this.$options.methods.getQuery.bind(this)()
-            } else {
-              window.alert('操作失败！')
-            }
-          })
-          this.loading = false
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消操作'
-          })
-        })
-      },
-      accConnectClose() {
-        // 判断数据
-        if (this.selectionRows === '' || this.selectionRows.length === 0) {
-          window.alert('请选择需要操作的数据！')
-          return
-        }
-        if (this.selectionRows.length > 1) {
-          window.alert('只能选择一条数据操作！')
-          return
-        }
-        MessageBox.confirm('确定断开连接吗？', '提示', {
-          cancelButtonText: '取消',
-          confirmButtonText: '确认',
-          type: 'warning'
-        }).then(() => {
-          this.loading = true
-          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-          let params = {
-            operUserId: userInfo.userId, // 操作用户id
-            signalId: this.selectionRows[0].id// 信号源ID
-          }
-          // 审核流程
-          api.disConnectSignalMTAccount(params, (res) => {
-            if (res.status === 0 && res.content === true) {
-              this.$options.methods.getQuery.bind(this)()
-              // 保存成功
-              window.alert('操作成功！')
-            } else {
-              window.alert('操作失败！')
-            }
-          })
-          this.loading = false
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消操作'
-          })
-        })
       },
       selectionChange(rows) {
         this.selectionRows = rows

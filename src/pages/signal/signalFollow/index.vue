@@ -166,7 +166,15 @@
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }
-          api.signalFollowsQuery(params, (res) => {
+          let pageInfoHelper = {
+            pageSize: this.pageDataSize,
+            pageNo: this.pageDataNum
+          }
+          let data = {
+            params,
+            pageInfoHelper
+          }
+          api.signalFollowsQuery(data, (res) => {
             this.tableData = res.content.data
             this.pageDataTotal = res.content.total
           })

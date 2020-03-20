@@ -186,9 +186,9 @@
     methods: {
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
-          // let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           let params = {
-            userId: this.queryData.formData.userId, // 用户id
+            operId: userInfo.userId, // 用户id
             applyId: this.queryData.formData.applyId, // 申请id
             signalName: this.queryData.formData.signalName, // 信号源名称
             mtAccId: this.queryData.formData.mtAccId, // MT账户
@@ -197,7 +197,15 @@
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }
-          api.getSignalApply(params, (res) => {
+          let pageInfoHelper = {
+            pageSize: this.pageDataSize,
+            pageNo: this.pageDataNum
+          }
+          let data = {
+            params,
+            pageInfoHelper
+          }
+          api.getSignalApply(data, (res) => {
             this.tableData = res.content.records
             this.pageDataTotal = res.content.total
           })

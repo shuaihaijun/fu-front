@@ -202,7 +202,7 @@
         if (window.localStorage.getItem('nice_user')) {
           let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           let params = {
-            operUserId: userInfo.userId, // 用户id
+            operId: userInfo.userId, // 用户id
             userId: this.queryData.formData.userId, // 用户id
             applyId: this.queryData.formData.applyId, // 申请id
             signalName: this.queryData.formData.signalName, // 信号源名称
@@ -212,7 +212,15 @@
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }
-          api.getSignalApply(params, (res) => {
+          let pageInfoHelper = {
+            pageSize: this.pageDataSize,
+            pageNo: this.pageDataNum
+          }
+          let data = {
+            params,
+            pageInfoHelper
+          }
+          api.getSignalApply(data, (res) => {
             this.tableData = res.content.records
             this.pageDataTotal = res.content.total
           })
@@ -358,8 +366,8 @@
             id: this.selectionRows[0].id
           }
           // 修改状态
-          api.deleteDictionary(param, (res) => {
-            if (res.status === 0 && res.content.data !== '') {
+          api.signalApplyDelete(param, (res) => {
+            if (res.status === 0 && res.content !== '') {
               this.$options.methods.getQuery.bind(this)()
               // 保存成功
               window.alert('操作成功！')
