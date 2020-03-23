@@ -222,15 +222,17 @@
               if (res.status !== 0) {
                 window.alert(res.message)
                 return
+              } else {
+                this.$message('用户基本信息保存成功！')
               }
-              this.$message('操作成功！')
             })
             this.$api.saveUserMTAccount(params, (res) => {
               if (res.status !== 0) {
                 window.alert(res.message)
                 return
+              } else {
+                this.$message('用户账户信息保存成功！')
               }
-              this.$message('操作成功！')
             })
             params = this.tableData2
             let data = {
@@ -240,8 +242,9 @@
               if (res.status !== 0) {
                 window.alert(res.message)
                 return
+              } else {
+                this.$message('用户银行卡信息保存成功！')
               }
-              this.$message('操作成功！')
             })
           } else {
             this.$message('请书写完整')

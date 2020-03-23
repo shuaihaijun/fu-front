@@ -150,13 +150,13 @@
       affirm(v, obj) {
         if (window.localStorage.getItem('nice_user')) {
           let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-          if (userInfo.userType < 8 || userInfo.userType > 10) {
-            // 管理者
-            this.formData.formItem[2].value = userInfo.userId
-            this.formData.formItem[2].readonly = true
-          }
           // 校验数据
           if (!this.checkConfirmData()) {
+            this.$message('请输入正确的数据！')
+            return
+          }
+          if (!this.checkUserPerimt(obj.userId)) {
+            this.$message('用户只能操作自己的账号！')
             return
           }
           obj.operUserId = userInfo.userId
@@ -166,6 +166,7 @@
               // 保存成功
               window.alert('保存成功！')
               this.visible = false
+              this.$parent.getQuery()
             } else {
               window.alert(res.message)
             }
@@ -261,6 +262,10 @@
             window.alert('请输入正确的用户ID！')
             return
           }
+          if (!this.checkUserPerimt(value)) {
+            this.$message('用户只能操作自己的账号！')
+            return
+          }
           this.getMTAccount(value)
         }
         if (key === 'signalId') {
@@ -342,6 +347,23 @@
               return true
             }
           }
+          return false
+        }
+      },
+      checkUserPerimt: function (value) { // 非空数字验证
+        if (window.localStorage.getItem('nice_user')) {
+          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          if (userInfo.userType < 8 || userInfo.userType > 10) {
+            // 非管理者
+            let inputUser = parseInt(value)
+            let operUser = parseInt(userInfo.userId)
+            if (inputUser !== operUser) {
+              return false
+            }
+          }
+          return true
+        } else {
+          this.$message('获取用户信息失败！')
           return false
         }
       },

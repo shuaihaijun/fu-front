@@ -184,6 +184,16 @@
       }
     },
     created() {
+      if (window.localStorage.getItem('nice_user')) {
+        let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+        if (userInfo.userType < 8 || userInfo.userType > 10) {
+          // 管理者
+          this.queryData.formItem[0].value = userInfo.userId
+          this.queryData.formItem[0].readonly = true
+        }
+      } else {
+        this.$message('获取用户信息失败！')
+      }
       this.getQuery()
     },
     methods: {
@@ -228,7 +238,9 @@
           type: 'warning'
         }).then(() => {
           this.loading = true
-          let param = {
+          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          let params = {
+            operUserId: userInfo.userId,
             id: this.selectionRows[0].id,
             userId: this.selectionRows[0].userId,
             userMtAccId: this.selectionRows[0].userMtAccId,
@@ -237,7 +249,7 @@
             message: '暂停！'
           }
           // 审核流程
-          api.signalFollowsSaveOrUpdate(param, (res) => {
+          api.signalFollowsSaveOrUpdate(params, (res) => {
             if (res.status === 0 && res.content !== null && res.content.data !== '') {
               this.$options.methods.getQuery.bind(this)()
               // 保存成功
@@ -270,14 +282,16 @@
           confirmButtonText: '确认',
           type: 'warning'
         }).then(() => {
-          let param = {
+          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          let params = {
+            operUserId: userInfo.userId,
             id: this.selectionRows[0].id,
             userId: this.selectionRows[0].userId,
             signalId: this.selectionRows[0].signalId,
             message: '退订！'
           }
           // 审核流程
-          api.signalFollowsRemove(param, (res) => {
+          api.signalFollowsRemove(params, (res) => {
             if (res.status === 0 && res.content !== null && res.content.data !== '') {
               this.$options.methods.getQuery.bind(this)()
               // 保存成功

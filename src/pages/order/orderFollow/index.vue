@@ -212,6 +212,8 @@
           {
             prop: 'orderCloseDate',
             label: '平仓时间',
+            dateFormat: true,
+            format: 'yyyy-MM-dd HH:mm:ss',
             width: '',
             align: 'center'
           }
@@ -248,7 +250,7 @@
             userId: this.queryData.formData.userId, // 用户ID
             signalId: this.queryData.formData.signalId, // 信号源ID
             orderId: this.queryData.formData.orderId, // 订单id
-            signalOrderId: this.queryData.formData.orderId, // 信号源订单id
+            signalOrderId: this.queryData.formData.signalOrderId, // 信号源订单id
             orderType: this.queryData.formData.orderType, // 交易类型
             orderSymbol: this.queryData.formData.orderSymbol, // 外汇产品
             orderOpenDate: this.queryData.formData.orderOpenDate, // 订单开仓时间
