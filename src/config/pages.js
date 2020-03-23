@@ -21,6 +21,7 @@ const pages = {
   signalFollow: r => require.ensure([], () => r(require('../pages/signal/signalFollow/'))),
   signalList: r => require.ensure([], () => r(require('../pages/signal/signalList/'))),
   signalPermit: r => require.ensure([], () => r(require('../pages/signal/signalPermit/'))),
+  signalAllowed: r => require.ensure([], () => r(require('../pages/follow/signalAllowedList/'))),
   followRelation: r => require.ensure([], () => r(require('../pages/follow/followRelation/'))),
   agentApply: r => require.ensure([], () => r(require('../pages/agent/agentApply/'))),
   agentCheck: r => require.ensure([], () => r(require('../pages/agent/agentCheck/'))),

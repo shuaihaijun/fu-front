@@ -242,7 +242,9 @@
     methods: {
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
+          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           let params = {
+            operUserId: userInfo.userId, // 操作用户id
             userId: this.queryData.formData.userId, // 用户ID
             signalId: this.queryData.formData.signalId, // 信号源ID
             orderId: this.queryData.formData.orderId, // 订单id
@@ -254,8 +256,16 @@
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }
-          api.getOrderFollowInfo(params, (res) => {
-            this.tableData = res.content.records
+          let pageInfoHelper = {
+            pageSize: this.pageDataSize,
+            pageNo: this.pageDataNum
+          }
+          let data = {
+            params,
+            pageInfoHelper
+          }
+          api.getOrderFollowInfo(data, (res) => {
+            this.tableData = res.content.data
             this.pageDataTotal = res.content.total
           })
         } else {

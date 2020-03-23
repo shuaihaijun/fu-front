@@ -11,8 +11,8 @@
         <el-button @click="applyNew()"><i class="el-icon-circle-plus-outline"></i> 新增</el-button>
         <el-button @click="applyEdit()"><i class="el-icon-edit-outline"></i> 编辑</el-button>
         <el-button @click="applyDelete()"><i class="el-icon-delete-solid"></i> 删除</el-button>
-        <el-button @click="applywithdraw()"><i class="el-icon-back"></i> 撤回</el-button>
-        <el-button @click="applyCheck()"><i class="el-icon-circle-check"></i> 提交</el-button>
+        <el-button @click="applywithdraw()"><i class="el-icon-back"></i> 撤回审核</el-button>
+        <el-button @click="applyCheck()"><i class="el-icon-circle-check"></i> 提交审核</el-button>
       </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
@@ -112,8 +112,22 @@
             align: 'center'
           },
           {
+            prop: 'userId',
+            label: '申请用户ID',
+            width: '100',
+            align: 'center'
+          },
+          {
+            prop: 'operUserId',
+            label: '申请人',
+            width: '80',
+            align: 'center'
+          },
+          {
             prop: 'applyState',
             label: '申请状态',
+            formatter: true,
+            columnKey: 'com.applyState',
             width: '80',
             align: 'center'
           },
@@ -160,12 +174,6 @@
             align: 'center'
           },
           {
-            prop: 'userId',
-            label: '申请人',
-            width: '80',
-            align: 'center'
-          },
-          {
             prop: 'applyDate',
             label: '申请时间',
             width: '150',
@@ -196,6 +204,7 @@
           }
         })
       })
+      this.getQuery()
     },
     methods: {
       getQuery() { // 搜索获取表格数据
@@ -208,7 +217,7 @@
             signalName: this.queryData.formData.signalName, // 信号源名称
             mtAccId: this.queryData.formData.mtAccId, // MT账户
             applyDate: this.queryData.formData.applyDate, // 申请时间
-            applyState: '1,3', // 申请状态（暂存,驳回）
+            applyState: '1,2,3', // 申请状态（暂存,驳回）
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }
@@ -221,7 +230,7 @@
             pageInfoHelper
           }
           api.getSignalApply(data, (res) => {
-            this.tableData = res.content.records
+            this.tableData = res.content.data
             this.pageDataTotal = res.content.total
           })
         } else {
@@ -237,6 +246,11 @@
         }
         if (this.selectionRows.length > 1) {
           window.alert('只能选择一条数据操作！')
+          return
+        }
+        // 申请状态（0 正常，1 暂存，2 待审核，3 未通过）
+        if (this.selectionRows[0].applyState !== 1 && this.selectionRows[0].applyState !== 3) {
+          window.alert('当前状态不允许再次提交审核！')
           return
         }
         MessageBox.confirm('确定提交审核结果吗？', '审核提示', {

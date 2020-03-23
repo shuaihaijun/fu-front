@@ -30,18 +30,23 @@
         if (this.pwid === '' || this.pwid.id === '') {
           this.formData.formData = {}
         } else {
-          // 校验数据
-          let params = {
-            applyId: this.pwid.id // 申请id
-          }
-          api.getSignalApplyById(params, (res) => {
-            if (res.status === 0 && res.content !== null) {
-              this.formData.formData = res.content
-            } else {
-              window.alert('查詢失败！')
-            }
-          })
           this.getMTAccount(this.pwid.userId)
+          setTimeout(() => {
+            // 校验数据
+            let params = {
+              applyId: this.pwid.id // 申请id
+            }
+            api.getSignalApplyById(params, (res) => {
+              if (res.status === 0 && res.content !== null) {
+                this.formData.formData = res.content
+                setTimeout(() => {
+                  this.setMtAccountInfo()
+                }, 0)
+              } else {
+                window.alert('查詢失败！')
+              }
+            })
+          }, 0)
         }
       }
     },
@@ -203,6 +208,18 @@
           }
         }
       },
+      setMtAccountInfo() {
+        let thisAccountValue = this.formData.formData.mtAccId
+        for (let index = 0; index < this.mtAccountInfo.length; index++) {
+          if (thisAccountValue === this.mtAccountInfo[index].mtAccId) {
+            this.formData.formItem[2].value = this.mtAccountInfo[index].mtAccId
+            this.formData.formItem[3].value = this.mtAccountInfo[index].brokerName
+            this.formData.formItem[4].value = this.mtAccountInfo[index].serverName
+            this.formData.formItem[5].value = this.mtAccountInfo[index].mtAccId
+            this.formData.formItem[6].value = this.mtAccountInfo[index].mtPasswordWatch
+          }
+        }
+      },
       affirm(v, obj) {
         if (window.localStorage.getItem('nice_user')) {
           let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
@@ -213,8 +230,9 @@
               // 保存成功
               window.alert('保存成功！')
               this.visible = false
+              this.$parent.getQuery()
             } else {
-              window.alert('保存失败！请检查数据')
+              window.alert(res.message)
             }
           })
         } else {
@@ -270,18 +288,23 @@
       if (this.pwid === '' || this.pwid.id === '') {
         this.formData.formData = ''
       } else {
-        // 校验数据
-        let params = {
-          applyId: this.pwid.id // 申请id
-        }
-        api.getSignalApplyById(params, (res) => {
-          if (res.status === 0 && res.content !== null) {
-            this.formData.formData = res.content
-          } else {
-            window.alert('查詢失败！')
-          }
-        })
         this.getMTAccount(this.pwid.userId)
+        setTimeout(() => {
+          // 校验数据
+          let params = {
+            applyId: this.pwid.id // 申请id
+          }
+          api.getSignalApplyById(params, (res) => {
+            if (res.status === 0 && res.content !== null) {
+              this.formData.formData = res.content
+              setTimeout(() => {
+                this.setMtAccountInfo()
+              }, 0)
+            } else {
+              window.alert('查詢失败！')
+            }
+          })
+        }, 0)
       }
     }
   }

@@ -6,26 +6,17 @@
       </os-search>
     </div>
 
-    <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
-      <div slot="r">
-        <el-button @click="applyCheck(3)"><i class="el-icon"></i> 审核驳回</el-button>
-        <el-button @click="applyCheck(0)"><i class="el-icon-edit-outline"></i> 审核通过</el-button>
-      </div>
+    <os-table :loading="loading" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData"  :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
 
-    <forms :_visible="formVisible" v-if="show" :pwid="LogWid" :disabled="disabled"></forms>
   </div>
 </template>
 <script>
   import api from '../../../api/'
-  import form from './form'
   import { MessageBox } from 'element-ui'
 
   export default {
-    components: {
-      'forms': form
-    },
     data() {
       return {
         show: false,
@@ -34,16 +25,17 @@
         dialogTitle: '更新日志',
         dialogWidth: '',
         dialogTop: '5%',
+        loading: false,
         selectionRows: '',
         // 搜索条
         queryData: {
           formData: {},
           formItem: [
             {
-            key: 'applyId',
+            key: 'signalId',
             label: '',
             value: null,
-            placeholder: '申请ID',
+            placeholder: '信号源ID',
             width: 180,
             type: ''
           },
@@ -62,37 +54,19 @@
             placeholder: 'MT账户ID',
             width: 200,
             type: ''
-          },
-          {
-            key: 'applyDate',
-            label: '',
-            value: null,
-            placeholder: '申请时间',
-            width: 200,
-            type: 'datetimerange'
           }]
         },
-        // 表格操作按钮
-        columnOperate: [
-          {
-            label: '操作',
-            width: '120px',
-            fixed: 'left',
-            isBtn: true,
-            children: [{
-                iconClass: 'el-icon-view',
-                name: '详情',
-                show: 'IsBtn2',
-                isBtn: true
-              }
-            ]
-          }
-        ],
-        // 表头
-        columnData: [
+        columnData: [{
+            prop: 'connectState',
+            label: '监听状态',
+            width: '80',
+            formatter: true,
+            columnKey: 'com.yes',
+            align: 'center'
+          },
           {
             prop: 'id',
-            label: '申请ID',
+            label: '信号源ID',
             width: '90',
             align: 'center'
           },
@@ -103,15 +77,17 @@
             align: 'center'
           },
           {
-            prop: 'userId',
-            label: '申请用户ID',
-            width: '100',
+            prop: 'signalState',
+            label: '信号源状态',
+            width: '90',
+            formatter: true,
+            columnKey: 'signal.signalState',
             align: 'center'
           },
           {
-            prop: 'operUserId',
-            label: '申请人',
-            width: '80',
+            prop: 'projName',
+            label: '所属团队',
+            width: '90',
             align: 'center'
           },
           {
@@ -139,30 +115,6 @@
             align: 'center'
           },
           {
-            prop: 'email',
-            label: '电子邮件',
-            width: '100',
-            align: 'center'
-          },
-          {
-            prop: 'phone',
-            label: '手机号',
-            width: '100',
-            align: 'center'
-          },
-          {
-            prop: 'qqNumber',
-            label: 'QQ号码',
-            width: '100',
-            align: 'center'
-          },
-          {
-            prop: 'userId',
-            label: '申请人',
-            width: '80',
-            align: 'center'
-          },
-          {
             prop: 'applyDate',
             label: '申请时间',
             width: '150',
@@ -181,33 +133,18 @@
       }
     },
     created() {
-      this.columnOperate.forEach((item, index) => {
-        item.children.forEach((Citem, Cindex) => {
-          if (Citem.show === 'IsBtn1' && this.IsBtn1) {
-            item.isBtn = true
-            Citem.isBtn = true
-          }
-          if (Citem.show === 'IsBtn2' && this.IsBtn2) {
-            item.isBtn = true
-            Citem.isBtn = true
-          }
-        })
-      })
       this.getQuery()
     },
     methods: {
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
           let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+          this.loading = true
           let params = {
             operId: userInfo.userId, // 用户id
-            applyId: this.queryData.formData.applyId, // 申请id
+            signalId: this.queryData.formData.signalId, // 申请id
             signalName: this.queryData.formData.signalName, // 信号源名称
-            mtAccId: this.queryData.formData.mtAccId, // MT账户
-            applyDate: this.queryData.formData.applyDate, // 申请时间
-            applyState: 2, // 申请状态（待审）
-            pageSize: this.pageDataSize,
-            pageNum: this.pageDataNum
+            mtAccId: this.queryData.formData.mtAccId // MT账户
           }
           let pageInfoHelper = {
             pageSize: this.pageDataSize,
@@ -217,10 +154,11 @@
             params,
             pageInfoHelper
           }
-          api.getSignalApply(data, (res) => {
+          api.querySignalAllowed(data, (res) => {
             this.tableData = res.content.data
             this.pageDataTotal = res.content.total
           })
+          this.loading = false
         } else {
           this.$message('获取用户信息失败！')
         }
@@ -248,12 +186,12 @@
           }
           // 审核流程
           api.reviewProductSignal(param, (res) => {
-            if (res.status === 0 && res.content !== null) {
+            if (res.status === 0 && res.content.data !== '') {
               this.$options.methods.getQuery.bind(this)()
               // 保存成功
               window.alert('操作成功！')
             } else {
-              window.alert(res.message)
+              window.alert('操作失败！')
             }
           })
         }).catch(() => {
