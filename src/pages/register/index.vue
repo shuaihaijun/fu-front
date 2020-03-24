@@ -28,7 +28,7 @@
         <el-input v-model="ruleForm.email" placeholder="请输入电子邮件" size="large"></el-input>
       </el-form-item>
         <el-checkbox v-model="checked">
-          <label>我已阅读并接受<a @click="infoAffirm()" style="color:#0066cc" class="mzsmm">《点誠用户协议》</a></label>
+          <label>我已阅读并接受<a @click="infoAffirm()" style="color:#0066cc" class="mzsmm">《用户协议》</a></label>
         </el-checkbox>
 			<el-form-item class="erp_ruleForm_btn">
 			  <el-button @click="submitForm('ruleForm')" size="large">注  册</el-button>
@@ -43,7 +43,6 @@
 <script>
   import api from '../../api/'
   import dialogs from './view'
-
   export default {
     components: {
       'dialogs': dialogs
@@ -172,7 +171,7 @@
         setTimeout(() => {
           this.dialogVisible = true
         }, 0)
-        this.dialogTitle = '点誠 免责申明'
+        this.dialogTitle = '免责申明'
         this.show = 'dialogs'
         this.dialogWidth = 350
         this.dialogTop = '5%'

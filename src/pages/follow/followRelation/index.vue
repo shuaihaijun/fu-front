@@ -237,6 +237,13 @@
           confirmButtonText: '确认',
           type: 'warning'
         }).then(() => {
+          const loading = this.$loading({
+            lock: true,
+            text: '连接需要几分钟  请耐心等待Loading',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.7)',
+            target: document.querySelector('.div1')
+          })
           this.loading = true
           let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           let params = {
@@ -253,9 +260,11 @@
             if (res.status === 0 && res.content !== null && res.content.data !== '') {
               this.$options.methods.getQuery.bind(this)()
               // 保存成功
+              loading.close()
               window.alert('操作成功！')
             } else {
-              window.alert('操作失败！')
+              loading.close()
+              window.alert(res.message)
             }
           })
           this.loading = false

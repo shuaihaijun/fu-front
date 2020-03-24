@@ -12,7 +12,7 @@
 
 			<el-form-item class="erp_ruleForm_btn">
           <el-checkbox v-model="checked">
-            <label>我已阅读并接受<a @click="infoAffirm()" style="color:#0066cc" class="mzsmm">《点誠用户协议》</a></label>
+            <label>我已阅读并接受<a @click="infoAffirm()" style="color:#0066cc" class="mzsmm">《用户协议》</a></label>
           </el-checkbox>
 			  <el-button @click="submitForm()" size="large">登  录</el-button>
           <a class="login_zhuce" href="/register">用户注册</a> &nbsp;&nbsp;&nbsp;

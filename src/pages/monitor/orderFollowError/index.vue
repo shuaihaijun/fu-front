@@ -218,12 +218,13 @@
         this.$message('获取用户信息失败！')
       }
       this.getQuery()
-      this.queryData.formItem[5].option = this.orderType
+      // this.queryData.formItem[5].option = this.orderType
     },
     methods: {
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
           let params = {
+            operUserId: this.UsInfo.userId,
             userId: this.queryData.formData.userId, // 用户ID
             signalId: this.queryData.formData.signalId, // 信号源ID
             signalOrderId: this.queryData.formData.orderId, // 信号源订单id
@@ -250,23 +251,23 @@
         }
       },
       changeItem() {
-        let branchIdParams = ''
-        if (this.queryData.formItem[0].value !== null) {
-          branchIdParams = this.queryData.formItem[0].value
-        }
-        let params = {
-          branchId: branchIdParams
-        }
-        branchIdParams = ''
-        this.$api.xsrwd.getinsert(params, (res) => {
-          let _arr = {}
-          if (this.queryData.formItem[0].value !== null) {
-            _arr._w = res.result.list.map(item => { return { label: item.wname, value: item.wid } })
-            _arr.wT = res.result.list.map(item => { return { label: item.wname, value: item.wid } })
-            this.queryData.formItem[1].option = _arr._w
-            this.queryData.formItem[2].option = _arr.wT
-          }
-        })
+        // let branchIdParams = ''
+        // if (this.queryData.formItem[0].value !== null) {
+        //   branchIdParams = this.queryData.formItem[0].value
+        // }
+        // let params = {
+        //   branchId: branchIdParams
+        // }
+        // branchIdParams = ''
+        // this.$api.xsrwd.getinsert(params, (res) => {
+        //   let _arr = {}
+        //   if (this.queryData.formItem[0].value !== null) {
+        //     _arr._w = res.result.list.map(item => { return { label: item.wname, value: item.wid } })
+        //     _arr.wT = res.result.list.map(item => { return { label: item.wname, value: item.wid } })
+        //     this.queryData.formItem[1].option = _arr._w
+        //     this.queryData.formItem[2].option = _arr.wT
+        //   }
+        // })
       },
       // 分页
       handlePage() {

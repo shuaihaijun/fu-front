@@ -8,12 +8,12 @@
 
     <os-table :showIndex="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :tableData="tableData">
     </os-table>
-    
+
     <os-pag :pageTotal="pageDataTotal"></os-pag>
 
     <os-dialog :visible="dialogVisible" :title="dialogTitle" :visibleButton="false" :width="dialogWidth +'px'" :top="dialogTop">
     </os-dialog>
-    
+
   </div>
 </template>
 <script>
@@ -104,10 +104,18 @@
           },
           {
             prop: 'orderType',
-            label: '交易类型',
+            label: '订单类型',
             width: '100',
             formatter: true,
             columnKey: 'order.tradeType',
+            align: 'center'
+          },
+          {
+            prop: 'orderTradeOperation',
+            label: '交易类型',
+            width: '80',
+            formatter: true,
+            columnKey: 'order.tradeOperation',
             align: 'center'
           },
           {
@@ -137,12 +145,6 @@
           {
             prop: 'orderSwap',
             label: '库存费',
-            width: '80',
-            align: 'center'
-          },
-          {
-            prop: 'orderMagic',
-            label: '魔法数字',
             width: '80',
             align: 'center'
           },
@@ -207,6 +209,7 @@
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
           let params = {
+            operUserId: this.UsInfo.userId,
             userId: this.queryData.formData.userId, // 订单id
             orderId: this.queryData.formData.orderId, // 订单id
             orderType: this.queryData.formData.orderType, // 交易类型
@@ -216,8 +219,16 @@
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }
-          api.getOrderSignal(params, (res) => {
-            this.tableData = res.content.records
+          let pageInfoHelper = {
+            pageSize: this.pageDataSize,
+            pageNo: this.pageDataNum
+          }
+          let data = {
+            params,
+            pageInfoHelper
+          }
+          api.querySignalOrder(data, (res) => {
+            this.tableData = res.content.data
             this.pageDataTotal = res.content.total
           })
         } else {
