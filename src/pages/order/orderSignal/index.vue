@@ -29,6 +29,7 @@
         dialogTitle: '更新日志',
         dialogWidth: '',
         orderType: this.$api.getDicValues('order.tradeType'),
+        tradeOperation: this.$api.getDicValues('order.tradeOperation'),
         dialogTop: '5%',
         // 搜索条
         queryData: {
@@ -41,6 +42,14 @@
             width: 180,
             type: ''
           },
+           {
+              key: 'signalId',
+              label: '',
+              value: null,
+              placeholder: '信号源ID',
+              width: 180,
+              type: ''
+            },
             {
             key: 'orderId',
             label: '',
@@ -61,10 +70,19 @@
               key: 'orderType',
               label: '',
               value: null,
-              placeholder: '订单交易类型',
+              placeholder: '订单类型',
               width: 160,
               type: 'select',
               option: this.orderType
+            },
+            {
+              key: 'orderTradeOperation',
+              label: '',
+              value: null,
+              placeholder: '交易类型',
+              width: 160,
+              type: 'select',
+              option: this.tradeOperation
             },
           {
             key: 'orderOpenDate',
@@ -89,6 +107,12 @@
           label: '用户ID',
           width: '80',
           align: 'center'
+          },
+          {
+            prop: 'signalId',
+            label: '信号源ID',
+            width: '80',
+            align: 'center'
           },
           {
             prop: 'mtServerName',
@@ -178,6 +202,8 @@
             prop: 'orderCloseDate',
             label: '平仓时间',
             width: '',
+            dateFormat: true,
+            format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           }
         ],
@@ -203,7 +229,8 @@
         this.$message('获取用户信息失败！')
       }
       this.getQuery()
-      this.queryData.formItem[3].option = this.orderType
+      this.queryData.formItem[4].option = this.orderType
+      this.queryData.formItem[5].option = this.tradeOperation
     },
     methods: {
       getQuery() { // 搜索获取表格数据
@@ -211,8 +238,10 @@
           let params = {
             operUserId: this.UsInfo.userId,
             userId: this.queryData.formData.userId, // 订单id
+            signalId: this.queryData.formData.signalId, // 订单id
             orderId: this.queryData.formData.orderId, // 订单id
-            orderType: this.queryData.formData.orderType, // 交易类型
+            orderTradeOperation: this.queryData.formData.orderTradeOperation, // 交易类型
+            orderType: this.queryData.formData.orderType, // 订单类型
             orderSymbol: this.queryData.formData.orderSymbol, // 外汇产品
             orderOpenDate: this.queryData.formData.orderOpenDate, // 订单开仓时间
             orderCloseDate: this.queryData.formData.orderCloseDate, // 订单平仓时间

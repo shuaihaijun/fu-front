@@ -8,13 +8,13 @@
 
     <os-table :showIndex="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData"  :tableData="tableData" >
     </os-table>
-    
+
     <os-pag :pageTotal="pageDataTotal"></os-pag>
 
     <os-dialog :visible="dialogVisible" :title="dialogTitle" :visibleButton="false" :width="dialogWidth +'px'" :top="dialogTop">
       <forms v-if="show == 'forms'" :pwid="LogWid"></forms>
     </os-dialog>
-    
+
   </div>
 </template>
 <script>
@@ -191,6 +191,13 @@
             params,
             pageInfoHelper
           }
+          const loading = this.$loading({
+            lock: true,
+            text: '连接需要几分钟  请耐心等待Loading',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.7)',
+            target: document.querySelector('.div1')
+          })
           api.getOrderAlive(data, (res) => {
             if (res.status === 0 && res.content !== null) {
               this.tableData = res.content.data
@@ -198,8 +205,11 @@
             } else {
               if (res.message) {
                 window.alert(res.message)
+              } else {
+                window.alert('查询失败！')
               }
             }
+            loading.close()
           })
         } else {
           this.$message('获取用户信息失败！')

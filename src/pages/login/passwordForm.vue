@@ -50,7 +50,7 @@
           formItem: [
             {
               key: 'password',
-              label: '源密码',
+              label: '原密码',
               value: '',
               showPassword: true,
               required: true
