@@ -58,14 +58,6 @@
               placeholder: '交易产品',
               width: 160,
               type: ''
-            },
-            {
-              key: 'orderOpenDate',
-              label: '',
-              value: null,
-              placeholder: '建仓时间',
-              width: 200,
-              type: 'datetimerange'
             }]
         },
         // 表头
@@ -76,7 +68,7 @@
           align: 'center'
           },
           {
-            prop: 'mtAccId',
+            prop: 'userMtAccId',
             label: 'MT账户ID',
             width: '100',
             align: 'center'
@@ -94,11 +86,11 @@
             align: 'center'
           },
           {
-            prop: 'orderTradeOperation',
+            prop: 'orderType',
             label: '操作',
             width: '100',
             formatter: true,
-            columnKey: 'order.tradeOperation',
+            columnKey: 'order.tradeType',
             align: 'center'
           },
           {
@@ -168,10 +160,6 @@
           this.$message('用户信息不能为空！')
           return
         }
-        if (!this.queryData.formData.orderOpenDate) {
-          this.$message('查询时间段不能为空！')
-          return
-        }
         if (window.localStorage.getItem('nice_user')) {
           let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           let params = {
@@ -179,7 +167,6 @@
             userId: this.queryData.formData.userId, // 用户id
             orderId: this.queryData.formData.orderId, // 订单id
             orderSymbol: this.queryData.formData.orderSymbol, // 外汇产品
-            orderOpenDate: this.queryData.formData.orderOpenDate, // 订单开仓时间
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }

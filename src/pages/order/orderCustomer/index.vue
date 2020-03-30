@@ -13,7 +13,7 @@
       <forms v-if="show == 'forms'" :pwid="LogWid"></forms>
       <log-table v-if="show == 'table'" :pwid="LogWid"></log-table>
     </os-dialog>
-    
+
   </div>
 </template>
 <script>
@@ -175,12 +175,6 @@
             width: '',
             dateFormat: true,
             format: 'yyyy-MM-dd HH:mm:ss',
-            align: 'center'
-          },
-          {
-            prop: 'comment',
-            label: '备注',
-            width: '100',
             align: 'center'
           }
         ],

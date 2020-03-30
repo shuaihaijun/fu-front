@@ -78,7 +78,6 @@
               window.alert('获取用户团队失败！')
             }
           })
-          this.osLogo = '/upload/image/dc.jpg'
         } else {
           this.$message('获取用户信息失败！')
         }
