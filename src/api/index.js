@@ -5,13 +5,13 @@ let xmlhttp = new window.XMLHttpRequest()
 xmlhttp.open('GET', '/static/env.json', false)
 xmlhttp.send()
 
-// let _host = 'http://47.99.240.111:8088'
-// let _front = 'http://www.aitoptrade.com'
-// let _host = 'http://47.96.165.40:8088'
+let _host = 'http://47.99.240.111:8088'
+let _front = 'http://www.aitoptrade.com'
+// let _host = 'http://47.96.165.40:8188'
 // let _front = 'http://47.96.165.40'
 // let xmlDoc = JSON.parse(xmlhttp.response)
-let _host = 'http://127.0.0.1:8088'
-let _front = 'http://127.0.0.1:8081'
+// let _host = 'http://127.0.0.1:8088'
+// let _front = 'http://127.0.0.1:8181'
 // switch (xmlDoc.env) {
 //   case 'alpha':
 //     _host = 'http://127.0.0.1:8088'
@@ -213,8 +213,8 @@ module.exports = {
     proxy.call(this, 'post', _host + '/orderCustomer/getOrderCustomer', params, callback)
   },
   // 获取客户交易订单
-  getOrderSignal(params, callback) {
-    proxy.call(this, 'post', _host + '/orderSignal/getOrderSignal', params, callback)
+  querySignalOrder(params, callback) {
+    proxy.call(this, 'post', _host + '/orderSignal/querySignalOrder', params, callback)
   },
   // 获取社区订单
   getOrderAlive(params, callback) {
@@ -253,9 +253,17 @@ module.exports = {
   signalApplySaveOrUpdate(params, callback) {
     proxy.call(this, 'post', _host + '/signalApply/saveOrUpdate', params, callback)
   },
+  // 根据ID 删除
+  signalApplyDelete(params, callback) {
+    proxy.call(this, 'post', _host + '/signalApply/deleteApply', params, callback)
+  },
   // 查询信号源信息
   querySignalInfos(params, callback) {
     proxy.call(this, 'post', _host + '/signal/querySignalInfos', params, callback)
+  },
+  // 查询允许跟随信号源信息
+  querySignalAllowed(params, callback) {
+    proxy.call(this, 'post', _host + '/signal/querySignalAllowed', params, callback)
   },
   // 根据信号源ID查询
   findSignalById(params, callback) {
@@ -280,6 +288,13 @@ module.exports = {
   // 查询跟随信息
   getSignalFollowByCondition(params, callback) {
     proxy.call(this, 'post', _host + '/signal/getSignalFollowByCondition', params, callback)
+  },
+  // 查询跟随权限
+  querySignalPermit(params, callback) {
+    proxy.call(this, 'post', _host + '/signal/signalPermit/querySignalPermit', params, callback)
+  },
+  saveSignalPermit(params, callback) {
+    proxy.call(this, 'post', _host + '/signal/signalPermit/saveSignalPermit', params, callback)
   },
   // 连接MT账户信息
   connectSignalMTAccount(params, callback) {
@@ -369,6 +384,36 @@ module.exports = {
   getMenus(params, callback) {
     proxy.call(this, 'post', _host + '/menus', params, callback)
   },
+  // 项目工程
+  savePermissionProject(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/project/save', params, callback)
+  },
+  queryPermissionProject(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/project/queryPage', params, callback)
+  },
+  getPermissionProject(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/project/queryDetail', params, callback)
+  },
+  modifyPermissionProject(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/project/modify', params, callback)
+  },
+  deletePermissionProject(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/project/remove', params, callback)
+  },
+  getPermissionProjectByCondition(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/project/queryDetailByCondition', params, callback)
+  },
+  // 项目工程管理员
+  addPermissionAdmin(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/admin/addPermissionAdmin', params, callback)
+  },
+  queryPermissionAdmin(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/admin/queryPermissionAdmin', params, callback)
+  },
+  removePermissionAdmin(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/admin/removePermissionAdmin', params, callback)
+  },
+  // 项目工程资源
   savePermissionResource(params, callback) {
     proxy.call(this, 'post', _host + '/permission/resource/save', params, callback)
   },
