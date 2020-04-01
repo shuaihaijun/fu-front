@@ -131,7 +131,6 @@
       affirm(v, obj) {
         // 校验数据
         api.saveSignalApply(obj, (res) => {
-          console.log(res)
           if (res.status === 0 && res.content.data > 0) {
             // 保存成功
             window.alert('保存成功！')

@@ -6,7 +6,7 @@
       </os-search>
     </div>
 
-    <os-table :loading="loading" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData"  :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
+    <os-table :loading="loading" :showIndex="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData"  :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
 

@@ -166,7 +166,7 @@
           },
           {
             prop: 'introducer',
-            label: '推荐码',
+            label: '推荐人',
             width: '80',
             align: 'center'
           }
