@@ -117,7 +117,7 @@
         // /*用户名密码格式校验*/
         // /*调用后台接口*/
         if (this.token === null || this.token === '') {
-          window.alert('获取权限失败！')
+          window.alert('登录已过期，请重新登录！')
           return
         }
         let params = {

@@ -5,13 +5,15 @@ let xmlhttp = new window.XMLHttpRequest()
 xmlhttp.open('GET', '/static/env.json', false)
 xmlhttp.send()
 
-let _host = 'http://47.99.240.111:8088'
-let _front = 'http://www.aitoptrade.com'
-// let _host = 'http://47.96.165.40:8188'
-// let _front = 'http://47.96.165.40'
+// let _host = 'http://47.99.240.111:8088'
+// let _front = 'http://www.aitoptrade.com'
+let _host = 'http://47.96.165.40:8188'
+let _front = 'http://47.96.165.40'
+let _official = 'http://47.96.165.40'
 // let xmlDoc = JSON.parse(xmlhttp.response)
 // let _host = 'http://127.0.0.1:8088'
 // let _front = 'http://127.0.0.1:8181'
+// let _official = 'http://127.0.0.1:8000'
 // switch (xmlDoc.env) {
 //   case 'alpha':
 //     _host = 'http://127.0.0.1:8088'
@@ -77,10 +79,18 @@ module.exports = {
   getIntroducerloadUrl: function (introducer) {
     return _front + '/register?introducer=' + introducer
   },
+  // 获取官网链接
+  getOfficialUrl: function () {
+    return _official
+  },
   // /*---------------------用户信息---------------------*/
   //  登录
   getLogin(params, callback) {
     proxy.call(this, 'post', _host + '/admin/login', params, callback)
+  },
+  //  token登录
+  getTokenLogin(params, callback) {
+    proxy.call(this, 'post', _host + '/admin/tokenLogin', params, callback)
   },
   getLogout(params, callback) {
     proxy.call(this, 'post', _host + '/admin/logout', params, callback)

@@ -23,6 +23,9 @@
       </el-tag>&nbsp;&nbsp;&nbsp;
       <el-tag type="gray">
         <div @click="passwordChange"> 修改密码 </div>
+      </el-tag>&nbsp;&nbsp;&nbsp;
+      <el-tag type="gray">
+        <div @click="humperTo"> 官网入口 </div>
       </el-tag>
     </div>
     <forms :_visible="formVisible" v-if="show" :pwid="LogWid" :disabled="disabled" :title="formTitle"></forms>
@@ -108,6 +111,14 @@
         }
         let logoUrl = api.getPictureDownloadUrl(this.osLogo)
         this.logoStyle = this.logoString + "('" + logoUrl + "') no-repeat;"
+      },
+      humperTo() {
+        let officeUrl = api.getOfficialUrl()
+        if (this.UsInfo && this.UsInfo.token !== null) {
+          officeUrl = officeUrl + '?token=' + this.UsInfo.token
+        }
+        console.log(officeUrl)
+        window.open(officeUrl)
       },
       handleExit() {
         this.$emit('handleExit')
