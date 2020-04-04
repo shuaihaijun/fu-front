@@ -50,6 +50,7 @@
       return {
         show: false,
         LogWid: '',
+        token: '',
         checked: true,
         formTitle: '',
         dialogVisible: false,
@@ -78,6 +79,10 @@
       }
     },
     created () {
+      if (this.$route.query.token !== null && this.$route.query.token !== undefined) {
+        this.token = this.$route.query.token
+        this.submitToken()
+      }
       this.isChrome()
     },
     methods: {
@@ -107,6 +112,21 @@
       },
       userNew() {
         this.$router.push({path: '/register'})
+      },
+      submitToken () {
+        // /*用户名密码格式校验*/
+        // /*调用后台接口*/
+        if (this.token === null || this.token === '') {
+          window.alert('获取权限失败！')
+          return
+        }
+        let params = {
+          token: this.token
+        }
+        let data = {
+          params
+        }
+        api.getTokenLogin(data, this.loginRuesult)
       },
       submitForm () {
         // /*用户名密码格式校验*/

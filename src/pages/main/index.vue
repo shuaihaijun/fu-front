@@ -88,7 +88,8 @@
         // 判断用户权限
         let params = {
           userId: userInfo.userId, // 操作用户id
-          username: userInfo.username // 名称
+          username: userInfo.username, // 名称
+          token: userInfo.token // 操作用户id
         }
         api.getLogout(params, (res) => {
         })
