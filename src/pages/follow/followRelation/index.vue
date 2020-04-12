@@ -12,7 +12,7 @@
         <el-button @click="signalUpdate()"><i class="el-icon-circle-plus-outline"></i> 修改</el-button>
         <el-button @click="signalFollowChangeState(1)"><i class="el-icon-video-pause"></i> 暂停跟随</el-button>
         <el-button @click="signalFollowChangeState(0)"><i class="el-icon-video-pause"></i> 开启跟随</el-button>
-        <el-button @click="signalFollowRemove()"><i class="el-icon-delete-solid"></i> 取消跟随</el-button>
+        <el-button @click="signalFollowRemove()"><i class="el-icon-delete-solid"></i> 废弃跟随</el-button>
       </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
@@ -296,6 +296,7 @@
             operUserId: userInfo.userId,
             id: this.selectionRows[0].id,
             userId: this.selectionRows[0].userId,
+            mtAccId: this.selectionRows[0].userMtAccId,
             signalId: this.selectionRows[0].signalId,
             message: '退订！'
           }

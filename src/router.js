@@ -8,7 +8,7 @@ const router = new VueRouter({
 	saveScrollPosition: true,
 	base: __dirname,
 	routes: [{
-			path: '/main',
+			path: '/',
 			name: 'main',
 			component: resolve => require(['./pages/main/index'], resolve),
 			meta: {
@@ -24,11 +24,11 @@ const router = new VueRouter({
       }
     },
 		{
-			path: '/',
+			path: '/login',
 			name: 'login',
 			component: resolve => require(['./pages/login/index'], resolve),
       meta: {
-        requireAuth: false
+        requireAuth: true
       }
 		}
 	]
@@ -37,17 +37,21 @@ router.beforeEach((to, from, next) => {
 	if (to.meta.requireAuth) {
 		if (window.localStorage.getItem('nice_user')) {
       // 已登录用户 转向主页
-      if (to.path === '/') {
+      if (to.path === '/login') {
         next({
-          path: '/main'
+          path: '/'
         })
       } else {
         next()
       }
 		} else {
-			next({
-				path: '/'
-			})
+      if (to.path === '/login') {
+        next()
+      } else {
+        next({
+          path: '/login'
+        })
+      }
 		}
 	} else {
 		next()

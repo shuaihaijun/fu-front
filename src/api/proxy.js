@@ -22,7 +22,7 @@ const proxy = (type, url, params, callback, version) => {
     datas = {
       url: url,
       method: 'post',
-      headers: {'Content-Type': 'application/json;charset=UTF-8', 'token': _token},
+      headers: {'Content-Type': 'application/json;charset=UTF-8', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'content-type', 'token': _token},
       transformRequest: [function(params) {
         return params
       }],

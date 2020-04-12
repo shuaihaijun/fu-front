@@ -5,12 +5,15 @@ let xmlhttp = new window.XMLHttpRequest()
 xmlhttp.open('GET', '/static/env.json', false)
 xmlhttp.send()
 
-// let _host = 'http://47.99.240.111:8088'
-// let _front = 'http://www.aitoptrade.com'
-let _host = 'http://47.96.165.40:8188'
-let _front = 'http://47.96.165.40'
-let _official = 'http://47.96.165.40'
 // let xmlDoc = JSON.parse(xmlhttp.response)
+let _host = 'http://47.99.240.111:8088'
+// let _host = 'http://home.aitoptrade.com'
+let _front = 'http://my.aitoptrade.com'
+let _official = 'http://www.aitoptrade.com'
+// let _host = 'http://47.96.165.40:8188'
+// let _front = 'http://47.96.165.40'
+// let _official = 'http://47.96.165.40'
+// let _host = 'http://127.0.0.1:8188'
 // let _host = 'http://127.0.0.1:8088'
 // let _front = 'http://127.0.0.1:8181'
 // let _official = 'http://127.0.0.1:8000'

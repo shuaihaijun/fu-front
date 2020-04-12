@@ -151,7 +151,7 @@
         }
         // /*将用户信息保存*/
         window.localStorage.setItem('nice_user', JSON.stringify(data.content.data))
-        this.$router.push({path: '/main'})
+        this.$router.push({path: '/'})
       }
     }
   }
