@@ -44,6 +44,14 @@
             type: ''
           },
             {
+              key: 'mtAccId',
+              label: '',
+              value: null,
+              placeholder: 'MT账户ID',
+              width: 180,
+              type: ''
+            },
+            {
             key: 'orderId',
             label: '',
             value: null,
@@ -165,6 +173,7 @@
           let params = {
             operUserId: userInfo.userId, // 操作者userId
             userId: this.queryData.formData.userId, // 用户id
+            mtAccId: this.queryData.formData.mtAccId, // 用户MTid
             orderId: this.queryData.formData.orderId, // 订单id
             orderSymbol: this.queryData.formData.orderSymbol, // 外汇产品
             pageSize: this.pageDataSize,
