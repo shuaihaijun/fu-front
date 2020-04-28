@@ -194,6 +194,8 @@
             prop: 'orderCloseDate',
             label: '平仓时间',
             width: '',
+            dateFormat: true,
+            format: 'yyyy-MM-dd HH:mm:ss',
             align: 'center'
           }
         ],
