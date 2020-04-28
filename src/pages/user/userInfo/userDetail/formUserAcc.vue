@@ -1,8 +1,18 @@
 <template>
     <div class="form_box_item">
-      <label class="el-form-item__label">MT账户信息:</label>
+      <label class="el-form-item__label">账户信息:</label>
       <div class="form_box_table">
         <el-table :data="tableData" style="width: 100%;">
+          <el-table-column label="操作" width="100" align="center" v-if="formType == 'edit'">
+            <template slot-scope="scope">
+              <span v-if="scope.$index != tableData.length - 1" @click="delRow(scope.row, scope.$index)">
+                      <i class="el-icon-remove-outline" style="font-size: 18px;cursor: pointer;"></i>
+                    </span>
+              <span @click="addRow(scope.row, scope.$index)" v-else>
+                      <i class="el-icon-circle-plus-outline" style="font-size: 18px;cursor: pointer;"></i>
+                    </span>
+            </template>
+          </el-table-column>
           <el-table-column prop="brokerName" label="经纪商"  width="120"  align="center">
             <template slot-scope="scope">
               <el-select v-model="scope.row.brokerName" placeholder="请选择" :disabled="disabled" @change="getServerInfo">
@@ -148,9 +158,31 @@
     },
     methods: {
       delRow(v, index) {
-        this.tableData.splice(index, 1)
+        if (v.userId !== null && v.userId !== undefined) {
+          let params = {
+            userId: v.userId,
+            mtAccId: v.mtAccId
+          }
+          let data = {
+            params
+          }
+          this.$api.mtAccRemoveCheck(data, (res) => {
+            if (res.content !== null && res.content === true) {
+              this.tableData.splice(index, 1)
+            } else {
+              this.$message(res.message)
+              return
+            }
+          })
+        } else {
+          this.tableData.splice(index, 1)
+        }
       },
       addRow(v, index) {
+        if (index >= 4) {
+          this.$message('最多可以绑定5个账号！')
+          return
+        }
         this.tableData.push({
           wid: this.dataForm.wid,
           wname: this.dataForm.wname

@@ -212,12 +212,10 @@
             if (valid) {
             let params = JSON.parse(JSON.stringify(this.dataForm))
             params.userId = this.dataForm.id
-            this.tableData1[0].userId = this.dataForm.id
             this.tableData2.userId = this.dataForm.id
-            params.mtAccInfo = this.tableData1[0]
             // params.idFront = this.images.IDCard1
             // params.idObverse = this.images.IDCard2
-            // 保存
+            // 1 保存用户
             this.$api.saveOrUpdateUser(params, (res) => {
               if (res.status !== 0) {
                 window.alert(res.message)
@@ -226,7 +224,15 @@
                 this.$message('用户基本信息保存成功！')
               }
             })
-            this.$api.saveUserMTAccount(params, (res) => {
+            // 2 保存账户信息
+            for (var i = 0; i < this.tableData1.length; i++) {
+              this.tableData1[i].userId = this.dataForm.id
+            }
+            params = this.tableData1
+            let accData = {
+              params
+            }
+            this.$api.saveUserMTAccount(accData, (res) => {
               if (res.status !== 0) {
                 window.alert(res.message)
                 return
@@ -234,6 +240,7 @@
                 this.$message('用户账户信息保存成功！')
               }
             })
+              // 3 保存银行信息
             params = this.tableData2
             let data = {
               params

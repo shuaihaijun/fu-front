@@ -95,7 +95,7 @@
         })
         this.$store.dispatch('delAllTab')
         window.localStorage.removeItem('nice_user')
-        this.$router.push({path: '/'})
+        this.$router.push({path: '/login'})
 			}
 		},
 		computed: {

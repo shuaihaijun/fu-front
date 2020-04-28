@@ -90,6 +90,12 @@
             align: 'center'
           },
           {
+            prop: 'userId',
+            label: '用户ID',
+            width: '90',
+            align: 'center'
+          },
+          {
             prop: 'id',
             label: '信号源ID',
             width: '90',

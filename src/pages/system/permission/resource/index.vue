@@ -207,7 +207,7 @@
         if (window.localStorage.getItem('nice_user')) {
           let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           let params = {
-            userId: userInfo.userId,
+            operUserId: userInfo.userId,
             resName: this.queryData.formData.resName, // 权限名称
             resAction: this.queryData.formData.resAction, // 权限事件
             resPid: this.queryData.formData.resPid // 父权限ID
