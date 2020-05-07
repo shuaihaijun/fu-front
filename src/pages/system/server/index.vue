@@ -152,9 +152,9 @@
       getQuery() { // 搜索获取表格数据
         if (window.localStorage.getItem('nice_user')) {
           let params = {
-            sign: this.queryData.formData.sign, // 申请id
-            value: this.queryData.formData.value, // 信号源名称
-            name: this.queryData.formData.name, // MT账户
+            serverName: this.queryData.formData.serverName, // 申请id
+            brokerName: this.queryData.formData.brokerName, // 信号源名称
+            serverIp: this.queryData.formData.serverIp, // MT账户
             pageSize: this.pageDataSize,
             pageNum: this.pageDataNum
           }

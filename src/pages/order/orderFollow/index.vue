@@ -104,6 +104,12 @@
             align: 'center'
           },
           {
+            prop: 'userMtAccId',
+            label: 'mt账户ID',
+            width: '80',
+            align: 'center'
+          },
+          {
             prop: 'signalId',
             label: '信号源ID',
             width: '80',
@@ -268,7 +274,7 @@
           }
           api.getOrderFollowInfo(data, (res) => {
             this.tableData = res.content.data
-            this.pageDataTotal = res.content.total
+            this.pageDataTotal = res.page.total
           })
         } else {
           this.$message('获取用户信息失败！')
