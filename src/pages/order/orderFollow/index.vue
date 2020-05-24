@@ -110,6 +110,12 @@
             align: 'center'
           },
           {
+            prop: 'userServerName',
+            label: 'mt账户服务器',
+            width: '80',
+            align: 'center'
+          },
+          {
             prop: 'signalId',
             label: '信号源ID',
             width: '80',

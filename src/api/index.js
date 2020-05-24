@@ -6,16 +6,16 @@ xmlhttp.open('GET', '/static/env.json', false)
 xmlhttp.send()
 
 // let xmlDoc = JSON.parse(xmlhttp.response)
-let _host = 'http://47.99.240.111:8088'
-let _front = 'http://my.aitoptrade.com'
-let _official = 'http://www.aitoptrade.com'
+// let _host = 'http://47.99.240.111:8088'
+// let _front = 'http://my.aitoptrade.com'
+// let _official = 'http://www.aitoptrade.com'
 // let _host = 'http://47.96.165.40:8188'
 // let _front = 'http://47.96.165.40:8080'
 // let _official = 'http://47.96.165.40'
-// let _host = 'http://127.0.0.1:8188'
-// let _host = 'http://127.0.0.1:8088'
-// let _front = 'http://127.0.0.1:8181'
-// let _official = 'http://127.0.0.1:8000'
+// let _host = 'http://127.0.0:8188'
+let _host = 'http://127.0.0.1:8088'
+let _front = 'http://127.0.0.1:8181'
+let _official = 'http://127.0.0.1:8000'
 // switch (xmlDoc.env) {
 //   case 'alpha':
 //     _host = 'http://127.0.0.1:8088'
@@ -418,6 +418,9 @@ module.exports = {
   },
   getPermissionProjectByCondition(params, callback) {
     proxy.call(this, 'post', _host + '/permission/project/queryDetailByCondition', params, callback)
+  },
+  queryComNetByCondition(params, callback) {
+    proxy.call(this, 'post', _host + '/permission/project/queryComNetByCondition', params, callback)
   },
   // 项目工程管理员
   addPermissionAdmin(params, callback) {
