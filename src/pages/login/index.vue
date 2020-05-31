@@ -82,6 +82,10 @@
       if (this.$route.query.token !== null && this.$route.query.token !== undefined) {
         this.token = this.$route.query.token
         this.submitToken()
+      } else if (window.localStorage.getItem('nice_user')) {
+        let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+        this.token = userInfo.token
+        this.submitToken()
       }
       this.isChrome()
     },
@@ -142,10 +146,12 @@
         let result = JSON.parse(JSON.stringify(data))
         // /*解析登录结果*/
         if (result.status !== 0) {
+          window.localStorage.removeItem('nice_user')
           window.alert(result.msg)
           return
         }
         if (result.content.code !== 0) {
+          window.localStorage.removeItem('nice_user')
           window.alert(result.content.msg)
           return
         }

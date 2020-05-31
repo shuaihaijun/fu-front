@@ -25,7 +25,7 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item  v-for="r in operComData" icon="el-icon-circle-check" style="background: #e7e7e7;border-radius: 3px">
-                    <a style="color: white;background-color: #90352E;padding: 1px 8px 1px 5px;border-radius: 3px;" target="_blank"  :href=r.netUrl>{{r.netDesc}}</a>
+                    <a style="color: white;background-color: #2b3348;padding: 1px 8px 1px 5px;border-radius: 3px;" target="_blank"  :href=r.netUrl>{{r.netDesc}}</a>
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>

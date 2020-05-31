@@ -324,7 +324,7 @@
     padding-left: 15px;
     font-size: 14px;
     /*background: url('../assets/images/tab_bg.png') repeat-x;*/
-    border-bottom: 1px solid #cccccc;
+    border-bottom: 1px solid #6e7dab;
     /*border: 1px solid #e7e7e7;*/
     background-color: #2b3348;
     border-right-width: 0;
@@ -520,7 +520,7 @@
    background: #fff;
  }
  .main_left .el-submenu{
-   border-bottom: 1px solid #f2f2f2;
+   border-bottom: 1px solid #6e7dab;
    /*border-bottom: 5px solid #e7e7e7;*/
  }
  .main_left .el-submenu .el-submenu{

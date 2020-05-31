@@ -23,6 +23,7 @@
 			return {
         onoff: false,
         leftWidth: '12%',
+        token: '',
         marginLeft: '12%',
         // leftWidth: '180px',
         // marginLeft: '180px',
@@ -82,6 +83,23 @@
           this.$message('获取用户信息失败！')
         }
       },
+      submitToken () {
+        // /*用户名密码格式校验*/
+        // /*调用后台接口*/
+        if (this.token === null || this.token === '') {
+          window.alert('登录已过期，请重新登录！')
+          window.localStorage.removeItem('nice_user')
+          this.$router.push({path: '/login'})
+          return
+        }
+        let params = {
+          token: this.token
+        }
+        let data = {
+          params
+        }
+        api.getTokenLogin(data, this.loginRuesult)
+      },
 			// 退出
 			handleLogOut () {
         let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
@@ -96,7 +114,27 @@
         this.$store.dispatch('delAllTab')
         window.localStorage.removeItem('nice_user')
         this.$router.push({path: '/login'})
-			}
+			},
+      // /*登录结果*/
+      loginRuesult (data) {
+        let result = JSON.parse(JSON.stringify(data))
+        // /*解析登录结果*/
+        if (result.status !== 0) {
+          window.localStorage.removeItem('nice_user')
+          window.alert(result.msg)
+          this.$router.push({path: '/login'})
+          return
+        }
+        if (result.content.code !== 0) {
+          window.localStorage.removeItem('nice_user')
+          window.alert(result.content.msg)
+          this.$router.push({path: '/login'})
+          return
+        }
+        // /*将用户信息保存*/
+        window.localStorage.setItem('nice_user', JSON.stringify(data.content.data))
+        this.$router.push({path: '/'})
+      }
 		},
 		computed: {
       winHeight() {
@@ -121,6 +159,14 @@
 			}
 		},
 		created () {
+      if (this.$route.query.token !== null && this.$route.query.token !== undefined) {
+        this.token = this.$route.query.token
+        this.submitToken()
+      } else if (window.localStorage.getItem('nice_user')) {
+        let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
+        this.token = userInfo.token
+        this.submitToken()
+      }
       // 初始化 dictionary
       this.$store.dispatch('getDictionary')
       // 初始化 menu

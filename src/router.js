@@ -36,14 +36,15 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
 	if (to.meta.requireAuth) {
 		if (window.localStorage.getItem('nice_user')) {
+      next()
       // 已登录用户 转向主页
-      if (to.path === '/login') {
-        next({
-          path: '/'
-        })
-      } else {
-        next()
-      }
+      // if (to.path === '/login') {
+      //   next({
+      //     path: '/'
+      //   })
+      // } else {
+      //   next()
+      // }
 		} else {
       if (to.path === '/login') {
         next()
