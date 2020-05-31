@@ -25,7 +25,7 @@
         <div @click="passwordChange"> 修改密码 </div>
       </el-tag>&nbsp;&nbsp;&nbsp;
       <el-tag type="gray">
-        <div @click="humperTo"> 官网入口 </div>
+        <div @click="humperTo"> 进入官网 </div>
       </el-tag>
     </div>
     <forms :_visible="formVisible" v-if="show" :pwid="LogWid" :disabled="disabled" :title="formTitle"></forms>
@@ -132,7 +132,7 @@
 <style>
   .main_top {
     height: 54px;
-    background: #710000;
+    background: #2b3348;
     color: #fff;
     padding: 0 15px;
   }

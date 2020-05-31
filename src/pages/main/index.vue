@@ -162,12 +162,11 @@
 <style>
 	.main_box {
 		overflow: hidden;
-    width: 94%;
+    /*width: 94%;*/
     margin-left: 3%;
 	}
   .home .main_center {
-    background-color: #e7e7e7;
-    background: #e7e7e7;
+    background-color: #2b3348;
   }
 	.main_left {
 		height: 100%;
