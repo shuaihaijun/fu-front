@@ -48,19 +48,19 @@
           <div :gutter="32" class="state-box-integral-state-login" :style="{'display': agentDisabled}">
               <el-col :xs="24" :sm="24" :lg="6" align="center">
                 <label>团队交易金额：</label>
-                <span class="btn-red">{{this.dataForm3.commissionSourceMoney}}</span>
+                <span class="btn-red">{{this.commissionSourceMoney}}</span>
               </el-col>
               <el-col :xs="24" :sm="24" :lg="6" align="center">
                 <label>团队交易手数：</label>
-                <span class="btn-red">{{this.dataForm3.commissionSourceLots}}</span>
+                <span class="btn-red">{{this.commissionSourceLots}}</span>
               </el-col>
               <el-col :xs="24" :sm="24" :lg="6" align="center">
                 <label>佣金余额：</label>
-                <span class="btn-red">{{this.dataForm3.commissionMoney}}</span>
+                <span class="btn-red">{{this.commissionMoney}}</span>
               </el-col>
               <el-col :xs="24" :sm="24" :lg="6" align="center">
                 <label>佣金总额：</label>
-                <span class="btn-red">{{this.dataForm3.commissionTotal}}</span>
+                <span class="btn-red">{{this.commissionTotal}}</span>
               </el-col>
           </div>
         </div>
@@ -266,6 +266,10 @@ export default {
       userData: {},
       operComData: [],
       loading: false,
+      commissionSourceMoney: 0,
+      commissionSourceLots: 0,
+      commissionMoney: 0,
+      commissionTotal: 0,
       userState: '',
       userType: '',
       introducerCode: '',
@@ -280,7 +284,7 @@ export default {
       this.introducerUrl = this.$api.getIntroducerloadUrl(theCode)
       this.userState = this.$api.getDicValue('user.userState', this.userData.userState)
       this.userType = this.$api.getDicValue('user.userType', this.userData.userType)
-      if (this.userData.userType === 10) {
+      if (this.userData.userType >= 10) {
         this.agentDisabled = 'block'
       }
     }
@@ -291,6 +295,7 @@ export default {
     this.getQuery3()
     this.getUserInfo()
     this.queryComNetByCondition()
+    this.getQuery3()
   },
   methods: {
     getQuery1() { // 搜索获取表格数据
@@ -351,7 +356,14 @@ export default {
           params: params
         }
         this.$api.getAccountCommissonByUserId(data, (res) => {
-          this.dataForm3 = res.content
+          if (res.content !== null) {
+            this.dataForm3 = res.content
+            this.commissionSourceMoney = res.content.commissionSourceMoney
+            this.commissionSourceLots = res.content.commissionSourceLots
+            this.commissionMoney = res.content.commissionMoney
+            this.commissionMoney = res.content.commissionMoney
+            this.commissionTotal = res.content.commissionTotal
+          }
         })
       } else {
         this.$message('获取用户信息失败！')

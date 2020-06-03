@@ -199,7 +199,7 @@
         }
         if (key === 'mtAccountInfo') {
           for (let index = 0; index < this.mtAccountInfo.length; index++) {
-            if (value === this.mtAccountInfo[index].accountId) {
+            if (value === this.mtAccountInfo[index].mtAccId) {
               this.formData.formItem[3].value = this.mtAccountInfo[index].brokerName
               this.formData.formItem[4].value = this.mtAccountInfo[index].serverName
               this.formData.formItem[5].value = this.mtAccountInfo[index].mtAccId
@@ -257,7 +257,7 @@
               for (let index = 0; index < res.content.data.length; index++) {
                 let object1 = {}
                 object1.dicValue = res.content.data[index].mtAccId
-                object1.dicKey = res.content.data[index].accountId
+                object1.dicKey = res.content.data[index].mtAccId
                 object[index] = object1
               }
               this.mtAccountInfo = res.content.data

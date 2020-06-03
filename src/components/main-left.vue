@@ -336,6 +336,7 @@
     right: 15px;
     top: 12px;
     cursor: pointer;
+    color: #999999;
   }
   /*菜单微调*/
 

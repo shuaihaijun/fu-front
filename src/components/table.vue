@@ -18,6 +18,18 @@
         width="40"
         v-if="selection">
       </el-table-column>
+      <el-table-column
+        v-if="columnOperate" v-for="(r,index) in columnOperate"
+        :key="index"
+        align="center"
+        :label="r.label ? r.label : '信息操作'"
+        :width="r.width ? r.width : operateWidth">
+        <template scope="scope">
+            <span v-for="rc in r.children" v-if="rc.isBtn" class="operate_btn_default" :class="{operate_btn: btnShow}" @click="handleOperate(scope.row, index, rc.name)">
+              <i :class="rc.iconClass" :title="rc.iconTitle ? rc.iconTitle : rc.name"></i>{{rc.name}}
+            </span>
+        </template>
+      </el-table-column>
       <el-table-column type="index" align="center" width="50" label="序号" v-if="showIndex">
       </el-table-column>
       <el-table-column :showOverflowTooltip="showTip"  v-for="r in columnData" v-if="r.formatter" :column-key="r.columnKey" :prop="r.prop" :label="r.label" :width="r.width" :align="r.align" :fixed="r.fixed" :formatter="dicFormatter">
@@ -32,21 +44,6 @@
           </span>
         </template>
       </el-table-column>
-      <template v-for="(r,index) in columnOperate" v-if="columnOperate">
-        <el-table-column
-          :key="index"
-          v-if="r.isBtn"
-          :fixed="r.fixed ? r.fixed : operateFixed"
-          align="center"
-          :label="r.label ? r.label : '信息操作'"
-          :width="r.width ? r.width : operateWidth">
-          <template scope="scope">
-            <span v-if="rc.isBtn" class="operate_btn_default" :class="{operate_btn: btnShow}" v-for="rc in r.children" @click="handleOperate(scope.row, index, rc.name)">
-              <i :class="rc.iconClass" :title="rc.iconTitle ? rc.iconTitle : rc.name"></i>{{rc.name}}
-            </span>
-          </template>
-        </el-table-column>
-      </template>
     </el-table>
   </div>
 </template>
