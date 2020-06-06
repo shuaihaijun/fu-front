@@ -75,6 +75,7 @@
               this.osName = res.content.projName
               this.osTitle = res.content.projSlogan
               this.osLogo = res.content.projLogo
+              api.setComUrl(res.content.projCrmRealm, res.content.projOfficialRealm)
             } else {
               window.alert('获取用户团队失败！')
             }

@@ -117,7 +117,6 @@
         if (this.UsInfo && this.UsInfo.token !== null) {
           officeUrl = officeUrl + '?token=' + this.UsInfo.token
         }
-        console.log(officeUrl)
         window.open(officeUrl)
       },
       handleExit() {
@@ -132,7 +131,7 @@
 <style>
   .main_top {
     height: 54px;
-    background: #2b3348;
+    background: #1c2338;
     color: #fff;
     padding: 0 15px;
   }

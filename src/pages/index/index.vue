@@ -284,7 +284,7 @@ export default {
       this.introducerUrl = this.$api.getIntroducerloadUrl(theCode)
       this.userState = this.$api.getDicValue('user.userState', this.userData.userState)
       this.userType = this.$api.getDicValue('user.userType', this.userData.userType)
-      if (this.userData.userType >= 10) {
+      if (this.userData.userType >= 5) {
         this.agentDisabled = 'block'
       }
     }

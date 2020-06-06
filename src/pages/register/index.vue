@@ -188,9 +188,10 @@
             this.ruleForm.introducer = this.introducerDecode(introducer)
             api.registered(this.ruleForm, (res) => {
               if (res.status === 0 && res.content.data !== '') {
+                window.localStorage.removeItem('nice_user')
                 // 保存成功
                 window.alert('保存成功！')
-                this.$router.push({path: '/'})
+                this.$router.push({path: '/login'})
               } else {
                 window.alert(res.message)
               }

@@ -156,7 +156,7 @@
           {
             prop: 'mobile',
             label: '手机号',
-            width: '100',
+            width: '',
             align: 'center'
           },
           {
@@ -177,13 +177,13 @@
           },
           {
             prop: 'introducer',
-            label: '推荐码',
+            label: '推荐人',
             width: '80',
             align: 'center'
           },
           {
             prop: 'recommend',
-            label: '推荐人数',
+            label: '邀请人数',
             width: '80',
             align: 'center'
           },
