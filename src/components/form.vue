@@ -141,6 +141,10 @@
         this.dataSource.formDate = {}
         this.$emit('handle-button', v, obj)
       },
+      // 监听表单内容
+      changeItem(v) {
+        // this.$emit('change-item', v, this.item)
+      },
       handleClose() {
         this.dataSource.formDate = {}
         this.$parent.visible = false
@@ -162,7 +166,7 @@
     overflow-y: auto;
   }
   .osForm .el-input.is-disabled .el-input__inner {
-    background-color: #fff; 
+    background-color: #fff;
     border-color: #fff;
     color: #999;
     cursor:default;

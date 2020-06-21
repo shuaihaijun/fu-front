@@ -85,6 +85,14 @@ module.exports = {
   getOfficialUrl: function () {
     return _official
   },
+  setComUrl: function (frontUrl, officialUlr) {
+    if (frontUrl !== null && frontUrl !== '') {
+      _front = 'http://' + frontUrl
+    }
+    if (officialUlr !== null && officialUlr !== '') {
+      _official = 'http://' + officialUlr
+    }
+  },
   // /*---------------------用户信息---------------------*/
   //  登录
   getLogin(params, callback) {
@@ -232,6 +240,10 @@ module.exports = {
   querySignalOrder(params, callback) {
     proxy.call(this, 'post', _host + '/orderSignal/querySignalOrder', params, callback)
   },
+  // 同步信号源历史交易订单
+  synSignalHistoryOrder(params, callback) {
+    proxy.call(this, 'post', _host + '/orderSignal/synSignalHistoryOrder', params, callback)
+  },
   // 获取社区订单
   getOrderAlive(params, callback) {
     proxy.call(this, 'post', _host + '/orderCustomer/getMTAliveOrders', params, callback)
@@ -305,6 +317,10 @@ module.exports = {
   getSignalFollowByCondition(params, callback) {
     proxy.call(this, 'post', _host + '/signal/getSignalFollowByCondition', params, callback)
   },
+  // 初始化信号源订单信息
+  initSignalHistoryOrder(params, callback) {
+    proxy.call(this, 'post', _host + '/signal/initSignalHistoryOrder', params, callback)
+  },
   // 查询跟随权限
   querySignalPermit(params, callback) {
     proxy.call(this, 'post', _host + '/signal/signalPermit/querySignalPermit', params, callback)
@@ -353,6 +369,12 @@ module.exports = {
   },
   findServerById(params, callback) {
     proxy.call(this, 'post', _host + '/comServer/findComServerById', params, callback)
+  },
+  serverSlaveSaveOrUpdate(params, callback) {
+    proxy.call(this, 'post', _host + '/comServer/slaveSaveOrUpdate', params, callback)
+  },
+  getSlaveByServerName(params, callback) {
+    proxy.call(this, 'post', _host + '/comServer/getSlaveByServerName', params, callback)
   },
   // /*---------------------经纪商信息--------------------*/
   saveComBroker(params, callback) {

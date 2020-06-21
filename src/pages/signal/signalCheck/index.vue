@@ -246,8 +246,16 @@
             state: state,
             message: '审核！'
           }
+          const loading = this.$loading({
+            lock: true,
+            text: '处理需要几分钟  请耐心等待Loading',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.7)',
+            target: document.querySelector('.div1')
+          })
           // 审核流程
           api.reviewProductSignal(param, (res) => {
+            loading.close()
             if (res.status === 0 && res.content !== null) {
               this.$options.methods.getQuery.bind(this)()
               // 保存成功

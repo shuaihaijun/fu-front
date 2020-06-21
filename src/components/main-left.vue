@@ -188,7 +188,7 @@
       },
       collapseRight() {
         this.firstTitle = true
-        this.leftLeft = '180px'
+        this.leftLeft = '200px'
         this.icoShowLeft = true
         this.icoShowRight = false
         this.$emit('collapse')
@@ -503,15 +503,15 @@
    border-bottom: none;
    min-width: auto;
    margin-left: -5px;
-   border-top: 1px solid #cecece;
+   border-top: 1px solid #7f91c7;
    background: #4f5977;
  }
   .main_left .el-submenu .el-menu-item:hover{
     border-bottom: none;
     min-width: auto;
     margin-left: -5px;
-    border-top: 1px solid #cecece;
-    background: #1c2338;
+    border-top: 1px solid #7f91c7;
+    background: #2b3348;
   }
  .main_left .el-menu{
    border: none;

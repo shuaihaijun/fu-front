@@ -5,7 +5,7 @@
       </os-search>
     </div>
 
-    <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
+    <os-table  :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :tableData="tableData"  :columnOperate="columnOperate"  @change-selection="selectionChange" @click-operate="handleOperate">
       <div slot="r">
         <el-button @click="serverAdd()"><i class="el-icon-edit-outline"></i> 新增</el-button>
         <el-button @click="serverEdit()"><i class="el-icon"></i> 编辑</el-button>
@@ -14,20 +14,23 @@
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
 
-    <forms :_visible="formVisible" v-if="show" :pwid="LogWid" :disabled="disabled" :title="formTitle"></forms>
+    <serverSlave :_visible="slaveVisible" v-if="slaveShow" :pwid="LogWid" :disabled="slaveDisabled"></serverSlave>
   </div>
 </template>
 <script>
   import api from '../../../api/'
-  import forms from './form'
+  import serverSlave from './serverSlave'
   import { MessageBox } from 'element-ui'
 
   export default {
     components: {
-      'forms': forms
+      'serverSlave': serverSlave
     },
     data() {
       return {
+        slaveShow: false,
+        slaveVisible: false,
+        slaveDisabled: false,
         show: false,
         LogWid: '',
         dialogVisible: false,
@@ -74,9 +77,10 @@
             width: '120px',
             fixed: 'left',
             isBtn: true,
-            children: [{
+            children: [
+              {
                 iconClass: 'el-icon-view',
-                name: '详情',
+                name: '从服务器',
                 show: 'IsBtn2',
                 isBtn: true
               }
@@ -243,15 +247,15 @@
       // 查看or编辑
       handleOperate(row, index, name) {
         this.LogWid = row
-        if (name === '详情') {
+        if (name === '从服务器') {
           setTimeout(() => {
-            this.formVisible = true
+            this.slaveVisible = true
           }, 0)
-          this.dialogTitle = '信号源：' + row.signalName + ' 详情 '
+          this.dialogTitle = '从服务器 '
           // this.show = 'forms'
-          this.show = true
-          this.disabled = true
-          this.dialogWidth = 1000
+          this.slaveShow = true
+          this.slaveDisabled = false
+          this.dialogWidth = 500
           this.dialogTop = '10%'
         }
       },

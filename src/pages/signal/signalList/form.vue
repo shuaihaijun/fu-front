@@ -32,7 +32,6 @@
             signalId: this.pwid.id // 申请id
           }
           api.findSignalById(params, (res) => {
-            console.log(res)
             if (res.status === 0 && res.content !== null) {
               this.formData.formData = res.content
             } else {
@@ -152,7 +151,6 @@
         signalId: this.pwid.id // 申请id
       }
       api.findSignalById(params, (res) => {
-        console.log(res)
         if (res.status === 0 && res.content !== null) {
           this.formData.formData = res.content
         } else {

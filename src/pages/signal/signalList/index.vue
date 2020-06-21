@@ -5,7 +5,6 @@
         <!-- <input type="text"> -->
       </os-search>
     </div>
-
     <os-table :loading="loading" :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
       <div slot="r">
         <el-button @click="accConnectStart()"><i class="el-icon-check"></i> 启动监听</el-button>
@@ -15,20 +14,27 @@
     <os-pag :pageTotal="pageDataTotal"></os-pag>
 
     <forms :_visible="formVisible" v-if="show" :pwid="LogWid" :disabled="disabled"></forms>
+    <formOrder :_visible="formOrderVisible" v-if="orderShow" :pwid="LogWid" :disabled="orderDisabled"></formOrder>
   </div>
 </template>
 <script>
   import api from '../../../api/'
   import form from './form'
+  import formOrder from './formSynOrder'
   import { MessageBox } from 'element-ui'
 
   export default {
     components: {
-      'forms': form
+      'forms': form,
+      'formOrder': formOrder
     },
     data() {
       return {
+        orderShow: false,
+        formOrderVisible: false,
+        orderDisabled: false,
         show: false,
+        disabled: false,
         LogWid: '',
         formVisible: false,
         dialogTitle: '更新日志',
@@ -69,13 +75,13 @@
         columnOperate: [
           {
             label: '操作',
-            width: '100px',
+            width: '150px',
             fixed: 'left',
             isBtn: true,
             children: [{
                 iconClass: 'el-icon-view',
                 name: '详情',
-                show: 'IsBtn2',
+                show: 'IsBtn1',
                 isBtn: true
               }
             ]
@@ -288,6 +294,16 @@
           this.disabled = true
           this.dialogWidth = 1000
           this.dialogTop = '10%'
+        } else if (name === '同步订单') {
+          setTimeout(() => {
+            this.formOrderVisible = true
+          }, 0)
+          this.dialogTitle = '信号源：' + row.signalName + ' 订单同步 '
+          // this.show = 'forms'
+          this.orderShow = true
+          this.orderDisabled = false
+          this.dialogWidth = 500
+          this.dialogTop = '10%'
         }
       },
       accConnectStart() {
@@ -320,13 +336,12 @@
           }
           // 链接账号
           api.connectSignalMTAccount(params, (res) => {
+            loading.close()
             if (res.status === 0 && res.content === true) {
-              loading.close()
               // 保存成功
               window.alert('操作成功！')
               this.$options.methods.getQuery.bind(this)()
             } else {
-              loading.close()
               window.alert('操作失败！')
             }
           })
