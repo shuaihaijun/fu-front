@@ -14,16 +14,19 @@
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
 
+    <forms :_visible="formVisible" v-if="show" :pwid="LogWid" :disabled="disabled" :title="formTitle"></forms>
     <serverSlave :_visible="slaveVisible" v-if="slaveShow" :pwid="LogWid" :disabled="slaveDisabled"></serverSlave>
   </div>
 </template>
 <script>
   import api from '../../../api/'
+  import forms from './form'
   import serverSlave from './serverSlave'
   import { MessageBox } from 'element-ui'
 
   export default {
     components: {
+      'forms': forms,
       'serverSlave': serverSlave
     },
     data() {
