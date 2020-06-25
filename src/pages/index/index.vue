@@ -18,7 +18,7 @@
             </el-col>
             <el-col :xs="24" :sm="24" :lg="6" align="center">
               <label>开户链接：</label>
-              <span class="btn-red"><a style="color: white" target="_blank" href="http://www.baidu.com">联准国际</a></span>
+              <span class="btn-red"><a style="color: white" target="_blank" :href="currentOpenData.netUrl">{{currentOpenData.netDesc}}</a></span>
               <el-dropdown :hide-on-click="false">
                 <span class="btn-red">
                   更多<i class="el-icon-arrow-down el-icon--right"></i>
@@ -265,6 +265,7 @@ export default {
       dataForm3: {},
       userData: {},
       operComData: [],
+      currentOpenData: {},
       loading: false,
       commissionSourceMoney: 0,
       commissionSourceLots: 0,
@@ -394,6 +395,9 @@ export default {
         }
         this.$api.queryComNetByCondition(data, (res) => {
           this.operComData = res.content.data
+          if (res.content !== null && res.content.data !== null && res.content.data !== undefined) {
+            this.currentOpenData = this.operComData[0]
+          }
         })
       } else {
         this.$message('获取用户信息失败！')
