@@ -296,7 +296,6 @@ export default {
     this.getQuery3()
     this.getUserInfo()
     this.queryComNetByCondition()
-    this.getQuery3()
   },
   methods: {
     getQuery1() { // 搜索获取表格数据

@@ -12,7 +12,7 @@ xmlhttp.send()
 // let _host = 'http://47.96.165.40:8188'
 // let _front = 'http://47.96.165.40:8080'
 // let _official = 'http://47.96.165.40'
-// let _host = 'http://127.0.0:8188'
+// let _host = 'http://127.0.0.1:8188'
 let _host = 'http://127.0.0.1:8088'
 let _front = 'http://127.0.0.1:8181'
 let _official = 'http://127.0.0.1:8000'
@@ -87,10 +87,18 @@ module.exports = {
   },
   setComUrl: function (frontUrl, officialUlr) {
     if (frontUrl !== null && frontUrl !== '') {
-      _front = 'http://' + frontUrl
+      if (frontUrl.indexOf('http') >= 0) {
+        _front = frontUrl
+      } else {
+        _front = 'http://' + frontUrl
+      }
     }
     if (officialUlr !== null && officialUlr !== '') {
-      _official = 'http://' + officialUlr
+      if (officialUlr.indexOf('http') >= 0) {
+        _official = officialUlr
+      } else {
+        _official = 'http://' + officialUlr
+      }
     }
   },
   // /*---------------------用户信息---------------------*/
