@@ -108,6 +108,7 @@
               // 保存成功
               window.alert('保存成功！')
               this.visible = false
+              this.$parent.getQuery()
             } else {
               window.alert(res.message)
             }

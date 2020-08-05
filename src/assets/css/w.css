@@ -365,7 +365,7 @@ input[type="number"] {
     border-color: #e4e7ed;
     color: #c0c4cc;
     cursor: not-allowed;
-    ime-mode: disabled;    
+    ime-mode: disabled;
 }
 .dataForm .btnNo .el-input__inner:focus{
     outline: 0;
@@ -392,7 +392,7 @@ input[type="number"] {
   .form_topBar {
     position: fixed;
     top: 100px;
-    left: 15%;
+    /*left: 15%;*/
     background: #eee;
     padding: 5px 10px;
     line-height: 30px;
@@ -401,25 +401,25 @@ input[type="number"] {
     margin: -10px -10px 10px -10px;
     z-index: 999;
   }
-  
+
   .form_topBar_l {
     float: left;
     padding-left: 10px;
   }
-  
+
   .form_topBar_l b {
     font-size: 13px;
     color: #333;
   }
-  
+
   .form_topBar_r {
     float: right;
   }
-  
+
   .dataForm {
     padding: 45px 20px 30px 20px;
   }
-  
+
   .dataForm .el-form-item__label {
     white-space: nowrap;
   }
@@ -430,7 +430,7 @@ input[type="number"] {
     clear: both;
     border: #666666;
   }
-  
+
   .dataForm h3,
   .dataForm .el-collapse-item__header {
     clear: both;
@@ -444,7 +444,7 @@ input[type="number"] {
     color: #333;
     font-weight: bold;
   }
-  
+
   .dataForm h3:before,
   .dataForm .el-collapse-item__header:before{
       content: 'ｏ';
@@ -452,27 +452,27 @@ input[type="number"] {
       font-weight: 100;
       margin-right: 3px;
   }
-  
+
   .dataForm .el-collapse-item .el-collapse-item__arrow {
     line-height: 32px;
   }
-  
+
   .dataForm .el-collapse-item__wrap {
     border: none;
   }
-  
+
   .dataForm .el-collapse-item__content {
     padding: 0 15px;
   }
-  
+
   .dataForm .el-col {
     height: 47px;
   }
-  
+
   .dataForm .el-input__inner {
     padding: 0 8px;
   }
-  
+
   .dataForm .form_box {
     clear: both;
     overflow: hidden;
@@ -480,20 +480,20 @@ input[type="number"] {
     padding: 15px 0 0 0;
     margin: 0 0 15px 105px;
   }
-  
+
   .dataForm .el-input-group__append,
   .dataForm .el-input-group__prepend {
     padding: 0 10px;
   }
-  
+
   .dataForm .el-input--suffix .el-input__inner {
     padding: 0 20px 0 10px;
   }
-  
+
   .dataForm .el-date-editor--date .el-input__inner {
     padding: 0 10px 0 30px;
   }
-  
+
   .dataForm .el-input__suffix {
     right: 8px;
   }
@@ -503,28 +503,28 @@ input[type="number"] {
   .form_box_item {
     clear: both;
   }
-  
+
   .form_box_item .el-form-item__label {
     width: 100px;
     float: left;
   }
-  
+
   .form_box_table {
     margin-left: 105px;
   }
-  
+
   .form_box_table .el-table th {
     background: #FAFAFA;
   }
-  
+
   .form_box_table .el-table th.is-leaf {
     border-bottom: none;
   }
-  
+
   .el-table__row {
     border-top: 1px solid #f00;
   }
-  
+
   .title_s {
     font-size: 12px;
     font-weight: 100;
@@ -551,7 +551,7 @@ input[type="number"] {
   .dataForm .el-table th.is-leaf{
       border-width: 0 1px 0 0;
   }
-  
+
   .dataForm  .el-table__empty-block{
       border: 1px solid #f2f2f2;
       border-width: 0 1px 1px 0;

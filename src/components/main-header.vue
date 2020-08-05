@@ -77,7 +77,7 @@
         show: false,
         LogWid: '',
         formTitle: '',
-        logoString: 'margin:7px 0 0 0;height: 41px;min-width: 50px;float: left;background: url',
+        logoString: 'margin:7px 0 0 0;height: 40px;min-width: 150px;float: left;background: url',
         logoStyle: '',
         disabled: true,
         formVisible: false
@@ -110,7 +110,7 @@
           return
         }
         let logoUrl = api.getPictureDownloadUrl(this.osLogo)
-        this.logoStyle = this.logoString + "('" + logoUrl + "') no-repeat;"
+        this.logoStyle = this.logoString + "('" + logoUrl + "') no-repeat;background-size: 28% 100%;"
       },
       humperTo() {
         let officeUrl = api.getOfficialUrl()

@@ -99,15 +99,15 @@
         // 表头
         columnData: [
           {
-            prop: 'userId',
-            label: '申请人',
-            width: '80',
+            prop: 'id',
+            label: '代理申请ID',
+            width: '90',
             align: 'center'
           },
           {
-            prop: 'id',
-            label: '代理ID',
-            width: '90',
+            prop: 'userId',
+            label: '申请人',
+            width: '80',
             align: 'center'
           },
           {

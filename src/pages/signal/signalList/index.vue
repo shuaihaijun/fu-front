@@ -342,7 +342,7 @@
               window.alert('操作成功！')
               this.$options.methods.getQuery.bind(this)()
             } else {
-              window.alert('操作失败！')
+              window.alert(res.message)
             }
           })
           this.loading = false
@@ -381,7 +381,7 @@
               // 保存成功
               window.alert('操作成功！')
             } else {
-              window.alert('操作失败！')
+              window.alert(res.message)
             }
           })
           this.loading = false
