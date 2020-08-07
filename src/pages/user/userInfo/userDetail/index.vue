@@ -16,7 +16,7 @@
         <form-1 :dataForm="dataForm" :formType="formType"></form-1>
         <el-collapse v-model="activeName" accordion>
           <el-collapse-item title="MT账户信息" name="1">
-            <span><small class="title_s" v-if="formType=='edit'">注：已绑定账户只能做修改密码操作！修改密码后请联系管理员重新启动监听！</small></span>
+            <span><small class="title_s" v-if="formType=='edit'">注：已绑定账户只能做修改密码操作！修改密码后会暂停跟单！</small></span>
             <form-2 :dataForm="dataForm" :formType="formType" :tableData="tableData1"></form-2>
           </el-collapse-item>
           <el-collapse-item title="银行卡信息" name="2">

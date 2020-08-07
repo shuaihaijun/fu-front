@@ -211,7 +211,8 @@
             operId: userInfo.userId, // 用户id
             signalId: this.queryData.formData.signalId, // 申请id
             signalName: this.queryData.formData.signalName, // 信号源名称
-            mtAccId: this.queryData.formData.mtAccId // MT账户
+            mtAccId: this.queryData.formData.mtAccId, // MT账户
+            signalState: '0,1'
           }
           let pageInfoHelper = {
             pageSize: this.pageDataSize,

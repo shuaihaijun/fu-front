@@ -8,7 +8,10 @@
     <os-table :loading="loading" :selection="true" :searchHeight="queryFormHeight" :operate="true" :columnData="columnData" :columnOperate="columnOperate" :tableData="tableData" @change-selection="selectionChange" @click-operate="handleOperate">
       <div slot="r">
         <el-button @click="accConnectStart()"><i class="el-icon-check"></i> 启动监听</el-button>
-        <el-button @click="accConnectClose()"><i class="el-icon-close"></i> 关闭监听</el-button>
+        <el-button @click="accConnectClose()"><i class="el-icon-minus"></i> 关闭监听</el-button>
+        <el-button @click="updateState(0)"><i class="el-icon-zoom-in"></i> 官网显示</el-button>
+        <el-button @click="updateState(1)"><i class="el-icon-zoom-out"></i> 官网隐藏</el-button>
+        <el-button @click="updateState(2)"><i class="el-icon-close"></i> 删除信号源</el-button>
       </div>
     </os-table>
     <os-pag :pageTotal="pageDataTotal"></os-pag>
@@ -75,7 +78,7 @@
         columnOperate: [
           {
             label: '操作',
-            width: '150px',
+            width: '80px',
             fixed: 'left',
             isBtn: true,
             children: [{
@@ -212,7 +215,8 @@
             operId: userInfo.userId, // 用户id
             signalId: this.queryData.formData.signalId, // 申请id
             signalName: this.queryData.formData.signalName, // 信号源名称
-            mtAccId: this.queryData.formData.mtAccId // MT账户
+            mtAccId: this.queryData.formData.mtAccId, // MT账户
+            signalState: '0,1'
           }
           let pageInfoHelper = {
             pageSize: this.pageDataSize,
@@ -385,6 +389,48 @@
             }
           })
           this.loading = false
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消操作'
+          })
+        })
+      },
+      updateState(value) {
+        // 判断数据
+        if (this.selectionRows === '' || this.selectionRows.length === 0) {
+          window.alert('请选择需要操作的数据！')
+          return
+        }
+        if (this.selectionRows.length > 1) {
+          window.alert('只能选择一条数据操作！')
+          return
+        }
+        if (value === this.selectionRows[0].signalState) {
+          window.alert('已经是当前状态了！')
+          return
+        }
+        MessageBox.confirm('确定操作吗？', '提示', {
+          cancelButtonText: '取消',
+          confirmButtonText: '确认',
+          type: 'warning'
+        }).then(() => {
+          let params = {
+            signalState: value, // 操作用户id
+            signalId: this.selectionRows[0].id// 信号源ID
+          }
+          let data = {
+            params
+          }
+          api.signalStateUpdate(data, (res) => {
+            if (res.status === 0 && res.content === true) {
+              this.$options.methods.getQuery.bind(this)()
+              // 保存成功
+              window.alert('操作成功！')
+            } else {
+              window.alert(res.message)
+            }
+          })
         }).catch(() => {
           this.$message({
             type: 'info',
