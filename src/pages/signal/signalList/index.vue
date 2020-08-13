@@ -235,44 +235,6 @@
           this.$message('获取用户信息失败！')
         }
       },
-      // 审核结果
-      applyCheck(state) {
-        // 判断数据
-        if (this.selectionRows === '' || this.selectionRows.length === 0) {
-          window.alert('请选择需要操作的数据！')
-          return
-        }
-        if (this.selectionRows.length > 1) {
-          window.alert('只能选择一条数据操作！')
-          return
-        }
-        MessageBox.confirm('确定提交审核结果吗？', '审核提示', {
-          cancelButtonText: '取消',
-          confirmButtonText: '确认',
-          type: 'warning'
-        }).then(() => {
-          let param = {
-            id: this.selectionRows[0].id,
-            state: state,
-            message: '审核！'
-          }
-          // 审核流程
-          api.reviewProductSignal(param, (res) => {
-            if (res.status === 0 && res.content.data !== '') {
-              this.$options.methods.getQuery.bind(this)()
-              // 保存成功
-              window.alert('操作成功！')
-            } else {
-              window.alert('操作失败！')
-            }
-          })
-        }).catch(() => {
-          this.$message({
-          type: 'info',
-          message: '已取消审核'
-          })
-        })
-      },
       getWList2() {
       },
       // 分页
@@ -415,7 +377,9 @@
           confirmButtonText: '确认',
           type: 'warning'
         }).then(() => {
+          let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
           let params = {
+            operUserId: userInfo.userId, // 操作用户id
             signalState: value, // 操作用户id
             signalId: this.selectionRows[0].id// 信号源ID
           }
