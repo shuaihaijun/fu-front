@@ -16,6 +16,41 @@ const router = new VueRouter({
 			}
 		},
     {
+      path: '/main',
+      name: 'main',
+      component: resolve => require(['./pages/main/index'], resolve),
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/index',
+      name: 'index',
+      component: resolve => require(['./pages/main/index'], resolve),
+      redirect: '/index/mainIndex',
+      meta: {
+        requireAuth: true
+      },
+      children: [
+        {
+          path: 'mainIndex',
+          name: 'mainIndex',
+          component: resolve => require(['./pages/follow/followRelation/index'], resolve),
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: 'followRelation',
+          name: 'followRelation',
+          component: resolve => require(['./pages/follow/followRelation/index'], resolve),
+          meta: {
+            requireAuth: true
+          }
+        }
+      ]
+    },
+    {
       path: '/register',
       name: 'register',
       component: resolve => require(['./pages/register/index'], resolve),
