@@ -23,7 +23,6 @@
 			return {
         onoff: false,
         leftWidth: '12%',
-        token: '',
         marginLeft: '12%',
         // leftWidth: '180px',
         // marginLeft: '180px',
@@ -84,17 +83,17 @@
           this.$message('获取用户信息失败！')
         }
       },
-      submitToken () {
+      submitToken (token) {
         // /*用户名密码格式校验*/
         // /*调用后台接口*/
-        if (this.token === null || this.token === '') {
+        if (token === null || token === '') {
           window.alert('登录已过期，请重新登录！')
           window.localStorage.removeItem('nice_user')
           this.$router.push({path: '/login'})
           return
         }
         let params = {
-          token: this.token
+          token: token
         }
         let data = {
           params
@@ -161,12 +160,10 @@
 		},
 		created () {
       if (this.$route.query.token !== null && this.$route.query.token !== undefined) {
-        this.token = this.$route.query.token
-        this.submitToken()
+        this.submitToken(this.$route.query.token)
       } else if (window.localStorage.getItem('nice_user')) {
         let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-        this.token = userInfo.token
-        this.submitToken()
+        this.submitToken(userInfo.token)
       }
       // 初始化 dictionary
       this.$store.dispatch('getDictionary')

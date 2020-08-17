@@ -50,7 +50,6 @@
       return {
         show: false,
         LogWid: '',
-        token: '',
         checked: true,
         formTitle: '',
         dialogVisible: false,
@@ -80,12 +79,10 @@
     },
     created () {
       if (this.$route.query.token !== null && this.$route.query.token !== undefined) {
-        this.token = this.$route.query.token
-        this.submitToken()
+        this.submitToken(this.$route.query.token)
       } else if (window.localStorage.getItem('nice_user')) {
         let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-        this.token = userInfo.token
-        this.submitToken()
+        this.submitToken(userInfo.token)
       }
       this.isChrome()
     },
@@ -117,15 +114,15 @@
       userNew() {
         this.$router.push({path: '/register'})
       },
-      submitToken () {
+      submitToken (token) {
         // /*用户名密码格式校验*/
         // /*调用后台接口*/
-        if (this.token === null || this.token === '') {
+        if (token === null || token === '') {
           window.alert('登录已过期，请重新登录！')
           return
         }
         let params = {
-          token: this.token
+          token: token
         }
         let data = {
           params

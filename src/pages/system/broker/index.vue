@@ -125,12 +125,17 @@
           let params = {
             name: this.queryData.formData.brokerName // MT账户
           }
+          let pageInfoHelper = {
+            pageSize: this.pageDataSize,
+            pageNo: this.pageDataNum
+          }
           let data = {
-            params: params
+            params,
+            pageInfoHelper
           }
           api.queryComBroker(data, (res) => {
             this.tableData = res.content.data
-            this.pageDataTotal = res.content.total
+            this.pageDataTotal = res.page.total
           })
         } else {
           this.$message('获取用户信息失败！')

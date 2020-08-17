@@ -191,8 +191,13 @@
       getBrokerInfo() {
         if (window.localStorage.getItem('nice_user')) {
           let params = {}
+          let pageInfoHelper = {
+            pageSize: 1000,
+            pageNo: this.pageDataNum
+          }
           let data = {
-            params
+            params,
+            pageInfoHelper
           }
           // 初始化账号
           this.$api.queryComBroker(data, (res) => {
