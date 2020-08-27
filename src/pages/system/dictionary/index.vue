@@ -168,7 +168,7 @@
           }
           api.queryDictionary(params, (res) => {
             this.tableData = res.content.records
-            this.pageDataTotal = res.content.total
+            this.pageDataTotal = res.page.total
           })
         } else {
           this.$message('获取用户信息失败！')

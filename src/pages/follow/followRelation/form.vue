@@ -237,8 +237,8 @@
           return false
         }
         if (ruleType === 0) {
-          if (followAmount > 1 || followAmount < 0.01) {
-            window.alert('请输入正确的数量，按比例跟单 数量不能大于1 或 小于0.01')
+          if (followAmount > 5 || followAmount < 0.01) {
+            window.alert('请输入正确的数量，按比例跟单 数量不能大于5 或 小于0.01')
             return false
           }
         }

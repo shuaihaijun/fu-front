@@ -246,7 +246,7 @@
           }
           api.getPageCommissonLevel(data, (res) => {
             this.tableData = res.content.data
-            this.pageDataTotal = res.content.data.length
+            this.pageDataTotal = res.page.total
           })
         } else {
           this.$message('获取用户信息失败！')

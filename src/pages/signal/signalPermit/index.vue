@@ -224,7 +224,7 @@
           }
           api.querySignalInfos(data, (res) => {
             this.tableData = res.content.data
-            this.pageDataTotal = res.content.total
+            this.pageDataTotal = res.page.total
           })
           this.loading = false
         } else {
