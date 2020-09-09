@@ -242,8 +242,8 @@
     created() {
       if (window.localStorage.getItem('nice_user')) {
         let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-        if (userInfo.userType < 8 || userInfo.userType > 10) {
-          // 管理者
+        if (!api.userIsCManager() && !api.userIsSManager()) {
+          // 非管理者
           this.queryData.formItem[0].value = userInfo.userId
           this.queryData.formItem[0].readonly = true
         }

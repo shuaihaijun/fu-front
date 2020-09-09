@@ -26,8 +26,10 @@
       pwid: function (v2) {
         if (this.pwid === '' || this.pwid.id === '') {
           this.formData.formData = {}
+          this.formData.formItem = {}
         } else {
           this.formData.formData.serverName = this.pwid.serverName
+          this.formData.formItem[0].value = this.pwid.serverName
           // 校验数据
           let params = {
             serverName: this.pwid.serverName // 申请id
@@ -38,6 +40,11 @@
           api.getSlaveByServerName(data, (res) => {
             if (res.status === 0 && res.content !== null) {
               this.formData.formData = res.content
+              this.formData.formItem[0].value = res.content.serverName
+              this.formData.formItem[1].value = res.content.serverSlaveName
+            } else {
+              this.formData.formItem[1].value = ''
+              this.formData.formData.serverSlaveName = ''
             }
           })
         }
@@ -104,6 +111,8 @@
       api.getSlaveByServerName(data, (res) => {
         if (res.status === 0 && res.content !== null) {
           this.formData.formData = res.content
+        } else {
+          this.formData.formData.serverSlaveName = ''
         }
       })
     }

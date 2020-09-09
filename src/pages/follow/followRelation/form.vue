@@ -353,7 +353,7 @@
       checkUserPerimt: function (value) { // 非空数字验证
         if (window.localStorage.getItem('nice_user')) {
           let userInfo = JSON.parse(window.localStorage.getItem('nice_user'))
-          if (userInfo.userType < 8 || userInfo.userType > 10) {
+          if (!api.userIsCManager() && !api.userIsSManager()) {
             // 非管理者
             let inputUser = parseInt(value)
             let operUser = parseInt(userInfo.userId)

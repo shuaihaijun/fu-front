@@ -286,7 +286,7 @@
             params.userId = this.dataForm.id
             params.mtAccInfo = this.tableData1[0]
             // 校验
-            if (params.userType < 4) {
+            if (!this.$api.userIsSignal()) {
                 if (params.mtAccInfo.mtPasswordTrade === undefined || params.mtAccInfo.mtPasswordTrade === null || params.mtAccInfo.mtPasswordTrade === '') {
                   // 用户需要输入交易密码
                   this.$message('请输入交易密码！')

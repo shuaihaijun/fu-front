@@ -2,22 +2,22 @@
   <div>
       <h3>基本信息</h3>
       <el-col :span="5">
-        <el-form-item label="项目团队名称:" prop="id">
+        <el-form-item label="项目团队名称:" prop="projName">
           <el-input v-model="dataForm.projName" :disabled="true"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="5">
-        <el-form-item label="项目团队key:" prop="refName">
+        <el-form-item label="项目团队key:" prop="projKey">
           <el-input v-model="dataForm.projKey" :disabled="disabled"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="5">
-        <el-form-item label="项目团队管理员:" prop="realName">
+        <el-form-item label="项目团队管理员:" prop="projAdmin">
           <el-input v-model="dataForm.projAdmin" :disabled="disabled"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="5">
-          <el-form-item label="项目团队类型:" prop="userType">
+          <el-form-item label="项目团队类型:" prop="projectType">
             <el-select v-model="dataForm.projType" placeholder="请选择" :disabled="true">
               <el-option
                 v-for="item in projectType"
@@ -29,7 +29,7 @@
           </el-form-item>
       </el-col>
     <el-col :span="5">
-      <el-form-item label="项目团队状态:" prop="userType">
+      <el-form-item label="项目团队状态:" prop="projStatus">
         <el-select v-model="dataForm.projStatus" placeholder="请选择" :disabled="true">
           <el-option
             v-for="item in projStatus"
@@ -41,17 +41,17 @@
       </el-form-item>
     </el-col>
     <el-col :span="5">
-      <el-form-item label="创建人:" prop="leverage">
+      <el-form-item label="创建人:" prop="creater">
         <el-input v-model="dataForm.creater" :disabled="disabled"></el-input>
       </el-form-item>
     </el-col>
       <el-col :span="5">
-        <el-form-item label="项目团队标语:" prop="brokerName">
+        <el-form-item label="项目团队标语:" prop="projSlogan">
           <el-input v-model="dataForm.projSlogan" :disabled="disabled"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="5">
-        <el-form-item label="项目团队描述:" prop="mtAccId">
+        <el-form-item label="项目团队描述:" prop="projDesc">
           <el-input v-model="dataForm.projDesc" :disabled="disabled"></el-input>
         </el-form-item>
       </el-col>

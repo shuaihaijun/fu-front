@@ -113,8 +113,34 @@
         })
         this.$store.dispatch('delAllTab')
         window.localStorage.removeItem('nice_user')
+        window.localStorage.removeItem('user_identity')
         this.$router.push({path: '/login'})
 			},
+      setUserIdentity(userId) {
+        // 设置用户权限信息
+        let params = {
+          userId: userId
+        }
+        let data = {
+          params
+        }
+        api.getIdentityByUserId(data, (res) => {
+          if (res.status === 0 && res.content !== null) {
+            let identityList = res.content.data
+            let userIdentity = ''
+            for (let index = 0; index < identityList.length; index++) {
+              userIdentity = userIdentity + identityList[index].identity
+              if (index === identityList.length - 1) {
+                break
+              } else {
+                userIdentity = userIdentity + ','
+              }
+            }
+            // /*将用户信息保存*/
+            window.localStorage.setItem('user_identity', userIdentity)
+          }
+        })
+      },
       // /*登录结果*/
       loginRuesult (data) {
         let result = JSON.parse(JSON.stringify(data))
@@ -133,6 +159,9 @@
         }
         // /*将用户信息保存*/
         window.localStorage.setItem('nice_user', JSON.stringify(data.content.data))
+        let userInfo = JSON.stringify(data.content.data)
+        let userJson = JSON.parse(userInfo)
+        this.setUserIdentity(userJson.userId)
         // this.$router.push({path: '/main'})
         this.$router.push({
           name: 'main'

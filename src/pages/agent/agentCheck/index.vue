@@ -47,7 +47,7 @@
             key: 'id',
             label: '',
             value: null,
-            placeholder: '代理ID',
+            placeholder: '代理申请ID',
             width: 180,
             type: ''
           },
