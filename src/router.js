@@ -16,14 +16,6 @@ const router = new VueRouter({
 			}
 		},
     {
-      path: '/main',
-      name: 'main',
-      component: resolve => require(['./pages/main/index'], resolve),
-      meta: {
-        requireAuth: true
-      }
-    },
-    {
       path: '/index',
       name: 'index',
       component: resolve => require(['./pages/main/index'], resolve),
