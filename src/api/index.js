@@ -17,7 +17,7 @@ let _host = 'http://127.0.0.1:8088'
 let _front = 'http://127.0.0.1:8181'
 let _official = 'http://127.0.0.1:8000'
 // switch (xmlDoc.env) {
-//   case 'alpha':
+//   case 'alpha':form_topBa
 //     _host = 'http://127.0.0.1:8088'
 //     break
 //   case 'pre':
@@ -101,6 +101,46 @@ module.exports = {
       }
     }
   },
+  userIsAgent: function () {
+    if (!window.localStorage.getItem('user_identity')) {
+      return false
+    }
+    let userIndentity = JSON.stringify(window.localStorage.getItem('user_identity'))
+    if (userIndentity.indexOf('1') >= 0) {
+      return true
+    }
+    return false
+  },
+  userIsSignal: function () {
+    if (!window.localStorage.getItem('user_identity')) {
+      return false
+    }
+    let userIndentity = JSON.stringify(window.localStorage.getItem('user_identity'))
+    if (userIndentity.indexOf('2') >= 0) {
+      return true
+    }
+    return false
+  },
+  userIsCManager: function () {
+    if (!window.localStorage.getItem('user_identity')) {
+      return false
+    }
+    let userIndentity = JSON.stringify(window.localStorage.getItem('user_identity'))
+    if (userIndentity.indexOf('3') >= 0) {
+      return true
+    }
+    return false
+  },
+  userIsSManager: function () {
+    if (!window.localStorage.getItem('user_identity')) {
+      return false
+    }
+    let userIndentity = JSON.stringify(window.localStorage.getItem('user_identity'))
+    if (userIndentity.indexOf('4') >= 0) {
+      return true
+    }
+    return false
+  },
   // /*---------------------用户信息---------------------*/
   //  登录
   getLogin(params, callback) {
@@ -160,6 +200,10 @@ module.exports = {
   // 修改用户
   updateUserIntroducer(params, callback) {
     proxy.call(this, 'post', _host + '/admin/updateUserIntroducer', params, callback)
+  },
+  // 获取用户身份
+  getIdentityByUserId(params, callback) {
+    proxy.call(this, 'post', _host + '/admin/getIdentityByUserId', params, callback)
   },
   // /*---------------------账户信息 MT账户---------------------*/
   // 获取MT账户信息
@@ -300,6 +344,10 @@ module.exports = {
   // 查询允许跟随信号源信息
   querySignalAllowed(params, callback) {
     proxy.call(this, 'post', _host + '/signal/querySignalAllowed', params, callback)
+  },
+  // 修改信号源状态
+  signalStateUpdate(params, callback) {
+    proxy.call(this, 'post', _host + '/signal/signalStateUpdate', params, callback)
   },
   // 根据信号源ID查询
   findSignalById(params, callback) {
