@@ -61,7 +61,7 @@
     "json-loader": "^0.5.4",
     "less": "^2.7.2",
     "less-loader": "^2.2.3",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.21",
     "lolex": "^1.4.0",
     "nightwatch": "^0.9.8",
     "opn": "^4.0.2",
